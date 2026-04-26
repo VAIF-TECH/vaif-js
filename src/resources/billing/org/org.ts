@@ -3,179 +3,153 @@
 import { APIResource } from '../../../core/resource';
 import * as AddonsAPI from './addons';
 import { AddonDeleteParams, AddonUpdateParams, Addons } from './addons';
+import * as CancelAPI from './cancel';
+import { Cancel, CancelCancelParams, CancelCancelResponse } from './cancel';
+import * as ChangePlanAPI from './change-plan';
+import { ChangePlan, ChangePlanChangePlanParams, ChangePlanChangePlanResponse } from './change-plan';
 import * as ContactsAPI from './contacts';
-import { ContactCreateParams, ContactCreateResponse, ContactDeleteParams, Contacts } from './contacts';
+import { ContactContactsParams, ContactContactsResponse, ContactDeleteParams, Contacts } from './contacts';
+import * as CostBreakdownAPI from './cost-breakdown';
+import { CostBreakdown } from './cost-breakdown';
 import * as CreditsAPI from './credits';
 import { CreditPurchaseParams, CreditPurchaseResponse, Credits } from './credits';
-import * as InvoicesAPI from './invoices';
-import { InvoiceRetrievePdfParams, Invoices } from './invoices';
 import * as OveragesAPI from './overages';
 import { Overages } from './overages';
+import * as PauseAPI from './pause';
+import { Pause } from './pause';
+import * as PortalAPI from './portal';
+import { Portal } from './portal';
+import * as ReactivateAPI from './reactivate';
+import { Reactivate } from './reactivate';
+import * as ResumeAPI from './resume';
+import { Resume } from './resume';
+import * as SummaryAPI from './summary';
+import { Summary } from './summary';
 import * as TaxInfoAPI from './tax-info';
-import { TaxInfo, TaxInfoUpdateParams, TaxInfoUpdateResponse } from './tax-info';
+import { TaxInfo, TaxInfoTaxInfoParams, TaxInfoTaxInfoResponse } from './tax-info';
 import * as UsageAPI from './usage';
 import { Usage } from './usage';
 import * as UsageAlertsAPI from './usage-alerts';
-import {
-  UsageAlertCreateParams,
-  UsageAlertCreateResponse,
-  UsageAlertDeleteParams,
-  UsageAlertUpdateParams,
-  UsageAlertUpdateResponse,
-  UsageAlerts,
-} from './usage-alerts';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
+import { UsageAlertDeleteParams, UsageAlertUpdateParams, UsageAlertUpdateResponse, UsageAlertUsageAlertsParams, UsageAlertUsageAlertsResponse, UsageAlerts } from './usage-alerts';
+import * as InvoicesAPI from './invoices/invoices';
+import { Invoices } from './invoices/invoices';
 
 export class Org extends APIResource {
-  usageAlerts: UsageAlertsAPI.UsageAlerts = new UsageAlertsAPI.UsageAlerts(this._client);
-  overages: OveragesAPI.Overages = new OveragesAPI.Overages(this._client);
-  taxInfo: TaxInfoAPI.TaxInfo = new TaxInfoAPI.TaxInfo(this._client);
-  invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
-  usage: UsageAPI.Usage = new UsageAPI.Usage(this._client);
-  credits: CreditsAPI.Credits = new CreditsAPI.Credits(this._client);
-  contacts: ContactsAPI.Contacts = new ContactsAPI.Contacts(this._client);
   addons: AddonsAPI.Addons = new AddonsAPI.Addons(this._client);
-
-  cancel(orgID: string, body: OrgCancelParams, options?: RequestOptions): APIPromise<OrgCancelResponse> {
-    return this._client.post(path`/billing/org/${orgID}/cancel`, { body, ...options });
-  }
-
-  changePlan(
-    orgID: string,
-    body: OrgChangePlanParams,
-    options?: RequestOptions,
-  ): APIPromise<OrgChangePlanResponse> {
-    return this._client.post(path`/billing/org/${orgID}/change-plan`, { body, ...options });
-  }
-
-  createPortal(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/portal`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  pause(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/pause`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  reactivate(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/reactivate`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  resume(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/resume`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  retrieveCostBreakdown(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/cost-breakdown`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  retrieveSummary(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/summary`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
+  cancel: CancelAPI.Cancel = new CancelAPI.Cancel(this._client);
+  changePlan: ChangePlanAPI.ChangePlan = new ChangePlanAPI.ChangePlan(this._client);
+  contacts: ContactsAPI.Contacts = new ContactsAPI.Contacts(this._client);
+  costBreakdown: CostBreakdownAPI.CostBreakdown = new CostBreakdownAPI.CostBreakdown(this._client);
+  credits: CreditsAPI.Credits = new CreditsAPI.Credits(this._client);
+  invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
+  overages: OveragesAPI.Overages = new OveragesAPI.Overages(this._client);
+  pause: PauseAPI.Pause = new PauseAPI.Pause(this._client);
+  portal: PortalAPI.Portal = new PortalAPI.Portal(this._client);
+  reactivate: ReactivateAPI.Reactivate = new ReactivateAPI.Reactivate(this._client);
+  resume: ResumeAPI.Resume = new ResumeAPI.Resume(this._client);
+  summary: SummaryAPI.Summary = new SummaryAPI.Summary(this._client);
+  taxInfo: TaxInfoAPI.TaxInfo = new TaxInfoAPI.TaxInfo(this._client);
+  usage: UsageAPI.Usage = new UsageAPI.Usage(this._client);
+  usageAlerts: UsageAlertsAPI.UsageAlerts = new UsageAlertsAPI.UsageAlerts(this._client);
 }
 
-export interface OrgCancelResponse {
-  cancelAtPeriodEnd: boolean;
-
-  currentPeriodEnd: string | (string & {});
-
-  ok: true;
-}
-
-export interface OrgChangePlanResponse {
-  effectiveDate: string | (string & {});
-
-  newInterval: string;
-
-  newPlan: string;
-
-  ok: true;
-}
-
-export interface OrgCancelParams {
-  cancelImmediately?: boolean;
-}
-
-export interface OrgChangePlanParams {
-  plan: 'starter' | 'pro' | 'agency' | 'studio_plus';
-
-  interval?: 'monthly' | 'yearly';
-}
-
-Org.UsageAlerts = UsageAlerts;
-Org.Overages = Overages;
-Org.TaxInfo = TaxInfo;
-Org.Invoices = Invoices;
-Org.Usage = Usage;
-Org.Credits = Credits;
-Org.Contacts = Contacts;
 Org.Addons = Addons;
+Org.Cancel = Cancel;
+Org.ChangePlan = ChangePlan;
+Org.Contacts = Contacts;
+Org.CostBreakdown = CostBreakdown;
+Org.Credits = Credits;
+Org.Invoices = Invoices;
+Org.Overages = Overages;
+Org.Pause = Pause;
+Org.Portal = Portal;
+Org.Reactivate = Reactivate;
+Org.Resume = Resume;
+Org.Summary = Summary;
+Org.TaxInfo = TaxInfo;
+Org.Usage = Usage;
+Org.UsageAlerts = UsageAlerts;
 
 export declare namespace Org {
   export {
-    type OrgCancelResponse as OrgCancelResponse,
-    type OrgChangePlanResponse as OrgChangePlanResponse,
-    type OrgCancelParams as OrgCancelParams,
-    type OrgChangePlanParams as OrgChangePlanParams,
+    Addons as Addons,
+    type AddonUpdateParams as AddonUpdateParams,
+    type AddonDeleteParams as AddonDeleteParams
   };
 
   export {
-    UsageAlerts as UsageAlerts,
-    type UsageAlertCreateResponse as UsageAlertCreateResponse,
-    type UsageAlertUpdateResponse as UsageAlertUpdateResponse,
-    type UsageAlertCreateParams as UsageAlertCreateParams,
-    type UsageAlertUpdateParams as UsageAlertUpdateParams,
-    type UsageAlertDeleteParams as UsageAlertDeleteParams,
+    Cancel as Cancel,
+    type CancelCancelResponse as CancelCancelResponse,
+    type CancelCancelParams as CancelCancelParams
   };
 
-  export { Overages as Overages };
-
   export {
-    TaxInfo as TaxInfo,
-    type TaxInfoUpdateResponse as TaxInfoUpdateResponse,
-    type TaxInfoUpdateParams as TaxInfoUpdateParams,
-  };
-
-  export { Invoices as Invoices, type InvoiceRetrievePdfParams as InvoiceRetrievePdfParams };
-
-  export { Usage as Usage };
-
-  export {
-    Credits as Credits,
-    type CreditPurchaseResponse as CreditPurchaseResponse,
-    type CreditPurchaseParams as CreditPurchaseParams,
+    ChangePlan as ChangePlan,
+    type ChangePlanChangePlanResponse as ChangePlanChangePlanResponse,
+    type ChangePlanChangePlanParams as ChangePlanChangePlanParams
   };
 
   export {
     Contacts as Contacts,
-    type ContactCreateResponse as ContactCreateResponse,
-    type ContactCreateParams as ContactCreateParams,
+    type ContactContactsResponse as ContactContactsResponse,
     type ContactDeleteParams as ContactDeleteParams,
+    type ContactContactsParams as ContactContactsParams
   };
 
   export {
-    Addons as Addons,
-    type AddonUpdateParams as AddonUpdateParams,
-    type AddonDeleteParams as AddonDeleteParams,
+    CostBreakdown as CostBreakdown
+  };
+
+  export {
+    Credits as Credits,
+    type CreditPurchaseResponse as CreditPurchaseResponse,
+    type CreditPurchaseParams as CreditPurchaseParams
+  };
+
+  export {
+    Invoices as Invoices
+  };
+
+  export {
+    Overages as Overages
+  };
+
+  export {
+    Pause as Pause
+  };
+
+  export {
+    Portal as Portal
+  };
+
+  export {
+    Reactivate as Reactivate
+  };
+
+  export {
+    Resume as Resume
+  };
+
+  export {
+    Summary as Summary
+  };
+
+  export {
+    TaxInfo as TaxInfo,
+    type TaxInfoTaxInfoResponse as TaxInfoTaxInfoResponse,
+    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams
+  };
+
+  export {
+    Usage as Usage
+  };
+
+  export {
+    UsageAlerts as UsageAlerts,
+    type UsageAlertUpdateResponse as UsageAlertUpdateResponse,
+    type UsageAlertUsageAlertsResponse as UsageAlertUsageAlertsResponse,
+    type UsageAlertUpdateParams as UsageAlertUpdateParams,
+    type UsageAlertDeleteParams as UsageAlertDeleteParams,
+    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams
   };
 }

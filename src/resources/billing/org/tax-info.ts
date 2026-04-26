@@ -7,28 +7,21 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class TaxInfo extends APIResource {
-  retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/tax-info`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getTaxInfo(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/tax-info`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  update(
-    orgID: string,
-    body: TaxInfoUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<TaxInfoUpdateResponse> {
+  taxInfo(orgID: string, body: TaxInfoTaxInfoParams, options?: RequestOptions): APIPromise<TaxInfoTaxInfoResponse> {
     return this._client.put(path`/billing/org/${orgID}/tax-info`, { body, ...options });
   }
 }
 
-export interface TaxInfoUpdateResponse {
+export interface TaxInfoTaxInfoResponse {
   ok: true;
 }
 
-export interface TaxInfoUpdateParams {
-  address?: TaxInfoUpdateParams.Address;
+export interface TaxInfoTaxInfoParams {
+  address?: TaxInfoTaxInfoParams.Address;
 
   businessName?: string | null;
 
@@ -37,7 +30,7 @@ export interface TaxInfoUpdateParams {
   taxIdType?: string | null;
 }
 
-export namespace TaxInfoUpdateParams {
+export namespace TaxInfoTaxInfoParams {
   export interface Address {
     city?: string | null;
 
@@ -55,7 +48,7 @@ export namespace TaxInfoUpdateParams {
 
 export declare namespace TaxInfo {
   export {
-    type TaxInfoUpdateResponse as TaxInfoUpdateResponse,
-    type TaxInfoUpdateParams as TaxInfoUpdateParams,
+    type TaxInfoTaxInfoResponse as TaxInfoTaxInfoResponse,
+    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams
   };
 }

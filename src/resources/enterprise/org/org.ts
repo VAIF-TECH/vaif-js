@@ -1,43 +1,43 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as ContractAPI from './contract';
+import { Contract } from './contract';
+import * as InvoicesAPI from './invoices';
+import { Invoices } from './invoices';
 import * as OnboardingAPI from './onboarding';
-import { Onboarding, OnboardingUpdateParams, OnboardingUpdateResponse } from './onboarding';
+import { Onboarding, OnboardingOnboardingParams, OnboardingOnboardingResponse } from './onboarding';
 import * as UsageAPI from './usage';
 import { Usage } from './usage';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
 
 export class Org extends APIResource {
-  usage: UsageAPI.Usage = new UsageAPI.Usage(this._client);
+  contract: ContractAPI.Contract = new ContractAPI.Contract(this._client);
+  invoices: InvoicesAPI.Invoices = new InvoicesAPI.Invoices(this._client);
   onboarding: OnboardingAPI.Onboarding = new OnboardingAPI.Onboarding(this._client);
-
-  listInvoices(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/org/${orgID}/invoices`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  retrieveContract(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/org/${orgID}/contract`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
+  usage: UsageAPI.Usage = new UsageAPI.Usage(this._client);
 }
 
-Org.Usage = Usage;
+Org.Contract = Contract;
+Org.Invoices = Invoices;
 Org.Onboarding = Onboarding;
+Org.Usage = Usage;
 
 export declare namespace Org {
-  export { Usage as Usage };
+  export {
+    Contract as Contract
+  };
+
+  export {
+    Invoices as Invoices
+  };
 
   export {
     Onboarding as Onboarding,
-    type OnboardingUpdateResponse as OnboardingUpdateResponse,
-    type OnboardingUpdateParams as OnboardingUpdateParams,
+    type OnboardingOnboardingResponse as OnboardingOnboardingResponse,
+    type OnboardingOnboardingParams as OnboardingOnboardingParams
+  };
+
+  export {
+    Usage as Usage
   };
 }

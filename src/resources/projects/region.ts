@@ -7,23 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Region extends APIResource {
-  create(
-    projectID: string,
-    body: RegionCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<RegionCreateResponse> {
-    return this._client.post(path`/projects/${projectID}/region`, { body, ...options });
+  getRegion(projectID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/projects/${projectID}/region`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/region`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  region(projectID: string, body: RegionRegionParams, options?: RequestOptions): APIPromise<RegionRegionResponse> {
+    return this._client.post(path`/projects/${projectID}/region`, { body, ...options });
   }
 }
 
-export interface RegionCreateResponse {
+export interface RegionRegionResponse {
   ok: true;
 
   projectId: string;
@@ -32,15 +25,18 @@ export interface RegionCreateResponse {
 
   tenancyType: string;
 
-  [k: string]: unknown;
+[k: string]: unknown
 }
 
-export interface RegionCreateParams {
+export interface RegionRegionParams {
   regionKey: string;
 
   tenancyType: 'shared' | 'dedicated_db' | 'dedicated_stack';
 }
 
 export declare namespace Region {
-  export { type RegionCreateResponse as RegionCreateResponse, type RegionCreateParams as RegionCreateParams };
+  export {
+    type RegionRegionResponse as RegionRegionResponse,
+    type RegionRegionParams as RegionRegionParams
+  };
 }

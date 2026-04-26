@@ -1,16 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource usage', () => {
-  // Mock server tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.enterprise.org.usage.retrieve('orgId');
+  test('getHistory', async () => {
+    const responsePromise = client.enterprise.org.usage.getHistory('orgId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,9 +16,8 @@ describe('resource usage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('listHistory', async () => {
-    const responsePromise = client.enterprise.org.usage.listHistory('orgId');
+  test('getProjects', async () => {
+    const responsePromise = client.enterprise.org.usage.getProjects('orgId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -32,9 +27,8 @@ describe('resource usage', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('listProjects', async () => {
-    const responsePromise = client.enterprise.org.usage.listProjects('orgId');
+  test('getUsage', async () => {
+    const responsePromise = client.enterprise.org.usage.getUsage('orgId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

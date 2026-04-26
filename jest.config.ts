@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^vaif-studio$': '<rootDir>/src/index.ts',
-    '^vaif-studio/(.*)$': '<rootDir>/src/$1',
+    '^@vaif-tech/client$': '<rootDir>/src/index.ts',
+    '^@vaif-tech/client/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',

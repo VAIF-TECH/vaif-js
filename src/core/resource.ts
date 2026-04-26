@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { VaifStudio } from '../client';
+import type { Vaif } from '../client';
 
 export abstract class APIResource {
-  protected _client: VaifStudio;
+  protected _client: Vaif;
 
-  constructor(client: VaifStudio) {
+  constructor(client: Vaif) {
     this._client = client;
   }
 }

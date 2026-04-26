@@ -7,18 +7,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Credits extends APIResource {
-  listTransactions(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/credits/transactions`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getTransactions(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/credits/transactions`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  purchase(
-    orgID: string,
-    body: CreditPurchaseParams,
-    options?: RequestOptions,
-  ): APIPromise<CreditPurchaseResponse> {
+  purchase(orgID: string, body: CreditPurchaseParams, options?: RequestOptions): APIPromise<CreditPurchaseResponse> {
     return this._client.post(path`/billing/org/${orgID}/credits/purchase`, { body, ...options });
   }
 }
@@ -40,6 +33,6 @@ export interface CreditPurchaseParams {
 export declare namespace Credits {
   export {
     type CreditPurchaseResponse as CreditPurchaseResponse,
-    type CreditPurchaseParams as CreditPurchaseParams,
+    type CreditPurchaseParams as CreditPurchaseParams
   };
 }

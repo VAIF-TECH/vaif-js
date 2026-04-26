@@ -6,10 +6,7 @@ import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
 export class Bootstrap extends APIResource {
-  retrieve(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/bootstrap/', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(options?: RequestOptions): APIPromise<void> {
+    return this._client.get('/bootstrap/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

@@ -1,21 +1,18 @@
-# Vaif Studio TypeScript API Library
+# Vaif TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/vaif-studio.svg?label=npm%20(stable)>)](https://npmjs.org/package/vaif-studio) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/vaif-studio)
+[![NPM version](<https://img.shields.io/npm/v/@vaif-tech/client.svg?label=npm%20(stable)>)](https://npmjs.org/package/@vaif-tech/client) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@vaif-tech/client)
 
-This library provides convenient access to the Vaif Studio REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Vaif REST API from server-side TypeScript or JavaScript.
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.vaif.studio](https://docs.vaif.studio). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/vaif-studio-typescript.git
+npm install @vaif-tech/client
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install vaif-studio`
 
 ## Usage
 
@@ -23,13 +20,18 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: process.env['VAIF_STUDIO_API_KEY'], // This is the default and can be omitted
+const client = new Vaif({
+  apiKey: 'My API Key',
 });
 
-await client.orgs.checkName();
+const login = await client.auth.login.create({
+  email: 'alice@example.com',
+  password: 'secret-password',
+});
+
+console.log(login.accessToken);
 ```
 
 ### Request & Response types
@@ -38,13 +40,17 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: process.env['VAIF_STUDIO_API_KEY'], // This is the default and can be omitted
+const client = new Vaif({
+  apiKey: 'My API Key',
 });
 
-await client.orgs.checkName();
+const params: Vaif.Auth.LoginCreateParams = {
+  email: 'alice@example.com',
+  password: 'secret-password',
+};
+const login: Vaif.Auth.LoginCreateResponse = await client.auth.login.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -57,15 +63,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.orgs.checkName().catch(async (err) => {
-  if (err instanceof VaifStudio.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const login = await client.auth.login
+  .create({ email: 'alice@example.com', password: 'secret-password' })
+  .catch(async (err) => {
+    if (err instanceof Vaif.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -92,12 +100,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new VaifStudio({
+const client = new Vaif({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await client.orgs.checkName({
+await client.auth.login.create({ email: 'alice@example.com', password: 'secret-password' }, {
   maxRetries: 5,
 });
 ```
@@ -109,12 +117,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new VaifStudio({
+const client = new Vaif({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await client.orgs.checkName({
+await client.auth.login.create({ email: 'alice@example.com', password: 'secret-password' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -135,15 +143,19 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new VaifStudio();
+const client = new Vaif();
 
-const response = await client.orgs.checkName().asResponse();
+const response = await client.auth.login
+  .create({ email: 'alice@example.com', password: 'secret-password' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: result, response: raw } = await client.orgs.checkName().withResponse();
+const { data: login, response: raw } = await client.auth.login
+  .create({ email: 'alice@example.com', password: 'secret-password' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(result);
+console.log(login.accessToken);
 ```
 
 ### Logging
@@ -156,13 +168,13 @@ console.log(result);
 
 The log level can be configured in two ways:
 
-1. Via the `VAIF_STUDIO_LOG` environment variable
+1. Via the `VAIF_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
+const client = new Vaif({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -188,13 +200,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new VaifStudio({
-  logger: logger.child({ name: 'VaifStudio' }),
+const client = new Vaif({
+  logger: logger.child({ name: 'Vaif' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -223,7 +235,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.orgs.checkName({
+client.auth.login.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
@@ -257,10 +269,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 import fetch from 'my-fetch';
 
-const client = new VaifStudio({ fetch });
+const client = new Vaif({ fetch });
 ```
 
 ### Fetch options
@@ -268,9 +280,9 @@ const client = new VaifStudio({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
+const client = new Vaif({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -285,11 +297,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new VaifStudio({
+const client = new Vaif({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -299,9 +311,9 @@ const client = new VaifStudio({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
+const client = new Vaif({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -311,10 +323,10 @@ const client = new VaifStudio({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import VaifStudio from 'npm:vaif-studio';
+import Vaif from 'npm:@vaif-tech/client';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new VaifStudio({
+const client = new Vaif({
   fetchOptions: {
     client: httpClient,
   },
@@ -333,7 +345,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/vaif-studio-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/VAIF-TECH/vaif-js/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

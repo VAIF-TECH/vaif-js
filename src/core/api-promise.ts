@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { type VaifStudio } from '../client';
+import { type Vaif } from '../client';
 
 import { type PromiseOrValue } from '../internal/types';
 import { APIResponseProps, defaultParseResponse } from '../internal/parse';
@@ -11,15 +11,12 @@ import { APIResponseProps, defaultParseResponse } from '../internal/parse';
  */
 export class APIPromise<T> extends Promise<T> {
   private parsedPromise: Promise<T> | undefined;
-  #client: VaifStudio;
+  #client: Vaif;
 
   constructor(
-    client: VaifStudio,
+    client: Vaif,
     private responsePromise: Promise<APIResponseProps>,
-    private parseResponse: (
-      client: VaifStudio,
-      props: APIResponseProps,
-    ) => PromiseOrValue<T> = defaultParseResponse,
+    private parseResponse: (client: Vaif, props: APIResponseProps) => PromiseOrValue<T> = defaultParseResponse,
   ) {
     super((resolve) => {
       // this is maybe a bit weird but this has to be a no-op to not implicitly
@@ -31,9 +28,7 @@ export class APIPromise<T> extends Promise<T> {
   }
 
   _thenUnwrap<U>(transform: (data: T, props: APIResponseProps) => U): APIPromise<U> {
-    return new APIPromise(this.#client, this.responsePromise, async (client, props) =>
-      transform(await this.parseResponse(client, props), props),
-    );
+    return new APIPromise(this.#client, this.responsePromise, async (client, props) => transform(await this.parseResponse(client, props), props));
   }
 
   /**

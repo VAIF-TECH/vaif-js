@@ -1,9 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Bulk } from './bulk';
-export {
-  Generated,
-  type GeneratedRetrieveParams,
-  type GeneratedUpdateParams,
-  type GeneratedDeleteParams,
-} from './generated';
+export { Aggregate } from './aggregate';;
+export { Bulk } from './bulk';;
+export { Generated, type GeneratedUpdateParams, type GeneratedDeleteParams, type GeneratedRetrieve2Params } from './generated';;
+export { Query } from './query';;
+export { Search } from './search';;

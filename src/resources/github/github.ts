@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as OAuthAPI from './oauth';
-import { OAuth } from './oauth';
+import * as OAuthAPI from './oauth/oauth';
+import { OAuth } from './oauth/oauth';
 
 export class GitHub extends APIResource {
   oauth: OAuthAPI.OAuth = new OAuthAPI.OAuth(this._client);
@@ -11,5 +11,7 @@ export class GitHub extends APIResource {
 GitHub.OAuth = OAuth;
 
 export declare namespace GitHub {
-  export { OAuth as OAuth };
+  export {
+    OAuth as OAuth
+  };
 }

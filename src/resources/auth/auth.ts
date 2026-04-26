@@ -1,267 +1,103 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as CliAPI from './cli';
-import {
-  Cli,
-  CliApproveCallbackParams,
-  CliApproveCallbackResponse,
-  CliAuthorizeResponse,
-  CliLoginParams,
-  CliLoginResponse,
-  CliPollTokenParams,
-  CliPollTokenResponse,
-} from './cli';
-import * as OAuthAPI from './oauth';
-import { OAuth, OAuthHandleCallbackParams, OAuthInitiateParams, OAuthListProvidersResponse } from './oauth';
-import * as VerifyEmailAPI from './verify-email';
-import {
-  VerifyEmail,
-  VerifyEmailConfirmParams,
-  VerifyEmailConfirmResponse,
-  VerifyEmailSendResponse,
-} from './verify-email';
+import * as ForgotPasswordAPI from './forgot-password';
+import { ForgotPassword, ForgotPasswordCreateParams, ForgotPasswordCreateResponse } from './forgot-password';
+import * as LoginAPI from './login';
+import { Login, LoginCreateParams, LoginCreateResponse } from './login';
+import * as LogoutAPI from './logout';
+import { Logout, LogoutCreateResponse } from './logout';
+import * as RefreshAPI from './refresh';
+import { Refresh, RefreshCreateResponse } from './refresh';
+import * as ResetPasswordAPI from './reset-password';
+import { ResetPassword, ResetPasswordCreateParams, ResetPasswordCreateResponse } from './reset-password';
+import * as SignupAPI from './signup';
+import { Signup, SignupCreateParams, SignupCreateResponse } from './signup';
+import * as CliAPI from './cli/cli';
+import { Cli } from './cli/cli';
 import * as MeAPI from './me/me';
-import {
-  Me,
-  MeCheckAdminResponse,
-  MeGetContextResponse,
-  MeRetrieveResponse,
-  MeUpdateParams,
-  MeUpdateResponse,
-} from './me/me';
-import { APIPromise } from '../../core/api-promise';
-import { RequestOptions } from '../../internal/request-options';
+import { Me, MeListResponse, MeUpdateParams, MeUpdateResponse } from './me/me';
+import * as OAuthAPI from './oauth/oauth';
+import { OAuth, OAuthRetrieveParams } from './oauth/oauth';
+import * as VerifyEmailAPI from './verify-email/verify-email';
+import { VerifyEmail } from './verify-email/verify-email';
 
 export class Auth extends APIResource {
-  me: MeAPI.Me = new MeAPI.Me(this._client);
-  verifyEmail: VerifyEmailAPI.VerifyEmail = new VerifyEmailAPI.VerifyEmail(this._client);
-  oauth: OAuthAPI.OAuth = new OAuthAPI.OAuth(this._client);
   cli: CliAPI.Cli = new CliAPI.Cli(this._client);
-
-  /**
-   * Authenticate with email and password
-   */
-  login(body: AuthLoginParams, options?: RequestOptions): APIPromise<AuthLoginResponse> {
-    return this._client.post('/auth/login', { body, ...options });
-  }
-
-  /**
-   * Invalidate the current session and clear the refresh token cookie
-   */
-  logout(options?: RequestOptions): APIPromise<AuthLogoutResponse> {
-    return this._client.post('/auth/logout', options);
-  }
-
-  /**
-   * Rotate the refresh token and issue a new access token
-   */
-  refreshToken(options?: RequestOptions): APIPromise<AuthRefreshTokenResponse> {
-    return this._client.post('/auth/refresh', options);
-  }
-
-  /**
-   * Request a password reset email
-   */
-  requestPasswordReset(
-    body: AuthRequestPasswordResetParams,
-    options?: RequestOptions,
-  ): APIPromise<AuthRequestPasswordResetResponse> {
-    return this._client.post('/auth/forgot-password', { body, ...options });
-  }
-
-  /**
-   * Submit a new password using a reset token
-   */
-  resetPassword(
-    body: AuthResetPasswordParams,
-    options?: RequestOptions,
-  ): APIPromise<AuthResetPasswordResponse> {
-    return this._client.post('/auth/reset-password', { body, ...options });
-  }
-
-  /**
-   * Register a new user account
-   */
-  signup(body: AuthSignupParams, options?: RequestOptions): APIPromise<AuthSignupResponse> {
-    return this._client.post('/auth/signup', { body, ...options });
-  }
+  forgotPassword: ForgotPasswordAPI.ForgotPassword = new ForgotPasswordAPI.ForgotPassword(this._client);
+  login: LoginAPI.Login = new LoginAPI.Login(this._client);
+  logout: LogoutAPI.Logout = new LogoutAPI.Logout(this._client);
+  me: MeAPI.Me = new MeAPI.Me(this._client);
+  oauth: OAuthAPI.OAuth = new OAuthAPI.OAuth(this._client);
+  refresh: RefreshAPI.Refresh = new RefreshAPI.Refresh(this._client);
+  resetPassword: ResetPasswordAPI.ResetPassword = new ResetPasswordAPI.ResetPassword(this._client);
+  signup: SignupAPI.Signup = new SignupAPI.Signup(this._client);
+  verifyEmail: VerifyEmailAPI.VerifyEmail = new VerifyEmailAPI.VerifyEmail(this._client);
 }
 
-export interface AuthLoginResponse {
-  accessToken: string;
-
-  expiresIn: number;
-
-  ok: true;
-
-  user: AuthLoginResponse.User;
-}
-
-export namespace AuthLoginResponse {
-  export interface User {
-    id: string;
-
-    createdAt: (string & {}) | string;
-
-    email: string;
-
-    avatarUrl?: string | null;
-
-    name?: string | null;
-
-    phone?: string | null;
-
-    timezone?: string | null;
-  }
-}
-
-export interface AuthLogoutResponse {
-  ok: true;
-}
-
-export interface AuthRefreshTokenResponse {
-  accessToken: string;
-
-  expiresIn: number;
-
-  ok: true;
-
-  user: AuthRefreshTokenResponse.User;
-}
-
-export namespace AuthRefreshTokenResponse {
-  export interface User {
-    id: string;
-
-    createdAt: (string & {}) | string;
-
-    email: string;
-
-    avatarUrl?: string | null;
-
-    name?: string | null;
-
-    phone?: string | null;
-
-    timezone?: string | null;
-  }
-}
-
-export interface AuthRequestPasswordResetResponse {
-  message: string;
-
-  ok: true;
-}
-
-export interface AuthResetPasswordResponse {
-  message: string;
-
-  ok: true;
-}
-
-export interface AuthSignupResponse {
-  accessToken: string;
-
-  expiresIn: number;
-
-  ok: true;
-
-  user: AuthSignupResponse.User;
-}
-
-export namespace AuthSignupResponse {
-  export interface User {
-    id: string;
-
-    createdAt: (string & {}) | string;
-
-    email: string;
-
-    avatarUrl?: string | null;
-
-    name?: string | null;
-
-    phone?: string | null;
-
-    timezone?: string | null;
-  }
-}
-
-export interface AuthLoginParams {
-  email: string;
-
-  password: string;
-}
-
-export interface AuthRequestPasswordResetParams {
-  email: string;
-}
-
-export interface AuthResetPasswordParams {
-  token: string;
-
-  password: string;
-}
-
-export interface AuthSignupParams {
-  email: string;
-
-  password: string;
-
-  name?: string;
-}
-
-Auth.Me = Me;
-Auth.VerifyEmail = VerifyEmail;
-Auth.OAuth = OAuth;
 Auth.Cli = Cli;
+Auth.ForgotPassword = ForgotPassword;
+Auth.Login = Login;
+Auth.Logout = Logout;
+Auth.Me = Me;
+Auth.OAuth = OAuth;
+Auth.Refresh = Refresh;
+Auth.ResetPassword = ResetPassword;
+Auth.Signup = Signup;
+Auth.VerifyEmail = VerifyEmail;
 
 export declare namespace Auth {
   export {
-    type AuthLoginResponse as AuthLoginResponse,
-    type AuthLogoutResponse as AuthLogoutResponse,
-    type AuthRefreshTokenResponse as AuthRefreshTokenResponse,
-    type AuthRequestPasswordResetResponse as AuthRequestPasswordResetResponse,
-    type AuthResetPasswordResponse as AuthResetPasswordResponse,
-    type AuthSignupResponse as AuthSignupResponse,
-    type AuthLoginParams as AuthLoginParams,
-    type AuthRequestPasswordResetParams as AuthRequestPasswordResetParams,
-    type AuthResetPasswordParams as AuthResetPasswordParams,
-    type AuthSignupParams as AuthSignupParams,
+    Cli as Cli
+  };
+
+  export {
+    ForgotPassword as ForgotPassword,
+    type ForgotPasswordCreateResponse as ForgotPasswordCreateResponse,
+    type ForgotPasswordCreateParams as ForgotPasswordCreateParams
+  };
+
+  export {
+    Login as Login,
+    type LoginCreateResponse as LoginCreateResponse,
+    type LoginCreateParams as LoginCreateParams
+  };
+
+  export {
+    Logout as Logout,
+    type LogoutCreateResponse as LogoutCreateResponse
   };
 
   export {
     Me as Me,
-    type MeRetrieveResponse as MeRetrieveResponse,
     type MeUpdateResponse as MeUpdateResponse,
-    type MeCheckAdminResponse as MeCheckAdminResponse,
-    type MeGetContextResponse as MeGetContextResponse,
-    type MeUpdateParams as MeUpdateParams,
-  };
-
-  export {
-    VerifyEmail as VerifyEmail,
-    type VerifyEmailConfirmResponse as VerifyEmailConfirmResponse,
-    type VerifyEmailSendResponse as VerifyEmailSendResponse,
-    type VerifyEmailConfirmParams as VerifyEmailConfirmParams,
+    type MeListResponse as MeListResponse,
+    type MeUpdateParams as MeUpdateParams
   };
 
   export {
     OAuth as OAuth,
-    type OAuthListProvidersResponse as OAuthListProvidersResponse,
-    type OAuthHandleCallbackParams as OAuthHandleCallbackParams,
-    type OAuthInitiateParams as OAuthInitiateParams,
+    type OAuthRetrieveParams as OAuthRetrieveParams
   };
 
   export {
-    Cli as Cli,
-    type CliApproveCallbackResponse as CliApproveCallbackResponse,
-    type CliAuthorizeResponse as CliAuthorizeResponse,
-    type CliLoginResponse as CliLoginResponse,
-    type CliPollTokenResponse as CliPollTokenResponse,
-    type CliApproveCallbackParams as CliApproveCallbackParams,
-    type CliLoginParams as CliLoginParams,
-    type CliPollTokenParams as CliPollTokenParams,
+    Refresh as Refresh,
+    type RefreshCreateResponse as RefreshCreateResponse
+  };
+
+  export {
+    ResetPassword as ResetPassword,
+    type ResetPasswordCreateResponse as ResetPasswordCreateResponse,
+    type ResetPasswordCreateParams as ResetPasswordCreateParams
+  };
+
+  export {
+    Signup as Signup,
+    type SignupCreateResponse as SignupCreateResponse,
+    type SignupCreateParams as SignupCreateParams
+  };
+
+  export {
+    VerifyEmail as VerifyEmail
   };
 }

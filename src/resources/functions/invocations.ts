@@ -1,30 +1,3 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../core/resource';
-import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
-import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
-
-export class Invocations extends APIResource {
-  retrieve(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/invocations/function/${functionID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/functions/invocations', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  listByFunction(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/${functionID}/invocations`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-}
+export * from './invocations/index';

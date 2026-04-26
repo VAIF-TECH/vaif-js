@@ -1,56 +1,65 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as ConnectionsAPI from './connections';
-import { Connections } from './connections';
-import * as EventsAPI from './events';
-import { Events } from './events';
-import * as StatsAPI from './stats';
-import { Stats } from './stats';
-import * as StatusAPI from './status';
-import { Status } from './status';
-import * as SubscriptionsAPI from './subscriptions';
-import { Subscriptions } from './subscriptions';
-import { APIPromise } from '../../core/api-promise';
-import { buildHeaders } from '../../internal/headers';
-import { RequestOptions } from '../../internal/request-options';
+import * as EnableAllAPI from './enable-all';
+import { EnableAll } from './enable-all';
+import * as InstallAPI from './install';
+import { Install } from './install';
+import * as ConnectionsAPI from './connections/connections';
+import { Connections } from './connections/connections';
+import * as EventsAPI from './events/events';
+import { Events } from './events/events';
+import * as StatsAPI from './stats/stats';
+import { Stats } from './stats/stats';
+import * as StatusAPI from './status/status';
+import { Status } from './status/status';
+import * as SubscriptionsAPI from './subscriptions/subscriptions';
+import { Subscriptions } from './subscriptions/subscriptions';
 
 export class Realtime extends APIResource {
-  status: StatusAPI.Status = new StatusAPI.Status(this._client);
-  stats: StatsAPI.Stats = new StatsAPI.Stats(this._client);
   connections: ConnectionsAPI.Connections = new ConnectionsAPI.Connections(this._client);
-  subscriptions: SubscriptionsAPI.Subscriptions = new SubscriptionsAPI.Subscriptions(this._client);
+  enableAll: EnableAllAPI.EnableAll = new EnableAllAPI.EnableAll(this._client);
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
-
-  enableAll(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/realtime/enable-all', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  install(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/realtime/install', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
+  install: InstallAPI.Install = new InstallAPI.Install(this._client);
+  stats: StatsAPI.Stats = new StatsAPI.Stats(this._client);
+  status: StatusAPI.Status = new StatusAPI.Status(this._client);
+  subscriptions: SubscriptionsAPI.Subscriptions = new SubscriptionsAPI.Subscriptions(this._client);
 }
 
-Realtime.Status = Status;
-Realtime.Stats = Stats;
 Realtime.Connections = Connections;
-Realtime.Subscriptions = Subscriptions;
+Realtime.EnableAll = EnableAll;
 Realtime.Events = Events;
+Realtime.Install = Install;
+Realtime.Stats = Stats;
+Realtime.Status = Status;
+Realtime.Subscriptions = Subscriptions;
 
 export declare namespace Realtime {
-  export { Status as Status };
+  export {
+    Connections as Connections
+  };
 
-  export { Stats as Stats };
+  export {
+    EnableAll as EnableAll
+  };
 
-  export { Connections as Connections };
+  export {
+    Events as Events
+  };
 
-  export { Subscriptions as Subscriptions };
+  export {
+    Install as Install
+  };
 
-  export { Events as Events };
+  export {
+    Stats as Stats
+  };
+
+  export {
+    Status as Status
+  };
+
+  export {
+    Subscriptions as Subscriptions
+  };
 }

@@ -7,28 +7,22 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Triggers extends APIResource {
-  create(functionID: string, body: TriggerCreateParams, options?: RequestOptions): APIPromise<unknown> {
-    return this._client.post(path`/functions/${functionID}/triggers`, { body, ...options });
-  }
-
-  list(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/${functionID}/triggers`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
   delete(triggerID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/functions/triggers/${triggerID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/functions/triggers/${triggerID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
+
+  getTriggers(functionID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/functions/${functionID}/triggers`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
+
+  triggers(functionID: string, body: TriggerTriggersParams, options?: RequestOptions): APIPromise<unknown> {
+    return this._client.post(path`/functions/${functionID}/triggers`, { body, ...options });
   }
 }
 
-export type TriggerCreateResponse = unknown;
+export type TriggerTriggersResponse = unknown
 
-export interface TriggerCreateParams {
+export interface TriggerTriggersParams {
   event: 'db.insert' | 'db.update' | 'db.delete';
 
   tableName: string;
@@ -40,7 +34,7 @@ export interface TriggerCreateParams {
 
 export declare namespace Triggers {
   export {
-    type TriggerCreateResponse as TriggerCreateResponse,
-    type TriggerCreateParams as TriggerCreateParams,
+    type TriggerTriggersResponse as TriggerTriggersResponse,
+    type TriggerTriggersParams as TriggerTriggersParams
   };
 }

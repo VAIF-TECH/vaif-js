@@ -8,16 +8,10 @@ import { path } from '../../internal/utils/path';
 
 export class Find extends APIResource {
   cursor(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/find/cursor`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/mongodb/${collection}/find/cursor`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  execute(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/find`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  find(collection: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/mongodb/${collection}/find`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

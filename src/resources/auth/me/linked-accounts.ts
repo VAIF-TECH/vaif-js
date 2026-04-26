@@ -16,7 +16,7 @@ export class LinkedAccounts extends APIResource {
   /**
    * Unlink an OAuth provider from the current user's account
    */
-  unlink(provider: string, options?: RequestOptions): APIPromise<LinkedAccountUnlinkResponse> {
+  delete(provider: string, options?: RequestOptions): APIPromise<LinkedAccountDeleteResponse> {
     return this._client.delete(path`/auth/me/linked-accounts/${provider}`, options);
   }
 }
@@ -41,13 +41,13 @@ export namespace LinkedAccountListResponse {
   }
 }
 
-export interface LinkedAccountUnlinkResponse {
+export interface LinkedAccountDeleteResponse {
   ok: true;
 }
 
 export declare namespace LinkedAccounts {
   export {
     type LinkedAccountListResponse as LinkedAccountListResponse,
-    type LinkedAccountUnlinkResponse as LinkedAccountUnlinkResponse,
+    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse
   };
 }

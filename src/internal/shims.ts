@@ -16,7 +16,7 @@ export function getDefaultFetch(): Fetch {
   }
 
   throw new Error(
-    '`fetch` is not defined as a global; Either pass `fetch` to the client, `new VaifStudio({ fetch })` or polyfill the global, `globalThis.fetch = fetch`',
+    '`fetch` is not defined as a global; Either pass `fetch` to the client, `new Vaif({ fetch })` or polyfill the global, `globalThis.fetch = fetch`',
   );
 }
 
@@ -27,9 +27,7 @@ export function makeReadableStream(...args: ReadableStreamArgs): ReadableStream 
   if (typeof ReadableStream === 'undefined') {
     // Note: All of the platforms / runtimes we officially support already define
     // `ReadableStream` as a global, so this should only ever be hit on unsupported runtimes.
-    throw new Error(
-      '`ReadableStream` is not defined as a global; You will need to polyfill it, `globalThis.ReadableStream = ReadableStream`',
-    );
+    throw new Error('`ReadableStream` is not defined as a global; You will need to polyfill it, `globalThis.ReadableStream = ReadableStream`');
   }
 
   return new ReadableStream(...args);

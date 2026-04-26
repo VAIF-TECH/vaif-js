@@ -7,34 +7,22 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Addons extends APIResource {
-  create(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/addons`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
   update(addonID: string, params: AddonUpdateParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params;
-    return this._client.patch(path`/billing/org/${orgId}/addons/${addonID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  list(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/addons`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    const { orgId } = params
+    return this._client.patch(path`/billing/org/${orgId}/addons/${addonID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   delete(addonID: string, params: AddonDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params;
-    return this._client.delete(path`/billing/org/${orgId}/addons/${addonID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    const { orgId } = params
+    return this._client.delete(path`/billing/org/${orgId}/addons/${addonID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
+
+  addons(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/billing/org/${orgID}/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
+
+  getAddons(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -47,5 +35,8 @@ export interface AddonDeleteParams {
 }
 
 export declare namespace Addons {
-  export { type AddonUpdateParams as AddonUpdateParams, type AddonDeleteParams as AddonDeleteParams };
+  export {
+    type AddonUpdateParams as AddonUpdateParams,
+    type AddonDeleteParams as AddonDeleteParams
+  };
 }

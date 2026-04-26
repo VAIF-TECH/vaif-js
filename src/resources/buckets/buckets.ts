@@ -3,6 +3,14 @@
 import { APIResource } from '../../core/resource';
 import * as FilesAPI from './files';
 import { Files } from './files';
+import * as ProjectAPI from './project';
+import { Project } from './project';
+import * as SignedURLAPI from './signed-url';
+import { SignedURL } from './signed-url';
+import * as UploadAPI from './upload';
+import { Upload } from './upload';
+import * as UploadURLAPI from './upload-url';
+import { UploadURL } from './upload-url';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
@@ -10,55 +18,21 @@ import { path } from '../../internal/utils/path';
 
 export class Buckets extends APIResource {
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
+  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
+  signedURL: SignedURLAPI.SignedURL = new SignedURLAPI.SignedURL(this._client);
+  upload: UploadAPI.Upload = new UploadAPI.Upload(this._client);
+  uploadURL: UploadURLAPI.UploadURL = new UploadURLAPI.UploadURL(this._client);
 
   retrieve(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/buckets/${bucketID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/buckets/${bucketID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  update(
-    bucketID: string,
-    body: BucketUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<BucketUpdateResponse> {
+  update(bucketID: string, body: BucketUpdateParams, options?: RequestOptions): APIPromise<BucketUpdateResponse> {
     return this._client.put(path`/buckets/${bucketID}`, { body, ...options });
   }
 
   delete(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/buckets/${bucketID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  createSignedURL(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/buckets/${bucketID}/signed-url`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  createUploadURL(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/buckets/${bucketID}/upload-url`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  retrieveByProject(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/buckets/project/${projectID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  upload(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/buckets/${bucketID}/upload`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/buckets/${bucketID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -67,7 +41,7 @@ export interface BucketUpdateResponse {
 
   bucket?: unknown;
 
-  [k: string]: unknown;
+[k: string]: unknown
 }
 
 export interface BucketUpdateParams {
@@ -81,9 +55,34 @@ export interface BucketUpdateParams {
 }
 
 Buckets.Files = Files;
+Buckets.Project = Project;
+Buckets.SignedURL = SignedURL;
+Buckets.Upload = Upload;
+Buckets.UploadURL = UploadURL;
 
 export declare namespace Buckets {
-  export { type BucketUpdateResponse as BucketUpdateResponse, type BucketUpdateParams as BucketUpdateParams };
+  export {
+    type BucketUpdateResponse as BucketUpdateResponse,
+    type BucketUpdateParams as BucketUpdateParams
+  };
 
-  export { Files as Files };
+  export {
+    Files as Files
+  };
+
+  export {
+    Project as Project
+  };
+
+  export {
+    SignedURL as SignedURL
+  };
+
+  export {
+    Upload as Upload
+  };
+
+  export {
+    UploadURL as UploadURL
+  };
 }

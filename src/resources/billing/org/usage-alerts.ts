@@ -7,75 +7,41 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class UsageAlerts extends APIResource {
-  create(
-    orgID: string,
-    body: UsageAlertCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<UsageAlertCreateResponse> {
-    return this._client.post(path`/billing/org/${orgID}/usage-alerts`, { body, ...options });
-  }
-
-  update(
-    alertID: string,
-    params: UsageAlertUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<UsageAlertUpdateResponse> {
-    const { orgId, ...body } = params;
+  update(alertID: string, params: UsageAlertUpdateParams, options?: RequestOptions): APIPromise<UsageAlertUpdateResponse> {
+    const { orgId, ...body } = params
     return this._client.patch(path`/billing/org/${orgId}/usage-alerts/${alertID}`, { body, ...options });
   }
 
-  list(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
   delete(alertID: string, params: UsageAlertDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params;
-    return this._client.delete(path`/billing/org/${orgId}/usage-alerts/${alertID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    const { orgId } = params
+    return this._client.delete(path`/billing/org/${orgId}/usage-alerts/${alertID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  listConfigured(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts/configured`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getConfigured(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts/configured`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  retrieveHistory(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts/history`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getHistory(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts/history`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
-}
 
-export interface UsageAlertCreateResponse {
-  alertId: string;
+  getUsageAlerts(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
 
-  ok: true;
+  usageAlerts(orgID: string, body: UsageAlertUsageAlertsParams, options?: RequestOptions): APIPromise<UsageAlertUsageAlertsResponse> {
+    return this._client.post(path`/billing/org/${orgID}/usage-alerts`, { body, ...options });
+  }
 }
 
 export interface UsageAlertUpdateResponse {
   ok: true;
 }
 
-export interface UsageAlertCreateParams {
-  metric:
-    | 'ai_credits'
-    | 'api_requests'
-    | 'storage'
-    | 'realtime_connections'
-    | 'function_invocations'
-    | 'bandwidth';
+export interface UsageAlertUsageAlertsResponse {
+  alertId: string;
 
-  threshold: number;
-
-  notifyEmail?: boolean;
+  ok: true;
 }
 
 export interface UsageAlertUpdateParams {
@@ -104,12 +70,20 @@ export interface UsageAlertDeleteParams {
   orgId: string;
 }
 
+export interface UsageAlertUsageAlertsParams {
+  metric: 'ai_credits' | 'api_requests' | 'storage' | 'realtime_connections' | 'function_invocations' | 'bandwidth';
+
+  threshold: number;
+
+  notifyEmail?: boolean;
+}
+
 export declare namespace UsageAlerts {
   export {
-    type UsageAlertCreateResponse as UsageAlertCreateResponse,
     type UsageAlertUpdateResponse as UsageAlertUpdateResponse,
-    type UsageAlertCreateParams as UsageAlertCreateParams,
+    type UsageAlertUsageAlertsResponse as UsageAlertUsageAlertsResponse,
     type UsageAlertUpdateParams as UsageAlertUpdateParams,
     type UsageAlertDeleteParams as UsageAlertDeleteParams,
+    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams
   };
 }

@@ -7,17 +7,11 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Profile extends APIResource {
-  retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/orgs/${orgID}/profile`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getProfile(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/orgs/${orgID}/profile`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  update(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/orgs/${orgID}/profile`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  profile(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.patch(path`/orgs/${orgID}/profile`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

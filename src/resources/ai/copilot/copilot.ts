@@ -1,202 +1,201 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as ChatAPI from './chat';
-import { Chat, ChatCreateParams, ChatCreateResponse } from './chat';
-import * as DeployAPI from './deploy';
-import { Deploy, DeployCreateParams, DeployRetrieveParams, DeployRetrieveResponse } from './deploy';
-import * as EditorAPI from './editor';
-import { Editor, EditorChatParams } from './editor';
-import * as ExecutionAPI from './execution';
-import {
-  Execution,
-  ExecutionResumeParams,
-  ExecutionResumeResponse,
-  ExecutionRollbackParams,
-  ExecutionRollbackResponse,
-} from './execution';
-import * as GenerationAPI from './generation';
-import { Generation } from './generation';
-import * as GitAPI from './git';
-import { Git } from './git';
-import * as JobAPI from './job';
-import { Job, JobCreateParams, JobCreateResponse } from './job';
-import * as ManifestAPI from './manifest';
-import { Manifest } from './manifest';
-import * as MemoriesAPI from './memories';
-import { Memories } from './memories';
-import * as MetricsAPI from './metrics';
-import { Metrics } from './metrics';
-import * as SessionAPI from './session';
-import { Session, SessionUpdateParams, SessionUpdateResponse } from './session';
-import * as VersionAPI from './version';
-import { Version, VersionRetrieveParams } from './version';
+import * as ContextSummaryAPI from './context-summary';
+import { ContextSummary } from './context-summary';
+import * as CreditStatusAPI from './credit-status';
+import { CreditStatus } from './credit-status';
+import * as ExecuteAPI from './execute';
+import { Execute, ExecuteCreateParams, ExecuteCreateResponse } from './execute';
+import * as FeedbackAPI from './feedback';
+import { Feedback, FeedbackCreateParams, FeedbackCreateResponse } from './feedback';
+import * as ModelsAPI from './models';
+import { Models } from './models';
+import * as RateAPI from './rate';
+import { Rate, RateCreateParams, RateCreateResponse } from './rate';
+import * as SessionsAPI from './sessions';
+import { SessionUpdateParams, SessionUpdateResponse, Sessions } from './sessions';
+import * as TrainingConsentAPI from './training-consent';
+import { TrainingConsent, TrainingConsentCreateParams, TrainingConsentCreateResponse } from './training-consent';
+import * as UsageAPI from './usage';
+import { Usage } from './usage';
+import * as UsageOrgAPI from './usage-org';
+import { UsageOrg } from './usage-org';
+import * as ChatAPI from './chat/chat';
+import { Chat, ChatCreateParams, ChatCreateResponse } from './chat/chat';
+import * as DeployAPI from './deploy/deploy';
+import { Deploy, DeployCreateParams, DeployRetrieveResponse } from './deploy/deploy';
+import * as EditorAPI from './editor/editor';
+import { Editor } from './editor/editor';
+import * as ExecutionsAPI from './executions/executions';
+import { Executions } from './executions/executions';
 import * as ExportAPI from './export/export';
 import { Export } from './export/export';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
-import { path } from '../../../internal/utils/path';
+import * as GenerationAPI from './generation/generation';
+import { Generation } from './generation/generation';
+import * as GitAPI from './git/git';
+import { Git } from './git/git';
+import * as JobAPI from './job/job';
+import { Job, JobCreateParams, JobCreateResponse } from './job/job';
+import * as ManifestAPI from './manifest/manifest';
+import { Manifest } from './manifest/manifest';
+import * as MemoriesAPI from './memories/memories';
+import { Memories } from './memories/memories';
+import * as MetricsAPI from './metrics/metrics';
+import { Metrics } from './metrics/metrics';
+import * as VersionsAPI from './versions/versions';
+import { Versions } from './versions/versions';
 
 export class Copilot extends APIResource {
   chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
-  generation: GenerationAPI.Generation = new GenerationAPI.Generation(this._client);
-  manifest: ManifestAPI.Manifest = new ManifestAPI.Manifest(this._client);
-  session: SessionAPI.Session = new SessionAPI.Session(this._client);
-  execution: ExecutionAPI.Execution = new ExecutionAPI.Execution(this._client);
-  version: VersionAPI.Version = new VersionAPI.Version(this._client);
-  export: ExportAPI.Export = new ExportAPI.Export(this._client);
-  job: JobAPI.Job = new JobAPI.Job(this._client);
-  metrics: MetricsAPI.Metrics = new MetricsAPI.Metrics(this._client);
-  editor: EditorAPI.Editor = new EditorAPI.Editor(this._client);
-  memories: MemoriesAPI.Memories = new MemoriesAPI.Memories(this._client);
+  contextSummary: ContextSummaryAPI.ContextSummary = new ContextSummaryAPI.ContextSummary(this._client);
+  creditStatus: CreditStatusAPI.CreditStatus = new CreditStatusAPI.CreditStatus(this._client);
   deploy: DeployAPI.Deploy = new DeployAPI.Deploy(this._client);
+  editor: EditorAPI.Editor = new EditorAPI.Editor(this._client);
+  execute: ExecuteAPI.Execute = new ExecuteAPI.Execute(this._client);
+  executions: ExecutionsAPI.Executions = new ExecutionsAPI.Executions(this._client);
+  export: ExportAPI.Export = new ExportAPI.Export(this._client);
+  feedback: FeedbackAPI.Feedback = new FeedbackAPI.Feedback(this._client);
+  generation: GenerationAPI.Generation = new GenerationAPI.Generation(this._client);
   git: GitAPI.Git = new GitAPI.Git(this._client);
-
-  retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/usage-org/${orgID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  update(
-    messageID: string,
-    body: CopilotUpdateParams,
-    options?: RequestOptions,
-  ): APIPromise<CopilotUpdateResponse> {
-    return this._client.post(path`/ai/copilot/rate/${messageID}`, { body, ...options });
-  }
-
-  execute(body: CopilotExecuteParams, options?: RequestOptions): APIPromise<CopilotExecuteResponse> {
-    return this._client.post('/ai/copilot/execute', { body, ...options });
-  }
-
-  feedback(body: CopilotFeedbackParams, options?: RequestOptions): APIPromise<CopilotFeedbackResponse> {
-    return this._client.post('/ai/copilot/feedback', { body, ...options });
-  }
-}
-
-export interface CopilotUpdateResponse {
-  ok: true;
-}
-
-export interface CopilotExecuteResponse {
-  ok: boolean;
-
-  artifacts?: unknown;
-
-  dryRun?: boolean;
-
-  error?: unknown;
-
-  plan?: unknown;
-
-  results?: Array<unknown>;
-
-  [k: string]: unknown;
-}
-
-export interface CopilotFeedbackResponse {
-  ok: true;
-}
-
-export interface CopilotUpdateParams {
-  rating: number;
-
-  approved?: boolean;
-
-  feedback?: string;
-}
-
-export interface CopilotExecuteParams {
-  planId: string;
-
-  sessionId: string;
-
-  dryRun?: boolean;
-
-  stepIds?: Array<string>;
-}
-
-export interface CopilotFeedbackParams {
-  feedbackType: 'correct' | 'incorrect' | 'partial';
-
-  messageId: string;
-
-  sessionId: string;
-
-  correctedIntent?: string;
-
-  userFeedback?: string;
+  job: JobAPI.Job = new JobAPI.Job(this._client);
+  manifest: ManifestAPI.Manifest = new ManifestAPI.Manifest(this._client);
+  memories: MemoriesAPI.Memories = new MemoriesAPI.Memories(this._client);
+  metrics: MetricsAPI.Metrics = new MetricsAPI.Metrics(this._client);
+  models: ModelsAPI.Models = new ModelsAPI.Models(this._client);
+  rate: RateAPI.Rate = new RateAPI.Rate(this._client);
+  sessions: SessionsAPI.Sessions = new SessionsAPI.Sessions(this._client);
+  trainingConsent: TrainingConsentAPI.TrainingConsent = new TrainingConsentAPI.TrainingConsent(this._client);
+  usage: UsageAPI.Usage = new UsageAPI.Usage(this._client);
+  usageOrg: UsageOrgAPI.UsageOrg = new UsageOrgAPI.UsageOrg(this._client);
+  versions: VersionsAPI.Versions = new VersionsAPI.Versions(this._client);
 }
 
 Copilot.Chat = Chat;
-Copilot.Generation = Generation;
-Copilot.Manifest = Manifest;
-Copilot.Session = Session;
-Copilot.Execution = Execution;
-Copilot.Version = Version;
-Copilot.Export = Export;
-Copilot.Job = Job;
-Copilot.Metrics = Metrics;
-Copilot.Editor = Editor;
-Copilot.Memories = Memories;
+Copilot.ContextSummary = ContextSummary;
+Copilot.CreditStatus = CreditStatus;
 Copilot.Deploy = Deploy;
+Copilot.Editor = Editor;
+Copilot.Execute = Execute;
+Copilot.Executions = Executions;
+Copilot.Export = Export;
+Copilot.Feedback = Feedback;
+Copilot.Generation = Generation;
 Copilot.Git = Git;
+Copilot.Job = Job;
+Copilot.Manifest = Manifest;
+Copilot.Memories = Memories;
+Copilot.Metrics = Metrics;
+Copilot.Models = Models;
+Copilot.Rate = Rate;
+Copilot.Sessions = Sessions;
+Copilot.TrainingConsent = TrainingConsent;
+Copilot.Usage = Usage;
+Copilot.UsageOrg = UsageOrg;
+Copilot.Versions = Versions;
 
 export declare namespace Copilot {
   export {
-    type CopilotUpdateResponse as CopilotUpdateResponse,
-    type CopilotExecuteResponse as CopilotExecuteResponse,
-    type CopilotFeedbackResponse as CopilotFeedbackResponse,
-    type CopilotUpdateParams as CopilotUpdateParams,
-    type CopilotExecuteParams as CopilotExecuteParams,
-    type CopilotFeedbackParams as CopilotFeedbackParams,
-  };
-
-  export {
     Chat as Chat,
     type ChatCreateResponse as ChatCreateResponse,
-    type ChatCreateParams as ChatCreateParams,
-  };
-
-  export { Generation as Generation };
-
-  export { Manifest as Manifest };
-
-  export {
-    Session as Session,
-    type SessionUpdateResponse as SessionUpdateResponse,
-    type SessionUpdateParams as SessionUpdateParams,
+    type ChatCreateParams as ChatCreateParams
   };
 
   export {
-    Execution as Execution,
-    type ExecutionResumeResponse as ExecutionResumeResponse,
-    type ExecutionRollbackResponse as ExecutionRollbackResponse,
-    type ExecutionResumeParams as ExecutionResumeParams,
-    type ExecutionRollbackParams as ExecutionRollbackParams,
+    ContextSummary as ContextSummary
   };
 
-  export { Version as Version, type VersionRetrieveParams as VersionRetrieveParams };
-
-  export { Export as Export };
-
-  export { Job as Job, type JobCreateResponse as JobCreateResponse, type JobCreateParams as JobCreateParams };
-
-  export { Metrics as Metrics };
-
-  export { Editor as Editor, type EditorChatParams as EditorChatParams };
-
-  export { Memories as Memories };
+  export {
+    CreditStatus as CreditStatus
+  };
 
   export {
     Deploy as Deploy,
     type DeployRetrieveResponse as DeployRetrieveResponse,
-    type DeployCreateParams as DeployCreateParams,
-    type DeployRetrieveParams as DeployRetrieveParams,
+    type DeployCreateParams as DeployCreateParams
   };
 
-  export { Git as Git };
+  export {
+    Editor as Editor
+  };
+
+  export {
+    Execute as Execute,
+    type ExecuteCreateResponse as ExecuteCreateResponse,
+    type ExecuteCreateParams as ExecuteCreateParams
+  };
+
+  export {
+    Executions as Executions
+  };
+
+  export {
+    Export as Export
+  };
+
+  export {
+    Feedback as Feedback,
+    type FeedbackCreateResponse as FeedbackCreateResponse,
+    type FeedbackCreateParams as FeedbackCreateParams
+  };
+
+  export {
+    Generation as Generation
+  };
+
+  export {
+    Git as Git
+  };
+
+  export {
+    Job as Job,
+    type JobCreateResponse as JobCreateResponse,
+    type JobCreateParams as JobCreateParams
+  };
+
+  export {
+    Manifest as Manifest
+  };
+
+  export {
+    Memories as Memories
+  };
+
+  export {
+    Metrics as Metrics
+  };
+
+  export {
+    Models as Models
+  };
+
+  export {
+    Rate as Rate,
+    type RateCreateResponse as RateCreateResponse,
+    type RateCreateParams as RateCreateParams
+  };
+
+  export {
+    Sessions as Sessions,
+    type SessionUpdateResponse as SessionUpdateResponse,
+    type SessionUpdateParams as SessionUpdateParams
+  };
+
+  export {
+    TrainingConsent as TrainingConsent,
+    type TrainingConsentCreateResponse as TrainingConsentCreateResponse,
+    type TrainingConsentCreateParams as TrainingConsentCreateParams
+  };
+
+  export {
+    Usage as Usage
+  };
+
+  export {
+    UsageOrg as UsageOrg
+  };
+
+  export {
+    Versions as Versions
+  };
 }

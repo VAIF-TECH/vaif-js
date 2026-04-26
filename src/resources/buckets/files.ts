@@ -7,17 +7,11 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Files extends APIResource {
-  list(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/buckets/${bucketID}/files`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  files(bucketID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.delete(path`/buckets/${bucketID}/files`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  delete(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/buckets/${bucketID}/files`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getFiles(bucketID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/buckets/${bucketID}/files`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

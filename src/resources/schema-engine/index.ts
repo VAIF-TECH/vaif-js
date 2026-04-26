@@ -1,14 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Migrations, type MigrationListResponse } from './migrations';
-export {
-  SchemaEngine,
-  type SchemaEngineApplyResponse,
-  type SchemaEngineExecuteQueryResponse,
-  type SchemaEngineGetChangesResponse,
-  type SchemaEngineIntrospectResponse,
-  type SchemaEnginePreviewResponse,
-  type SchemaEngineApplyParams,
-  type SchemaEngineExecuteQueryParams,
-  type SchemaEnginePreviewParams,
-} from './schema-engine';
+export { Apply, type ApplyCreateResponse, type ApplyCreateParams } from './apply';;
+export { Changes, type ChangeGetChangesResponse } from './changes';;
+export { Introspect, type IntrospectRetrieveResponse } from './introspect';;
+export { Migrations } from './migrations/index';;
+export { Preview, type PreviewCreateResponse, type PreviewCreateParams } from './preview';;
+export { Query, type QueryCreateResponse, type QueryCreateParams } from './query';;
+export { SchemaEngine } from './schema-engine';;

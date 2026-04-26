@@ -1,45 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export {
-  Auth,
-  type AuthLoginResponse,
-  type AuthLogoutResponse,
-  type AuthRefreshTokenResponse,
-  type AuthRequestPasswordResetResponse,
-  type AuthResetPasswordResponse,
-  type AuthSignupResponse,
-  type AuthLoginParams,
-  type AuthRequestPasswordResetParams,
-  type AuthResetPasswordParams,
-  type AuthSignupParams,
-} from './auth';
-export {
-  Cli,
-  type CliApproveCallbackResponse,
-  type CliAuthorizeResponse,
-  type CliLoginResponse,
-  type CliPollTokenResponse,
-  type CliApproveCallbackParams,
-  type CliLoginParams,
-  type CliPollTokenParams,
-} from './cli';
-export {
-  Me,
-  type MeRetrieveResponse,
-  type MeUpdateResponse,
-  type MeCheckAdminResponse,
-  type MeGetContextResponse,
-  type MeUpdateParams,
-} from './me/index';
-export {
-  OAuth,
-  type OAuthListProvidersResponse,
-  type OAuthHandleCallbackParams,
-  type OAuthInitiateParams,
-} from './oauth';
-export {
-  VerifyEmail,
-  type VerifyEmailConfirmResponse,
-  type VerifyEmailSendResponse,
-  type VerifyEmailConfirmParams,
-} from './verify-email';
+export { Auth } from './auth';;
+export { Cli } from './cli/index';;
+export { ForgotPassword, type ForgotPasswordCreateResponse, type ForgotPasswordCreateParams } from './forgot-password';;
+export { Login, type LoginCreateResponse, type LoginCreateParams } from './login';;
+export { Logout, type LogoutCreateResponse } from './logout';;
+export { Me, type MeUpdateResponse, type MeListResponse, type MeUpdateParams } from './me/index';;
+export { OAuth, type OAuthRetrieveParams } from './oauth/index';;
+export { Refresh, type RefreshCreateResponse } from './refresh';;
+export { ResetPassword, type ResetPasswordCreateResponse, type ResetPasswordCreateParams } from './reset-password';;
+export { Signup, type SignupCreateResponse, type SignupCreateParams } from './signup';;
+export { VerifyEmail } from './verify-email/index';;
