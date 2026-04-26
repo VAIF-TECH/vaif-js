@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { stringifyQuery } from '@vaif-tech/client/internal/utils/query';
+import { stringifyQuery } from '@vaif/client/internal/utils/query';
 
 describe(stringifyQuery, () => { for (const [input, expected] of [
   [{ a: '1', b: 2, c: true }, 'a=1&b=2&c=true'],

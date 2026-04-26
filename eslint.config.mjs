@@ -22,7 +22,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^@vaif-tech/client(/.*)?',
+              regex: '^@vaif/client(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],
