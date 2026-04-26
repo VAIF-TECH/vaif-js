@@ -5,7 +5,7 @@ describe('createTransport', () => {
   it('creates a websocket transport when kind=websocket', () => {
     const t: Transport = createTransport({ kind: 'websocket' });
     expect(t.capabilities.bidirectional).toBe(true);
-    expect(t.capabilities.binarySupport).toBe(true);
+    expect(t.capabilities.binarySupport).toBe(false);
     expect(t.capabilities.serverPush).toBe(true);
   });
 

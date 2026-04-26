@@ -37,6 +37,9 @@ export interface Transport {
   /** Register a close handler. Fires once per close (clean or abnormal). */
   onClose(cb: (info: CloseInfo) => void): void;
 
+  /** Register a non-fatal error handler. Multiple registrations are fan-out. */
+  onError(cb: (err: Error) => void): void;
+
   capabilities: TransportCapabilities;
 }
 

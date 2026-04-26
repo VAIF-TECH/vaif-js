@@ -28,4 +28,8 @@ export class SSETransport implements Transport {
   onClose(_cb: (info: CloseInfo) => void): void {
     // no-op stub
   }
+
+  onError(_cb: (err: Error) => void): void {
+    // no-op stub (real impl in C3)
+  }
 }
