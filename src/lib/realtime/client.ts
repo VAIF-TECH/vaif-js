@@ -19,6 +19,13 @@ type VisibilityDoc = {
 };
 declare const document: VisibilityDoc | undefined;
 
+// Minimal Window shape for browser online/offline integration without requiring 'dom' lib.
+type NetworkWindow = {
+  addEventListener: (type: string, cb: () => void) => void;
+  removeEventListener: (type: string, cb: () => void) => void;
+};
+declare const window: NetworkWindow | undefined;
+
 type RequiredReconnect = {
   enabled: boolean;
   initialDelayMs: number;
@@ -87,6 +94,64 @@ export class RealtimeClient {
   private suppressDisconnect = false;
   private visibilityIntegrationEnabled = false;
   private visibilityListenerInstalled = false;
+  private networkIntegrationEnabled = false;
+  private networkListenerInstalled = false;
+
+  private onOnline = (): void => {
+    // Reset backoff and try connecting immediately if we're not already open.
+    if (this.state.status === 'open' || this.intentionalClose) return;
+    if (this.state.status === 'connecting') return;
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+    // FSM requires going through `backing-off` before `reconnect_attempt`.
+    if (this.state.status === 'reconnecting') {
+      this.fsm.transition({ type: 'backoff_started', attempt: 0, nextDelayMs: 0 });
+    }
+    if (this.state.status === 'backing-off') {
+      this.fsm.transition({ type: 'reconnect_attempt', attempt: 0 });
+      this.openInternal(0).catch((err) => this.cfg.onError?.(err));
+    }
+  };
+
+  private onOffline = (): void => {
+    // Cancel any pending retry; we'll wait for `online` before trying again.
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+    this.heartbeat.stop();
+    if (this.state.status === 'open') {
+      // Close the transport silently and transition to reconnecting (no auto-retry).
+      this.suppressDisconnect = true;
+      try {
+        this.transport?.close(1000, 'network offline');
+      } catch {
+        /* ignore */
+      }
+      this.transport = null;
+      this.suppressDisconnect = false;
+      this.fsm.transition({ type: 'dropped', error: new Error('network offline') });
+    }
+    // If we were already reconnecting/backing-off/connecting, leave the state as is —
+    // we just cancelled the timer above so no retry will fire until `online`.
+  };
+
+  private installNetworkListeners(): void {
+    if (!this.networkIntegrationEnabled || typeof window === 'undefined') return;
+    if (this.networkListenerInstalled) return;
+    window.addEventListener('online', this.onOnline);
+    window.addEventListener('offline', this.onOffline);
+    this.networkListenerInstalled = true;
+  }
+
+  private removeNetworkListeners(): void {
+    if (!this.networkListenerInstalled || typeof window === 'undefined') return;
+    window.removeEventListener('online', this.onOnline);
+    window.removeEventListener('offline', this.onOffline);
+    this.networkListenerInstalled = false;
+  }
 
   constructor(cfg: RealtimeConfig) {
     this.cfg = cfg;
@@ -115,6 +180,7 @@ export class RealtimeClient {
     // Server runtimes (Node/Edge/Workers) are no-ops.
     const rt = detectRuntime();
     this.visibilityIntegrationEnabled = rt === 'browser' && typeof document !== 'undefined';
+    this.networkIntegrationEnabled = rt === 'browser' && typeof window !== 'undefined';
   }
 
   get state(): ConnectionState {
@@ -139,6 +205,7 @@ export class RealtimeClient {
     this.intentionalClose = false;
     this.fsm.transition({ type: 'connect_requested' });
     this.installVisibilityListener();
+    this.installNetworkListeners();
     await this.openInternal(0);
   }
 
@@ -149,6 +216,7 @@ export class RealtimeClient {
       this.reconnectTimer = null;
     }
     this.removeVisibilityListener();
+    this.removeNetworkListeners();
     this.heartbeat.stop();
     if (this.transport) {
       this.transport.close(1000, 'user disconnect');

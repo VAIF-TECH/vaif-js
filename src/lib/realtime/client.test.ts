@@ -278,4 +278,51 @@ describe('RealtimeClient', () => {
     await rt.disconnect();
     vi.unstubAllGlobals();
   });
+
+  it('triggers reconnect on window offline → online cycle (browser only)', async () => {
+    server.removeAllListeners('connection');
+    server.on('connection', (ws) => {
+      ws.on('message', (raw) => {
+        const m = JSON.parse(raw.toString());
+        if (m.type === 'subscribe') ws.send(JSON.stringify({ type: 'subscribed', channel: m.channel }));
+        if (m.type === 'ping') ws.send(JSON.stringify({ type: 'pong', ts: 0 }));
+      });
+    });
+
+    // Stub a minimal browser-like window with addEventListener
+    const listeners: Record<string, Array<() => void>> = { online: [], offline: [] };
+    vi.stubGlobal('window', {
+      addEventListener: (type: string, cb: () => void) => { (listeners[type] ?? (listeners[type] = [])).push(cb); },
+      removeEventListener: (type: string, cb: () => void) => {
+        const arr = listeners[type] ?? [];
+        const i = arr.indexOf(cb);
+        if (i !== -1) arr.splice(i, 1);
+      },
+    });
+
+    const onReconnect = vi.fn();
+    const rt = new RealtimeClient({
+      client: { baseUrl: `http://localhost:${port}`, getAuthToken: async () => 'tok' },
+      transport: 'websocket',
+      reconnect: { initialDelayMs: 10, maxDelayMs: 50, jitter: 0, backoffMultiplier: 2 } as any,
+      onReconnect,
+    });
+    (rt as any).networkIntegrationEnabled = true; // force-enable for the test env
+    await rt.connect();
+    expect(rt.state.status).toBe('open');
+
+    // Simulate offline
+    for (const cb of (listeners['offline'] ?? [])) cb();
+    // After offline, the client should transition to reconnecting
+    await new Promise((r) => setTimeout(r, 30));
+    expect(rt.state.status).not.toBe('open');
+
+    // Simulate back online
+    for (const cb of (listeners['online'] ?? [])) cb();
+    await new Promise((r) => setTimeout(r, 200));
+    expect(rt.state.status).toBe('open');
+
+    await rt.disconnect();
+    vi.unstubAllGlobals();
+  });
 });
