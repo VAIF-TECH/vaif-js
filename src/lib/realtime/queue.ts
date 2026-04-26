@@ -67,7 +67,8 @@ export class OutgoingQueue<T> {
     this.draining = true;
     try {
       while (this.buffer.length > 0) {
-        const msg = this.buffer[0];
+        // Length-checked above; buffer[0] is defined.
+        const msg = this.buffer[0]!;
         await send(msg);
         // Defensive: only remove the head if it's still the message we sent.
         // If something mutated the buffer mid-await (shouldn't happen because
