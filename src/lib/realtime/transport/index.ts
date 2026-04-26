@@ -57,3 +57,61 @@ export function createTransport(opts: TransportOptions): Transport {
       throw new Error(`Unknown transport kind: ${(opts as { kind: string }).kind}`);
   }
 }
+
+export type TransportMode = 'auto' | 'websocket' | 'sse';
+
+export type ResolvedTransport = {
+  kind: TransportKind;
+  /** When auto-selection chose a fallback, the reason the preferred transport failed. */
+  reason?: string;
+};
+
+type FailureRecord = { kind: TransportKind; reason: string; at: number };
+
+let _failureCache: FailureRecord | null = null;
+
+/**
+ * Records that a transport attempt failed in this session. Call after a
+ * `Transport.open()` rejection (or other definitive blockage signal) so
+ * subsequent `resolveTransport({ mode: 'auto' })` calls can pick the alternative.
+ *
+ * Currently stores only the most recent failure (single-slot cache).
+ */
+export function recordTransportFailure(kind: TransportKind, reason: string): void {
+  _failureCache = { kind, reason, at: Date.now() };
+}
+
+/** @internal — for tests. */
+export function _resetTransportCache(): void {
+  _failureCache = null;
+}
+
+/**
+ * Decides which transport to use based on the requested mode and any cached
+ * failures from previous attempts in this session.
+ *
+ * - `mode: 'websocket'` or `'sse'` returns that transport unconditionally
+ *   (caller has explicitly opted in).
+ * - `mode: 'auto'` prefers websocket. If websocket has previously failed in
+ *   this session, falls back to sse and includes the failure reason on the
+ *   `reason` field of the result.
+ *
+ * SSE failures are recorded for telemetry but do not influence auto selection
+ * (we have no further fallback to choose).
+ */
+export async function resolveTransport(opts: { mode: TransportMode }): Promise<ResolvedTransport> {
+  switch (opts.mode) {
+    case 'websocket':
+      return { kind: 'websocket' };
+    case 'sse':
+      return { kind: 'sse' };
+    case 'auto': {
+      if (_failureCache?.kind === 'websocket') {
+        return { kind: 'sse', reason: _failureCache.reason };
+      }
+      return { kind: 'websocket' };
+    }
+    default:
+      throw new Error(`Unknown transport mode: ${(opts as { mode: string }).mode}`);
+  }
+}
