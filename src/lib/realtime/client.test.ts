@@ -235,4 +235,47 @@ describe('RealtimeClient', () => {
     expect(pings).toBeGreaterThanOrEqual(2);
     await rt.disconnect();
   });
+
+  it('extends heartbeat interval when document.visibilityState becomes hidden (browser only)', async () => {
+    server.removeAllListeners('connection');
+    server.on('connection', (ws) => {
+      ws.on('message', (raw) => {
+        const m = JSON.parse(raw.toString());
+        if (m.type === 'ping') ws.send(JSON.stringify({ type: 'pong', ts: 0 }));
+      });
+    });
+
+    // Stub document and dispatchEvent for this test (Node test env)
+    const visibility = { state: 'visible' as 'visible' | 'hidden', listeners: new Set<() => void>() };
+    vi.stubGlobal('document', {
+      get visibilityState() { return visibility.state; },
+      addEventListener: (type: string, cb: () => void) => { if (type === 'visibilitychange') visibility.listeners.add(cb); },
+      removeEventListener: (type: string, cb: () => void) => { if (type === 'visibilitychange') visibility.listeners.delete(cb); },
+    });
+
+    const rt = new RealtimeClient({
+      client: { baseUrl: `http://localhost:${port}`, getAuthToken: async () => 'tok' },
+      transport: 'websocket',
+      heartbeat: { intervalMs: 1_000, timeoutMs: 500 } as any,
+    });
+    // Detection of "browser-like" runtime is gated on the global; force enable for this test.
+    (rt as any).visibilityIntegrationEnabled = true;
+    await rt.connect();
+
+    // Spy on heartbeat.setIntervalMs
+    const setIntervalSpy = vi.spyOn((rt as any).heartbeat, 'setIntervalMs');
+
+    // simulate visibility hidden
+    visibility.state = 'hidden';
+    for (const cb of visibility.listeners) cb();
+    expect(setIntervalSpy).toHaveBeenCalledWith(60_000);
+    expect((rt as any).heartbeatCfg.intervalMs).toBe(1_000); // base unchanged
+
+    visibility.state = 'visible';
+    for (const cb of visibility.listeners) cb();
+    expect(setIntervalSpy).toHaveBeenCalledWith(1_000);
+
+    await rt.disconnect();
+    vi.unstubAllGlobals();
+  });
 });

@@ -9,6 +9,15 @@ import { computeBackoffDelay } from './backoff';
 import { RealtimeUrlBuilder } from './url';
 import type { ClientMessage, ServerMessage } from './protocol';
 import { ConnectionError } from './errors';
+import { detectRuntime } from './runtime';
+
+// Minimal Document shape for browser visibility integration without requiring 'dom' lib.
+type VisibilityDoc = {
+  visibilityState: 'visible' | 'hidden' | 'prerender' | string;
+  addEventListener: (type: string, cb: () => void) => void;
+  removeEventListener: (type: string, cb: () => void) => void;
+};
+declare const document: VisibilityDoc | undefined;
 
 type RequiredReconnect = {
   enabled: boolean;
@@ -60,6 +69,8 @@ const DEFAULT_QUEUE: RequiredQueue = {
  *   - `disconnect()` cancels any pending reconnect, stops the heartbeat, and closes.
  */
 export class RealtimeClient {
+  static readonly HIDDEN_INTERVAL_MS = 60_000;
+
   private cfg: RealtimeConfig;
   private fsm = new ConnectionStateMachine();
   private channels = new Map<string, Channel>();
@@ -74,6 +85,8 @@ export class RealtimeClient {
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private intentionalClose = false;
   private suppressDisconnect = false;
+  private visibilityIntegrationEnabled = false;
+  private visibilityListenerInstalled = false;
 
   constructor(cfg: RealtimeConfig) {
     this.cfg = cfg;
@@ -97,6 +110,11 @@ export class RealtimeClient {
       },
       onTimeout: () => this.handleDropped(new Error('heartbeat timeout')),
     });
+
+    // Browser-only: extend heartbeat interval when tab is hidden (battery-friendly).
+    // Server runtimes (Node/Edge/Workers) are no-ops.
+    const rt = detectRuntime();
+    this.visibilityIntegrationEnabled = rt === 'browser' && typeof document !== 'undefined';
   }
 
   get state(): ConnectionState {
@@ -120,6 +138,7 @@ export class RealtimeClient {
     if (this.state.status === 'open' || this.state.status === 'connecting') return;
     this.intentionalClose = false;
     this.fsm.transition({ type: 'connect_requested' });
+    this.installVisibilityListener();
     await this.openInternal(0);
   }
 
@@ -129,6 +148,7 @@ export class RealtimeClient {
       clearTimeout(this.reconnectTimer);
       this.reconnectTimer = null;
     }
+    this.removeVisibilityListener();
     this.heartbeat.stop();
     if (this.transport) {
       this.transport.close(1000, 'user disconnect');
@@ -137,6 +157,30 @@ export class RealtimeClient {
     if (this.state.status !== 'closed') {
       this.fsm.transition({ type: 'disconnect_requested' });
     }
+  }
+
+  private onVisibilityChange = (): void => {
+    if (typeof document === 'undefined') return;
+    if (document.visibilityState === 'hidden') {
+      this.heartbeat.setIntervalMs(RealtimeClient.HIDDEN_INTERVAL_MS);
+    } else {
+      this.heartbeat.setIntervalMs(this.heartbeatCfg.intervalMs);
+      // Immediate ping to catch up if connection silently died while backgrounded.
+      void this.sendDirect({ type: 'ping', ts: Date.now() });
+    }
+  };
+
+  private installVisibilityListener(): void {
+    if (!this.visibilityIntegrationEnabled || typeof document === 'undefined') return;
+    if (this.visibilityListenerInstalled) return;
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+    this.visibilityListenerInstalled = true;
+  }
+
+  private removeVisibilityListener(): void {
+    if (!this.visibilityListenerInstalled || typeof document === 'undefined') return;
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    this.visibilityListenerInstalled = false;
   }
 
   /**
