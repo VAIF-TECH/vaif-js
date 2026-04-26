@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Deploy } from '@vaif/client/resources/ai/copilot/deploy/deploy';
+import { BaseRollback } from '@vaif/client/resources/ai/copilot/deploy/rollback';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource rollback', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseRollback],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Deploy],
+});
+
+const runTests = (client: PartialVaif<{ ai: { copilot: { deploy: { rollback: BaseRollback } } } }>) => {
   test('rollback', async () => {
     const responsePromise = client.ai.copilot.deploy.rollback.rollback('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource rollback', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource rollback', () => runTests(client));
+describe('resource rollback (tree shakable, base)', () => runTests(partialClient));
+describe('resource rollback (tree shakable, subresource)', () => runTests(parentPartialClient));

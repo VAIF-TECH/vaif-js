@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseCancel } from '@vaif/client/resources/billing/org/cancel';
+import { Org } from '@vaif/client/resources/billing/org/org';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource cancel', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCancel],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Org],
+});
+
+const runTests = (client: PartialVaif<{ billing: { org: { cancel: BaseCancel } } }>) => {
   test('cancel', async () => {
     const responsePromise = client.billing.org.cancel.cancel('orgId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource cancel', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource cancel', () => runTests(client));
+describe('resource cancel (tree shakable, base)', () => runTests(partialClient));
+describe('resource cancel (tree shakable, subresource)', () => runTests(parentPartialClient));

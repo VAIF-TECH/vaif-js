@@ -1,10 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseFunctions } from '@vaif/client/resources/functions/functions';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource functions', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseFunctions],
+});
+
+const runTests = (client: PartialVaif<{ functions: BaseFunctions }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.functions.create({ name: 'name', projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
     const rawResponse = await responsePromise.asResponse();
@@ -61,4 +70,6 @@ describe('resource functions', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource functions', () => runTests(client));
+describe('resource functions (tree shakable, base)', () => runTests(partialClient));

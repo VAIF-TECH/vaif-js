@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Database } from '@vaif/client/resources/database/database';
+import { BaseTiers } from '@vaif/client/resources/database/tiers';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource tiers', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseTiers],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Database],
+});
+
+const runTests = (client: PartialVaif<{ database: { tiers: BaseTiers } }>) => {
   test('list', async () => {
     const responsePromise = client.database.tiers.list();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource tiers', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource tiers', () => runTests(client));
+describe('resource tiers (tree shakable, base)', () => runTests(partialClient));
+describe('resource tiers (tree shakable, subresource)', () => runTests(parentPartialClient));

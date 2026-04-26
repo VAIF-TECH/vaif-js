@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Auth } from '@vaif/client/resources/auth/auth';
+import { BaseOAuth } from '@vaif/client/resources/auth/oauth/oauth';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource oauth', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseOAuth],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Auth],
+});
+
+const runTests = (client: PartialVaif<{ auth: { oauth: BaseOAuth } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.auth.oauth.retrieve('google');
     const rawResponse = await responsePromise.asResponse();
@@ -22,4 +38,7 @@ describe('resource oauth', () => {
       .rejects
       .toThrow(Vaif.NotFoundError);
   });
-});
+};
+describe('resource oauth', () => runTests(client));
+describe('resource oauth (tree shakable, base)', () => runTests(partialClient));
+describe('resource oauth (tree shakable, subresource)', () => runTests(parentPartialClient));

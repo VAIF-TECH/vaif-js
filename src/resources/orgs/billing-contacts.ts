@@ -5,7 +5,9 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class BillingContacts extends APIResource {
+export class BaseBillingContacts extends APIResource {
+  static override readonly _key: readonly ['orgs', 'billingContacts'] = Object.freeze(['orgs', 'billingContacts'] as const)
+
   /**
    * Remove a billing contact from an organization
    */
@@ -27,6 +29,9 @@ export class BillingContacts extends APIResource {
   getBillingContacts(orgID: string, options?: RequestOptions): APIPromise<BillingContactGetBillingContactsResponse> {
     return this._client.get(path`/orgs/${orgID}/billing-contacts`, options);
   }
+}
+export class BillingContacts extends BaseBillingContacts {
+
 }
 
 export interface BillingContactDeleteResponse {

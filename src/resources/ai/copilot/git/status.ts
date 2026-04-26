@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Status extends APIResource {
+export class BaseStatus extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'git', 'status'] = Object.freeze(['ai', 'copilot', 'git', 'status'] as const)
+
   retrieve(sessionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/ai/copilot/git/status/${sessionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Status extends BaseStatus {
+
 }

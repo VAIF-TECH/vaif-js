@@ -2,16 +2,19 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as StreamAPI from './stream';
-import { Stream } from './stream';
+import { BaseStream, Stream } from './stream';
 import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 
-export class Chat extends APIResource {
-  stream: StreamAPI.Stream = new StreamAPI.Stream(this._client);
+export class BaseChat extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'chat'] = Object.freeze(['ai', 'copilot', 'chat'] as const)
 
   create(body: ChatCreateParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post('/ai/copilot/chat', { body, ...options });
   }
+}
+export class Chat extends BaseChat {
+  stream: StreamAPI.Stream = new StreamAPI.Stream(this._client);
 }
 
 export type ChatCreateResponse = unknown
@@ -113,6 +116,7 @@ export namespace ChatCreateParams {
 }
 
 Chat.Stream = Stream;
+Chat.BaseStream = BaseStream;
 
 export declare namespace Chat {
   export {
@@ -121,6 +125,7 @@ export declare namespace Chat {
   };
 
   export {
-    Stream as Stream
+    Stream as Stream,
+    BaseStream as BaseStream
   };
 }

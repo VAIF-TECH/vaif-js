@@ -6,11 +6,16 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class ResizeCustom extends APIResource {
+export class BaseResizeCustom extends APIResource {
+  static override readonly _key: readonly ['projects', 'infrastructure', 'resizeCustom'] = Object.freeze(['projects', 'infrastructure', 'resizeCustom'] as const)
+
   resizeCustom(instanceID: string, params: ResizeCustomResizeCustomParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
     return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/resize-custom`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class ResizeCustom extends BaseResizeCustom {
+
 }
 
 export interface ResizeCustomResizeCustomParams {

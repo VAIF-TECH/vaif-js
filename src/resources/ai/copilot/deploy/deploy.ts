@@ -2,17 +2,16 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as HistoryAPI from './history';
-import { History, HistoryRetrieveParams, HistoryRetrieveResponse } from './history';
+import { BaseHistory, History, HistoryRetrieveParams, HistoryRetrieveResponse } from './history';
 import * as RollbackAPI from './rollback';
-import { Rollback } from './rollback';
+import { BaseRollback, Rollback } from './rollback';
 import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Deploy extends APIResource {
-  history: HistoryAPI.History = new HistoryAPI.History(this._client);
-  rollback: RollbackAPI.Rollback = new RollbackAPI.Rollback(this._client);
+export class BaseDeploy extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'deploy'] = Object.freeze(['ai', 'copilot', 'deploy'] as const)
 
   /**
    * Deploy Copilot-generated resources (SSE stream)
@@ -27,6 +26,10 @@ export class Deploy extends APIResource {
   retrieve(deployID: string, options?: RequestOptions): APIPromise<unknown> {
     return this._client.get(path`/ai/copilot/deploy/${deployID}`, options);
   }
+}
+export class Deploy extends BaseDeploy {
+  history: HistoryAPI.History = new HistoryAPI.History(this._client);
+  rollback: RollbackAPI.Rollback = new RollbackAPI.Rollback(this._client);
 }
 
 export type DeployRetrieveResponse = unknown
@@ -56,7 +59,9 @@ export namespace DeployCreateParams {
 }
 
 Deploy.History = History;
+Deploy.BaseHistory = BaseHistory;
 Deploy.Rollback = Rollback;
+Deploy.BaseRollback = BaseRollback;
 
 export declare namespace Deploy {
   export {
@@ -66,11 +71,13 @@ export declare namespace Deploy {
 
   export {
     History as History,
+    BaseHistory as BaseHistory,
     type HistoryRetrieveResponse as HistoryRetrieveResponse,
     type HistoryRetrieveParams as HistoryRetrieveParams
   };
 
   export {
-    Rollback as Rollback
+    Rollback as Rollback,
+    BaseRollback as BaseRollback
   };
 }

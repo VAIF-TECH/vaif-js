@@ -5,13 +5,18 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Unsubscribe extends APIResource {
+export class BaseUnsubscribe extends APIResource {
+  static override readonly _key: readonly ['status', 'unsubscribe'] = Object.freeze(['status', 'unsubscribe'] as const)
+
   /**
    * Unsubscribe from status updates
    */
   retrieve(token: string, options?: RequestOptions): APIPromise<UnsubscribeRetrieveResponse> {
     return this._client.get(path`/status/unsubscribe/${token}`, options);
   }
+}
+export class Unsubscribe extends BaseUnsubscribe {
+
 }
 
 export interface UnsubscribeRetrieveResponse {

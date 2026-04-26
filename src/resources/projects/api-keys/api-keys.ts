@@ -2,17 +2,16 @@
 
 import { APIResource } from '../../../core/resource';
 import * as RevokeAPI from './revoke';
-import { Revoke, RevokeRevokeParams } from './revoke';
+import { BaseRevoke, Revoke, RevokeRevokeParams } from './revoke';
 import * as RotateAPI from './rotate';
-import { Rotate, RotateRotateParams } from './rotate';
+import { BaseRotate, Rotate, RotateRotateParams } from './rotate';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class APIKeys extends APIResource {
-  revoke: RevokeAPI.Revoke = new RevokeAPI.Revoke(this._client);
-  rotate: RotateAPI.Rotate = new RotateAPI.Rotate(this._client);
+export class BaseAPIKeys extends APIResource {
+  static override readonly _key: readonly ['projects', 'apiKeys'] = Object.freeze(['projects', 'apiKeys'] as const)
 
   update(keyID: string, params: APIKeyUpdateParams, options?: RequestOptions): APIPromise<APIKeyUpdateResponse> {
     const { projectId, ...body } = params
@@ -26,6 +25,10 @@ export class APIKeys extends APIResource {
   getAPIKeys(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/projects/${projectID}/api-keys`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class APIKeys extends BaseAPIKeys {
+  revoke: RevokeAPI.Revoke = new RevokeAPI.Revoke(this._client);
+  rotate: RotateAPI.Rotate = new RotateAPI.Rotate(this._client);
 }
 
 export interface APIKeyUpdateResponse {
@@ -91,7 +94,9 @@ export interface APIKeyAPIKeysParams {
 }
 
 APIKeys.Revoke = Revoke;
+APIKeys.BaseRevoke = BaseRevoke;
 APIKeys.Rotate = Rotate;
+APIKeys.BaseRotate = BaseRotate;
 
 export declare namespace APIKeys {
   export {
@@ -103,11 +108,13 @@ export declare namespace APIKeys {
 
   export {
     Revoke as Revoke,
+    BaseRevoke as BaseRevoke,
     type RevokeRevokeParams as RevokeRevokeParams
   };
 
   export {
     Rotate as Rotate,
+    BaseRotate as BaseRotate,
     type RotateRotateParams as RotateRotateParams
   };
 }

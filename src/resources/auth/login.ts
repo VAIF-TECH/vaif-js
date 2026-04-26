@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Login extends APIResource {
+export class BaseLogin extends APIResource {
+  static override readonly _key: readonly ['auth', 'login'] = Object.freeze(['auth', 'login'] as const)
+
   /**
    * Authenticate with email and password
    */
   create(body: LoginCreateParams, options?: RequestOptions): APIPromise<LoginCreateResponse> {
     return this._client.post('/auth/login', { body, ...options });
   }
+}
+export class Login extends BaseLogin {
+
 }
 
 export interface LoginCreateResponse {

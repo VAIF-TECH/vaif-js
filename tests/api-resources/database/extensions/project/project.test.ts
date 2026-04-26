@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Extensions } from '@vaif/client/resources/database/extensions/extensions';
+import { BaseProject } from '@vaif/client/resources/database/extensions/project/project';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource project', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseProject],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Extensions],
+});
+
+const runTests = (client: PartialVaif<{ database: { extensions: { project: BaseProject } } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.database.extensions.project.retrieve('projectId');
     const rawResponse = await responsePromise.asResponse();
@@ -30,4 +46,7 @@ describe('resource project', () => {
   test('delete: required and optional params', async () => {
     const response = await client.database.extensions.project.delete('extensionId', { projectId: 'projectId' });
   });
-});
+};
+describe('resource project', () => runTests(client));
+describe('resource project (tree shakable, base)', () => runTests(partialClient));
+describe('resource project (tree shakable, subresource)', () => runTests(parentPartialClient));

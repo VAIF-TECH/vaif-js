@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Sessions extends APIResource {
+export class BaseSessions extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'sessions'] = Object.freeze(['ai', 'copilot', 'sessions'] as const)
+
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/ai/copilot/sessions/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -22,6 +24,9 @@ export class Sessions extends APIResource {
   retrieve2(sessionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/ai/copilot/session/${sessionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Sessions extends BaseSessions {
+
 }
 
 export interface SessionUpdateResponse {

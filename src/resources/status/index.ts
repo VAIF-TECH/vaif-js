@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Atom } from './atom';;
-export { Incidents } from './incidents';;
-export { Rss } from './rss';;
-export { Status } from './status';;
-export { Subscribe, type SubscribeCreateResponse, type SubscribeCreateParams } from './subscribe';;
-export { Subscribers } from './subscribers/index';;
-export { Unsubscribe, type UnsubscribeRetrieveResponse } from './unsubscribe';;
-export { Uptime, type UptimeRetrieveResponse } from './uptime';;
+export { Atom, BaseAtom } from './atom';;
+export { Incidents, BaseIncidents } from './incidents';;
+export { Rss, BaseRss } from './rss';;
+export { Status, BaseStatus } from './status';;
+export { Subscribe, BaseSubscribe, type SubscribeCreateResponse, type SubscribeCreateParams } from './subscribe';;
+export { Subscribers, BaseSubscribers } from './subscribers/index';;
+export { Unsubscribe, BaseUnsubscribe, type UnsubscribeRetrieveResponse } from './unsubscribe';;
+export { Uptime, BaseUptime, type UptimeRetrieveResponse } from './uptime';;

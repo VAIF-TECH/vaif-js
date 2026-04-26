@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Sessions extends APIResource {
+export class BaseSessions extends APIResource {
+  static override readonly _key: readonly ['projects', 'users', 'sessions'] = Object.freeze(['projects', 'users', 'sessions'] as const)
+
   delete(sessionID: string, params: SessionDeleteParams, options?: RequestOptions): APIPromise<void> {
     const { projectId, userId } = params
     return this._client.delete(path`/projects/${projectId}/users/${userId}/sessions/${sessionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -21,6 +23,9 @@ export class Sessions extends APIResource {
     const { projectId } = params
     return this._client.post(path`/projects/${projectId}/users/${userID}/sessions/revoke-all`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Sessions extends BaseSessions {
+
 }
 
 export interface SessionDeleteParams {

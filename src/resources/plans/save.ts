@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Save extends APIResource {
+export class BaseSave extends APIResource {
+  static override readonly _key: readonly ['plans', 'save'] = Object.freeze(['plans', 'save'] as const)
+
   /**
    * Save an AI-generated plan
    */
   create(body: SaveCreateParams, options?: RequestOptions): APIPromise<SaveCreateResponse> {
     return this._client.post('/plans/save', { body, ...options });
   }
+}
+export class Save extends BaseSave {
+
 }
 
 export interface SaveCreateResponse {

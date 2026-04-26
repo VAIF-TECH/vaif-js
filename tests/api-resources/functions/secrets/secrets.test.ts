@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Functions } from '@vaif/client/resources/functions/functions';
+import { BaseSecrets } from '@vaif/client/resources/functions/secrets/secrets';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource secrets', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseSecrets],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Functions],
+});
+
+const runTests = (client: PartialVaif<{ functions: { secrets: BaseSecrets } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.functions.secrets.create({
     key: 'x',
@@ -54,4 +70,7 @@ describe('resource secrets', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource secrets', () => runTests(client));
+describe('resource secrets (tree shakable, base)', () => runTests(partialClient));
+describe('resource secrets (tree shakable, subresource)', () => runTests(parentPartialClient));

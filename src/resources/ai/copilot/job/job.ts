@@ -2,20 +2,18 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as CancelAPI from './cancel';
-import { Cancel } from './cancel';
+import { BaseCancel, Cancel } from './cancel';
 import * as EventsAPI from './events';
-import { Events } from './events';
+import { BaseEvents, Events } from './events';
 import * as RetryAPI from './retry';
-import { Retry } from './retry';
+import { BaseRetry, Retry } from './retry';
 import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Job extends APIResource {
-  cancel: CancelAPI.Cancel = new CancelAPI.Cancel(this._client);
-  events: EventsAPI.Events = new EventsAPI.Events(this._client);
-  retry: RetryAPI.Retry = new RetryAPI.Retry(this._client);
+export class BaseJob extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'job'] = Object.freeze(['ai', 'copilot', 'job'] as const)
 
   create(body: JobCreateParams, options?: RequestOptions): APIPromise<JobCreateResponse> {
     return this._client.post('/ai/copilot/job', { body, ...options });
@@ -24,6 +22,11 @@ export class Job extends APIResource {
   retrieve(jobID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/ai/copilot/job/${jobID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Job extends BaseJob {
+  cancel: CancelAPI.Cancel = new CancelAPI.Cancel(this._client);
+  events: EventsAPI.Events = new EventsAPI.Events(this._client);
+  retry: RetryAPI.Retry = new RetryAPI.Retry(this._client);
 }
 
 export interface JobCreateResponse {
@@ -131,8 +134,11 @@ export namespace JobCreateParams {
 }
 
 Job.Cancel = Cancel;
+Job.BaseCancel = BaseCancel;
 Job.Events = Events;
+Job.BaseEvents = BaseEvents;
 Job.Retry = Retry;
+Job.BaseRetry = BaseRetry;
 
 export declare namespace Job {
   export {
@@ -141,14 +147,17 @@ export declare namespace Job {
   };
 
   export {
-    Cancel as Cancel
+    Cancel as Cancel,
+    BaseCancel as BaseCancel
   };
 
   export {
-    Events as Events
+    Events as Events,
+    BaseEvents as BaseEvents
   };
 
   export {
-    Retry as Retry
+    Retry as Retry,
+    BaseRetry as BaseRetry
   };
 }

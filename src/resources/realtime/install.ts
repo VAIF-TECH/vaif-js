@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Install extends APIResource {
+export class BaseInstall extends APIResource {
+  static override readonly _key: readonly ['realtime', 'install'] = Object.freeze(['realtime', 'install'] as const)
+
   create(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/realtime/install', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Install extends BaseInstall {
+
 }

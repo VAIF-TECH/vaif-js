@@ -5,7 +5,9 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class LinkedAccounts extends APIResource {
+export class BaseLinkedAccounts extends APIResource {
+  static override readonly _key: readonly ['auth', 'me', 'linkedAccounts'] = Object.freeze(['auth', 'me', 'linkedAccounts'] as const)
+
   /**
    * List OAuth accounts linked to the current user
    */
@@ -19,6 +21,9 @@ export class LinkedAccounts extends APIResource {
   delete(provider: string, options?: RequestOptions): APIPromise<LinkedAccountDeleteResponse> {
     return this._client.delete(path`/auth/me/linked-accounts/${provider}`, options);
   }
+}
+export class LinkedAccounts extends BaseLinkedAccounts {
+
 }
 
 export interface LinkedAccountListResponse {

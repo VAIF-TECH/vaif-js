@@ -2,24 +2,32 @@
 
 import { APIResource } from '../../core/resource';
 import * as OrgAPI from './org';
-import { Org } from './org';
+import { BaseOrg, Org } from './org';
 import * as ProjectAPI from './project';
-import { Project } from './project';
+import { BaseProject, Project } from './project';
 
-export class Audit extends APIResource {
+export class BaseAudit extends APIResource {
+  static override readonly _key: readonly ['audit'] = Object.freeze(['audit'] as const)
+
+}
+export class Audit extends BaseAudit {
   org: OrgAPI.Org = new OrgAPI.Org(this._client);
   project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
 }
 
 Audit.Org = Org;
+Audit.BaseOrg = BaseOrg;
 Audit.Project = Project;
+Audit.BaseProject = BaseProject;
 
 export declare namespace Audit {
   export {
-    Org as Org
+    Org as Org,
+    BaseOrg as BaseOrg
   };
 
   export {
-    Project as Project
+    Project as Project,
+    BaseProject as BaseProject
   };
 }

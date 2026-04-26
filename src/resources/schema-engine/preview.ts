@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Preview extends APIResource {
+export class BasePreview extends APIResource {
+  static override readonly _key: readonly ['schemaEngine', 'preview'] = Object.freeze(['schemaEngine', 'preview'] as const)
+
   /**
    * Preview schema migration changes
    */
   create(body: PreviewCreateParams, options?: RequestOptions): APIPromise<PreviewCreateResponse> {
     return this._client.post('/schema-engine/preview', { body, ...options });
   }
+}
+export class Preview extends BasePreview {
+
 }
 
 export interface PreviewCreateResponse {

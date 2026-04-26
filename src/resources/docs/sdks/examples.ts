@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Examples extends APIResource {
+export class BaseExamples extends APIResource {
+  static override readonly _key: readonly ['docs', 'sdks', 'examples'] = Object.freeze(['docs', 'sdks', 'examples'] as const)
+
   getExamples(sdkID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/docs/sdks/${sdkID}/examples`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Examples extends BaseExamples {
+
 }

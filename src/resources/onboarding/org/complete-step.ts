@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class CompleteStep extends APIResource {
+export class BaseCompleteStep extends APIResource {
+  static override readonly _key: readonly ['onboarding', 'org', 'completeStep'] = Object.freeze(['onboarding', 'org', 'completeStep'] as const)
+
   completeStep(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/onboarding/org/${orgID}/complete-step`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class CompleteStep extends BaseCompleteStep {
+
 }

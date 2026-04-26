@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Infrastructure } from '@vaif/client/resources/projects/infrastructure/infrastructure';
+import { BaseResize } from '@vaif/client/resources/projects/infrastructure/resize';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource resize', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseResize],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Infrastructure],
+});
+
+const runTests = (client: PartialVaif<{ projects: { infrastructure: { resize: BaseResize } } }>) => {
   test('resize: only required params', async () => {
     const responsePromise = client.projects.infrastructure.resize.resize('instanceId', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -19,4 +35,7 @@ describe('resource resize', () => {
   test('resize: required and optional params', async () => {
     const response = await client.projects.infrastructure.resize.resize('instanceId', { projectId: 'projectId' });
   });
-});
+};
+describe('resource resize', () => runTests(client));
+describe('resource resize (tree shakable, base)', () => runTests(partialClient));
+describe('resource resize (tree shakable, subresource)', () => runTests(parentPartialClient));

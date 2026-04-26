@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Usage extends APIResource {
+export class BaseUsage extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'usage'] = Object.freeze(['billing', 'org', 'usage'] as const)
+
   getHistory(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/billing/org/${orgID}/usage/history`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -18,4 +20,7 @@ export class Usage extends APIResource {
   getUsage(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/billing/org/${orgID}/usage`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Usage extends BaseUsage {
+
 }

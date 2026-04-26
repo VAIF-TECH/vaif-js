@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Policies } from '@vaif/client/resources/rls/policies/policies';
+import { BaseToggle } from '@vaif/client/resources/rls/policies/toggle';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource toggle', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseToggle],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Policies],
+});
+
+const runTests = (client: PartialVaif<{ rls: { policies: { toggle: BaseToggle } } }>) => {
   test('toggle', async () => {
     const responsePromise = client.rls.policies.toggle.toggle('policyId');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource toggle', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource toggle', () => runTests(client));
+describe('resource toggle (tree shakable, base)', () => runTests(partialClient));
+describe('resource toggle (tree shakable, subresource)', () => runTests(parentPartialClient));

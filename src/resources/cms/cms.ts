@@ -2,19 +2,23 @@
 
 import { APIResource } from '../../core/resource';
 import * as CareersAPI from './careers';
-import { Careers } from './careers';
+import { BaseCareers, Careers } from './careers';
 import * as FaqsAPI from './faqs';
-import { Faqs } from './faqs';
+import { BaseFaqs, Faqs } from './faqs';
 import * as PagesAPI from './pages';
-import { Pages } from './pages';
+import { BasePages, Pages } from './pages';
 import * as PartnersAPI from './partners';
-import { Partners } from './partners';
+import { BasePartners, Partners } from './partners';
 import * as TeamAPI from './team';
-import { Team } from './team';
+import { BaseTeam, Team } from './team';
 import * as TestimonialsAPI from './testimonials';
-import { Testimonials } from './testimonials';
+import { BaseTestimonials, Testimonials } from './testimonials';
 
-export class Cms extends APIResource {
+export class BaseCms extends APIResource {
+  static override readonly _key: readonly ['cms'] = Object.freeze(['cms'] as const)
+
+}
+export class Cms extends BaseCms {
   careers: CareersAPI.Careers = new CareersAPI.Careers(this._client);
   faqs: FaqsAPI.Faqs = new FaqsAPI.Faqs(this._client);
   pages: PagesAPI.Pages = new PagesAPI.Pages(this._client);
@@ -24,34 +28,46 @@ export class Cms extends APIResource {
 }
 
 Cms.Careers = Careers;
+Cms.BaseCareers = BaseCareers;
 Cms.Faqs = Faqs;
+Cms.BaseFaqs = BaseFaqs;
 Cms.Pages = Pages;
+Cms.BasePages = BasePages;
 Cms.Partners = Partners;
+Cms.BasePartners = BasePartners;
 Cms.Team = Team;
+Cms.BaseTeam = BaseTeam;
 Cms.Testimonials = Testimonials;
+Cms.BaseTestimonials = BaseTestimonials;
 
 export declare namespace Cms {
   export {
-    Careers as Careers
+    Careers as Careers,
+    BaseCareers as BaseCareers
   };
 
   export {
-    Faqs as Faqs
+    Faqs as Faqs,
+    BaseFaqs as BaseFaqs
   };
 
   export {
-    Pages as Pages
+    Pages as Pages,
+    BasePages as BasePages
   };
 
   export {
-    Partners as Partners
+    Partners as Partners,
+    BasePartners as BasePartners
   };
 
   export {
-    Team as Team
+    Team as Team,
+    BaseTeam as BaseTeam
   };
 
   export {
-    Testimonials as Testimonials
+    Testimonials as Testimonials,
+    BaseTestimonials as BaseTestimonials
   };
 }

@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Cancel extends APIResource {
+export class BaseCancel extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'generation', 'cancel'] = Object.freeze(['ai', 'copilot', 'generation', 'cancel'] as const)
+
   cancel(manifestID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/ai/copilot/generation/${manifestID}/cancel`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Cancel extends BaseCancel {
+
 }

@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Onboarding extends APIResource {
+export class BaseOnboarding extends APIResource {
+  static override readonly _key: readonly ['enterprise', 'org', 'onboarding'] = Object.freeze(['enterprise', 'org', 'onboarding'] as const)
+
   getOnboarding(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/enterprise/org/${orgID}/onboarding`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -14,6 +16,9 @@ export class Onboarding extends APIResource {
   onboarding(orgID: string, body: OnboardingOnboardingParams, options?: RequestOptions): APIPromise<OnboardingOnboardingResponse> {
     return this._client.patch(path`/enterprise/org/${orgID}/onboarding`, { body, ...options });
   }
+}
+export class Onboarding extends BaseOnboarding {
+
 }
 
 export interface OnboardingOnboardingResponse {

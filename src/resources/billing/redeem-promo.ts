@@ -4,10 +4,15 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class RedeemPromo extends APIResource {
+export class BaseRedeemPromo extends APIResource {
+  static override readonly _key: readonly ['billing', 'redeemPromo'] = Object.freeze(['billing', 'redeemPromo'] as const)
+
   create(body: RedeemPromoCreateParams, options?: RequestOptions): APIPromise<RedeemPromoCreateResponse> {
     return this._client.post('/billing/redeem-promo', { body, ...options });
   }
+}
+export class RedeemPromo extends BaseRedeemPromo {
+
 }
 
 export interface RedeemPromoCreateResponse {

@@ -2,16 +2,22 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ProjectAPI from './project';
-import { Project } from './project';
+import { BaseProject, Project } from './project';
 
-export class Status extends APIResource {
+export class BaseStatus extends APIResource {
+  static override readonly _key: readonly ['realtime', 'status'] = Object.freeze(['realtime', 'status'] as const)
+
+}
+export class Status extends BaseStatus {
   project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
 }
 
 Status.Project = Project;
+Status.BaseProject = BaseProject;
 
 export declare namespace Status {
   export {
-    Project as Project
+    Project as Project,
+    BaseProject as BaseProject
   };
 }

@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Region extends APIResource {
+export class BaseRegion extends APIResource {
+  static override readonly _key: readonly ['projects', 'region'] = Object.freeze(['projects', 'region'] as const)
+
   getRegion(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/projects/${projectID}/region`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -14,6 +16,9 @@ export class Region extends APIResource {
   region(projectID: string, body: RegionRegionParams, options?: RequestOptions): APIPromise<RegionRegionResponse> {
     return this._client.post(path`/projects/${projectID}/region`, { body, ...options });
   }
+}
+export class Region extends BaseRegion {
+
 }
 
 export interface RegionRegionResponse {

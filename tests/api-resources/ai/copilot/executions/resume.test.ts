@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Executions } from '@vaif/client/resources/ai/copilot/executions/executions';
+import { BaseResume } from '@vaif/client/resources/ai/copilot/executions/resume';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource resume', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseResume],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Executions],
+});
+
+const runTests = (client: PartialVaif<{ ai: { copilot: { executions: { resume: BaseResume } } } }>) => {
   test('resume', async () => {
     const responsePromise = client.ai.copilot.executions.resume.resume('executionId', {});
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource resume', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource resume', () => runTests(client));
+describe('resource resume (tree shakable, base)', () => runTests(partialClient));
+describe('resource resume (tree shakable, subresource)', () => runTests(parentPartialClient));

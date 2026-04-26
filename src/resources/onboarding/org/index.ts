@@ -1,5 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { AutoSetup } from './auto-setup';;
-export { CompleteStep } from './complete-step';;
-export { Org } from './org';;
+export { AutoSetup, BaseAutoSetup } from './auto-setup';;
+export { CompleteStep, BaseCompleteStep } from './complete-step';;
+export { Org, BaseOrg } from './org';;

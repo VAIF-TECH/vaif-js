@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Cms } from '@vaif/client/resources/cms/cms';
+import { BasePages } from '@vaif/client/resources/cms/pages';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource pages', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BasePages],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Cms],
+});
+
+const runTests = (client: PartialVaif<{ cms: { pages: BasePages } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.cms.pages.retrieve('slug');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource pages', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource pages', () => runTests(client));
+describe('resource pages (tree shakable, base)', () => runTests(partialClient));
+describe('resource pages (tree shakable, subresource)', () => runTests(parentPartialClient));

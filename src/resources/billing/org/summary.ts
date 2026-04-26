@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Summary extends APIResource {
+export class BaseSummary extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'summary'] = Object.freeze(['billing', 'org', 'summary'] as const)
+
   getSummary(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/billing/org/${orgID}/summary`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Summary extends BaseSummary {
+
 }

@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Deployments } from '@vaif/client/resources/deployments/deployments';
+import { BaseTrigger } from '@vaif/client/resources/deployments/trigger';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource trigger', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseTrigger],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Deployments],
+});
+
+const runTests = (client: PartialVaif<{ deployments: { trigger: BaseTrigger } }>) => {
   test('create', async () => {
     const responsePromise = client.deployments.trigger.create();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource trigger', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource trigger', () => runTests(client));
+describe('resource trigger (tree shakable, base)', () => runTests(partialClient));
+describe('resource trigger (tree shakable, subresource)', () => runTests(parentPartialClient));

@@ -2,14 +2,14 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as InstallAPI from './install';
-import { Install, InstallInstallParams, InstallInstallResponse } from './install';
+import { BaseInstall, Install, InstallInstallParams, InstallInstallResponse } from './install';
 import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Project extends APIResource {
-  install: InstallAPI.Install = new InstallAPI.Install(this._client);
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['database', 'extensions', 'project'] = Object.freeze(['database', 'extensions', 'project'] as const)
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/database/extensions/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -20,12 +20,16 @@ export class Project extends APIResource {
     return this._client.delete(path`/database/extensions/project/${projectId}/${extensionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
+export class Project extends BaseProject {
+  install: InstallAPI.Install = new InstallAPI.Install(this._client);
+}
 
 export interface ProjectDeleteParams {
   projectId: string;
 }
 
 Project.Install = Install;
+Project.BaseInstall = BaseInstall;
 
 export declare namespace Project {
   export {
@@ -34,6 +38,7 @@ export declare namespace Project {
 
   export {
     Install as Install,
+    BaseInstall as BaseInstall,
     type InstallInstallResponse as InstallInstallResponse,
     type InstallInstallParams as InstallInstallParams
   };

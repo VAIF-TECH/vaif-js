@@ -1,10 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseBuckets } from '@vaif/client/resources/buckets/buckets';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource buckets', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseBuckets],
+});
+
+const runTests = (client: PartialVaif<{ buckets: BaseBuckets }>) => {
   test('retrieve', async () => {
     const responsePromise = client.buckets.retrieve('bucketId');
     const rawResponse = await responsePromise.asResponse();
@@ -37,4 +46,6 @@ describe('resource buckets', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource buckets', () => runTests(client));
+describe('resource buckets (tree shakable, base)', () => runTests(partialClient));

@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Infrastructure } from '@vaif/client/resources/projects/infrastructure/infrastructure';
+import { BaseStop } from '@vaif/client/resources/projects/infrastructure/stop';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource stop', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseStop],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Infrastructure],
+});
+
+const runTests = (client: PartialVaif<{ projects: { infrastructure: { stop: BaseStop } } }>) => {
   test('stop: only required params', async () => {
     const responsePromise = client.projects.infrastructure.stop.stop('instanceId', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -19,4 +35,7 @@ describe('resource stop', () => {
   test('stop: required and optional params', async () => {
     const response = await client.projects.infrastructure.stop.stop('instanceId', { projectId: 'projectId' });
   });
-});
+};
+describe('resource stop', () => runTests(client));
+describe('resource stop (tree shakable, base)', () => runTests(partialClient));
+describe('resource stop (tree shakable, subresource)', () => runTests(parentPartialClient));

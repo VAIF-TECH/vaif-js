@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Infrastructure } from '@vaif/client/resources/infrastructure/infrastructure';
+import { BasePollStatus } from '@vaif/client/resources/infrastructure/poll-status';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource pollStatus', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BasePollStatus],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Infrastructure],
+});
+
+const runTests = (client: PartialVaif<{ infrastructure: { pollStatus: BasePollStatus } }>) => {
   test('create', async () => {
     const responsePromise = client.infrastructure.pollStatus.create();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource pollStatus', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource pollStatus', () => runTests(client));
+describe('resource pollStatus (tree shakable, base)', () => runTests(partialClient));
+describe('resource pollStatus (tree shakable, subresource)', () => runTests(parentPartialClient));

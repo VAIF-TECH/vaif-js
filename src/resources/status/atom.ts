@@ -5,11 +5,16 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Atom extends APIResource {
+export class BaseAtom extends APIResource {
+  static override readonly _key: readonly ['status', 'atom'] = Object.freeze(['status', 'atom'] as const)
+
   /**
    * Atom feed for incidents
    */
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/status/atom', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Atom extends BaseAtom {
+
 }

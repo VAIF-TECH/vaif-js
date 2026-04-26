@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseAuthorize } from '@vaif/client/resources/github/oauth/authorize';
+import { OAuth } from '@vaif/client/resources/github/oauth/oauth';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource authorize', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseAuthorize],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [OAuth],
+});
+
+const runTests = (client: PartialVaif<{ github: { oauth: { authorize: BaseAuthorize } } }>) => {
   test('list', async () => {
     const responsePromise = client.github.oauth.authorize.list();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource authorize', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource authorize', () => runTests(client));
+describe('resource authorize (tree shakable, base)', () => runTests(partialClient));
+describe('resource authorize (tree shakable, subresource)', () => runTests(parentPartialClient));

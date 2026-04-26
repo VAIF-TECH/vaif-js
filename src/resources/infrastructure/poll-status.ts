@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class PollStatus extends APIResource {
+export class BasePollStatus extends APIResource {
+  static override readonly _key: readonly ['infrastructure', 'pollStatus'] = Object.freeze(['infrastructure', 'pollStatus'] as const)
+
   create(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/infrastructure/poll-status', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class PollStatus extends BasePollStatus {
+
 }

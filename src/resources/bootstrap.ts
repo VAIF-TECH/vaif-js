@@ -5,8 +5,13 @@ import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
-export class Bootstrap extends APIResource {
+export class BaseBootstrap extends APIResource {
+  static override readonly _key: readonly ['bootstrap'] = Object.freeze(['bootstrap'] as const)
+
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/bootstrap/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Bootstrap extends BaseBootstrap {
+
 }

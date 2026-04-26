@@ -4,13 +4,18 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Create extends APIResource {
+export class BaseCreate extends APIResource {
+  static override readonly _key: readonly ['storage', 'multipart', 'create'] = Object.freeze(['storage', 'multipart', 'create'] as const)
+
   /**
    * Initiate a multipart upload
    */
   create(body: CreateCreateParams, options?: RequestOptions): APIPromise<CreateCreateResponse> {
     return this._client.post('/storage/multipart/create', { body, ...options });
   }
+}
+export class Create extends BaseCreate {
+
 }
 
 export interface CreateCreateResponse {

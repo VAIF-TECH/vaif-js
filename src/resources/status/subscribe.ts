@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Subscribe extends APIResource {
+export class BaseSubscribe extends APIResource {
+  static override readonly _key: readonly ['status', 'subscribe'] = Object.freeze(['status', 'subscribe'] as const)
+
   /**
    * Subscribe to status updates
    */
   create(body: SubscribeCreateParams, options?: RequestOptions): APIPromise<SubscribeCreateResponse> {
     return this._client.post('/status/subscribe', { body, ...options });
   }
+}
+export class Subscribe extends BaseSubscribe {
+
 }
 
 export interface SubscribeCreateResponse {

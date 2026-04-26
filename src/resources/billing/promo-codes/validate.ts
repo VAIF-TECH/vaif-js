@@ -4,10 +4,15 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Validate extends APIResource {
+export class BaseValidate extends APIResource {
+  static override readonly _key: readonly ['billing', 'promoCodes', 'validate'] = Object.freeze(['billing', 'promoCodes', 'validate'] as const)
+
   create(body: ValidateCreateParams, options?: RequestOptions): APIPromise<ValidateCreateResponse> {
     return this._client.post('/billing/promo-codes/validate', { body, ...options });
   }
+}
+export class Validate extends BaseValidate {
+
 }
 
 export interface ValidateCreateResponse {
