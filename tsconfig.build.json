@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "@vaif-tech/client/*": ["./dist/src/*"],
-      "@vaif-tech/client": ["./dist/src/index.ts"]
+      "@vaif/client/*": ["./dist/src/*"],
+      "@vaif/client": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

@@ -55,12 +55,12 @@ $ cd vaif-js
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link @vaif-tech/client
+$ yarn link @vaif/client
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global @vaif-tech/client
+$ pnpm link --global @vaif/client
 ```
 
 ## Running tests

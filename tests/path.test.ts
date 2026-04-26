@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from '@vaif-tech/client/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from '@vaif/client/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 
