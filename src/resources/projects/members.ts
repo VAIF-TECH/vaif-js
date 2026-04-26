@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Members extends APIResource {
+export class BaseMembers extends APIResource {
+  static override readonly _key: readonly ['projects', 'members'] = Object.freeze(['projects', 'members'] as const)
+
   delete(userID: string, params: MemberDeleteParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
     return this._client.delete(path`/projects/${projectId}/members/${userID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -19,6 +21,9 @@ export class Members extends APIResource {
   members(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/members`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Members extends BaseMembers {
+
 }
 
 export interface MemberDeleteParams {

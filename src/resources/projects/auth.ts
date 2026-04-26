@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Auth extends APIResource {
+export class BaseAuth extends APIResource {
+  static override readonly _key: readonly ['projects', 'auth'] = Object.freeze(['projects', 'auth'] as const)
+
   update(provider: string, params: AuthUpdateParams, options?: RequestOptions): APIPromise<AuthUpdateResponse> {
     const { projectId, ...body } = params
     return this._client.put(path`/projects/${projectId}/auth/oauth-apps/${provider}`, { body, ...options });
@@ -68,6 +70,9 @@ export class Auth extends APIResource {
   syncUsers(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/auth/sync-users`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Auth extends BaseAuth {
+
 }
 
 export interface AuthUpdateResponse {

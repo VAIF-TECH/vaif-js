@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Cli } from '@vaif/client/resources/auth/cli/cli';
+import { BaseLogin } from '@vaif/client/resources/auth/cli/login';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource login', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseLogin],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Cli],
+});
+
+const runTests = (client: PartialVaif<{ auth: { cli: { login: BaseLogin } } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.auth.cli.login.create({ email: 'dev@stainless.com', password: 'xxxxxxxx' });
     const rawResponse = await responsePromise.asResponse();
@@ -19,4 +35,7 @@ describe('resource login', () => {
   test('create: required and optional params', async () => {
     const response = await client.auth.cli.login.create({ email: 'dev@stainless.com', password: 'xxxxxxxx' });
   });
-});
+};
+describe('resource login', () => runTests(client));
+describe('resource login (tree shakable, base)', () => runTests(partialClient));
+describe('resource login (tree shakable, subresource)', () => runTests(parentPartialClient));

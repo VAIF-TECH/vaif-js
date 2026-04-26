@@ -2,16 +2,15 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ProjectAPI from './project';
-import { Project, ProjectRetrieveResponse } from './project';
+import { BaseProject, Project, ProjectRetrieveResponse } from './project';
 import * as TestAPI from './test';
-import { Test, TestTestResponse } from './test';
+import { BaseTest, Test, TestTestResponse } from './test';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Subscriptions extends APIResource {
-  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
-  test: TestAPI.Test = new TestAPI.Test(this._client);
+export class BaseSubscriptions extends APIResource {
+  static override readonly _key: readonly ['integrations', 'subscriptions'] = Object.freeze(['integrations', 'subscriptions'] as const)
 
   /**
    * Create an integration subscription
@@ -33,6 +32,10 @@ export class Subscriptions extends APIResource {
   delete(id: string, options?: RequestOptions): APIPromise<SubscriptionDeleteResponse> {
     return this._client.delete(path`/integrations/subscriptions/${id}`, options);
   }
+}
+export class Subscriptions extends BaseSubscriptions {
+  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
+  test: TestAPI.Test = new TestAPI.Test(this._client);
 }
 
 export interface SubscriptionCreateResponse {
@@ -138,7 +141,9 @@ export namespace SubscriptionCreateParams {
 }
 
 Subscriptions.Project = Project;
+Subscriptions.BaseProject = BaseProject;
 Subscriptions.Test = Test;
+Subscriptions.BaseTest = BaseTest;
 
 export declare namespace Subscriptions {
   export {
@@ -150,11 +155,13 @@ export declare namespace Subscriptions {
 
   export {
     Project as Project,
+    BaseProject as BaseProject,
     type ProjectRetrieveResponse as ProjectRetrieveResponse
   };
 
   export {
     Test as Test,
+    BaseTest as BaseTest,
     type TestTestResponse as TestTestResponse
   };
 }

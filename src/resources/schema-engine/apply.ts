@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Apply extends APIResource {
+export class BaseApply extends APIResource {
+  static override readonly _key: readonly ['schemaEngine', 'apply'] = Object.freeze(['schemaEngine', 'apply'] as const)
+
   /**
    * Apply schema migration
    */
   create(body: ApplyCreateParams, options?: RequestOptions): APIPromise<ApplyCreateResponse> {
     return this._client.post('/schema-engine/apply', { body, ...options });
   }
+}
+export class Apply extends BaseApply {
+
 }
 
 export interface ApplyCreateResponse {

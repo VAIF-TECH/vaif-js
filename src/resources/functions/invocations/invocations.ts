@@ -2,14 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as FunctionAPI from './function';
-import { Function } from './function';
+import { BaseFunction, Function } from './function';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Invocations extends APIResource {
-  function: FunctionAPI.Function = new FunctionAPI.Function(this._client);
+export class BaseInvocations extends APIResource {
+  static override readonly _key: readonly ['functions', 'invocations'] = Object.freeze(['functions', 'invocations'] as const)
 
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/functions/invocations', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -19,11 +19,16 @@ export class Invocations extends APIResource {
     return this._client.get(path`/functions/${functionID}/invocations`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
+export class Invocations extends BaseInvocations {
+  function: FunctionAPI.Function = new FunctionAPI.Function(this._client);
+}
 
 Invocations.Function = Function;
+Invocations.BaseFunction = BaseFunction;
 
 export declare namespace Invocations {
   export {
-    Function as Function
+    Function as Function,
+    BaseFunction as BaseFunction
   };
 }

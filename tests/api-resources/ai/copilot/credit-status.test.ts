@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Copilot } from '@vaif/client/resources/ai/copilot/copilot';
+import { BaseCreditStatus } from '@vaif/client/resources/ai/copilot/credit-status';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource creditStatus', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCreditStatus],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Copilot],
+});
+
+const runTests = (client: PartialVaif<{ ai: { copilot: { creditStatus: BaseCreditStatus } } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.ai.copilot.creditStatus.retrieve('projectId');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource creditStatus', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource creditStatus', () => runTests(client));
+describe('resource creditStatus (tree shakable, base)', () => runTests(partialClient));
+describe('resource creditStatus (tree shakable, subresource)', () => runTests(parentPartialClient));

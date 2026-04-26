@@ -2,23 +2,20 @@
 
 import { APIResource } from '../../core/resource';
 import * as AggregateAPI from './aggregate';
-import { Aggregate } from './aggregate';
+import { Aggregate, BaseAggregate } from './aggregate';
 import * as BulkAPI from './bulk';
-import { Bulk } from './bulk';
+import { BaseBulk, Bulk } from './bulk';
 import * as QueryAPI from './query';
-import { Query } from './query';
+import { BaseQuery, Query } from './query';
 import * as SearchAPI from './search';
-import { Search } from './search';
+import { BaseSearch, Search } from './search';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Generated extends APIResource {
-  aggregate: AggregateAPI.Aggregate = new AggregateAPI.Aggregate(this._client);
-  bulk: BulkAPI.Bulk = new BulkAPI.Bulk(this._client);
-  query: QueryAPI.Query = new QueryAPI.Query(this._client);
-  search: SearchAPI.Search = new SearchAPI.Search(this._client);
+export class BaseGenerated extends APIResource {
+  static override readonly _key: readonly ['generated'] = Object.freeze(['generated'] as const)
 
   create(table: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/generated/${table}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -43,6 +40,12 @@ export class Generated extends APIResource {
     return this._client.get(path`/generated/${table}/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
+export class Generated extends BaseGenerated {
+  aggregate: AggregateAPI.Aggregate = new AggregateAPI.Aggregate(this._client);
+  bulk: BulkAPI.Bulk = new BulkAPI.Bulk(this._client);
+  query: QueryAPI.Query = new QueryAPI.Query(this._client);
+  search: SearchAPI.Search = new SearchAPI.Search(this._client);
+}
 
 export interface GeneratedUpdateParams {
   table: string;
@@ -57,9 +60,13 @@ export interface GeneratedRetrieve2Params {
 }
 
 Generated.Aggregate = Aggregate;
+Generated.BaseAggregate = BaseAggregate;
 Generated.Bulk = Bulk;
+Generated.BaseBulk = BaseBulk;
 Generated.Query = Query;
+Generated.BaseQuery = BaseQuery;
 Generated.Search = Search;
+Generated.BaseSearch = BaseSearch;
 
 export declare namespace Generated {
   export {
@@ -69,18 +76,22 @@ export declare namespace Generated {
   };
 
   export {
-    Aggregate as Aggregate
+    Aggregate as Aggregate,
+    BaseAggregate as BaseAggregate
   };
 
   export {
-    Bulk as Bulk
+    Bulk as Bulk,
+    BaseBulk as BaseBulk
   };
 
   export {
-    Query as Query
+    Query as Query,
+    BaseQuery as BaseQuery
   };
 
   export {
-    Search as Search
+    Search as Search,
+    BaseSearch as BaseSearch
   };
 }

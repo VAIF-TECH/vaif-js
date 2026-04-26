@@ -5,13 +5,18 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Project extends APIResource {
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['integrations', 'subscriptions', 'project'] = Object.freeze(['integrations', 'subscriptions', 'project'] as const)
+
   /**
    * List integration subscriptions for a project
    */
   retrieve(projectID: string, options?: RequestOptions): APIPromise<ProjectRetrieveResponse> {
     return this._client.get(path`/integrations/subscriptions/project/${projectID}`, options);
   }
+}
+export class Project extends BaseProject {
+
 }
 
 export interface ProjectRetrieveResponse {

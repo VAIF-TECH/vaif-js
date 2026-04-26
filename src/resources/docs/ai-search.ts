@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class AISearch extends APIResource {
+export class BaseAISearch extends APIResource {
+  static override readonly _key: readonly ['docs', 'aiSearch'] = Object.freeze(['docs', 'aiSearch'] as const)
+
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/docs/ai-search', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class AISearch extends BaseAISearch {
+
 }

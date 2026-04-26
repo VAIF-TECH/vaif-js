@@ -2,16 +2,15 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as AuthorizeAPI from './authorize';
-import { Authorize, AuthorizeGetAuthorizeParams, AuthorizeGetAuthorizeResponse } from './authorize';
+import { Authorize, AuthorizeGetAuthorizeParams, AuthorizeGetAuthorizeResponse, BaseAuthorize } from './authorize';
 import * as RefreshAPI from './refresh';
-import { Refresh, RefreshRefreshParams, RefreshRefreshResponse } from './refresh';
+import { BaseRefresh, Refresh, RefreshRefreshParams, RefreshRefreshResponse } from './refresh';
 import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Provider extends APIResource {
-  authorize: AuthorizeAPI.Authorize = new AuthorizeAPI.Authorize(this._client);
-  refresh: RefreshAPI.Refresh = new RefreshAPI.Refresh(this._client);
+export class BaseProvider extends APIResource {
+  static override readonly _key: readonly ['oauth', 'org', 'provider'] = Object.freeze(['oauth', 'org', 'provider'] as const)
 
   /**
    * Update OAuth provider configuration
@@ -28,6 +27,10 @@ export class Provider extends APIResource {
     const { orgId } = params
     return this._client.delete(path`/oauth/org/${orgId}/provider/${provider}`, options);
   }
+}
+export class Provider extends BaseProvider {
+  authorize: AuthorizeAPI.Authorize = new AuthorizeAPI.Authorize(this._client);
+  refresh: RefreshAPI.Refresh = new RefreshAPI.Refresh(this._client);
 }
 
 export interface ProviderUpdateResponse {
@@ -86,7 +89,9 @@ export interface ProviderDeleteParams {
 }
 
 Provider.Authorize = Authorize;
+Provider.BaseAuthorize = BaseAuthorize;
 Provider.Refresh = Refresh;
+Provider.BaseRefresh = BaseRefresh;
 
 export declare namespace Provider {
   export {
@@ -98,12 +103,14 @@ export declare namespace Provider {
 
   export {
     Authorize as Authorize,
+    BaseAuthorize as BaseAuthorize,
     type AuthorizeGetAuthorizeResponse as AuthorizeGetAuthorizeResponse,
     type AuthorizeGetAuthorizeParams as AuthorizeGetAuthorizeParams
   };
 
   export {
     Refresh as Refresh,
+    BaseRefresh as BaseRefresh,
     type RefreshRefreshResponse as RefreshRefreshResponse,
     type RefreshRefreshParams as RefreshRefreshParams
   };

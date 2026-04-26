@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Credits } from '@vaif/client/resources/billing/credits/credits';
+import { BasePackages } from '@vaif/client/resources/billing/credits/packages';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource packages', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BasePackages],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Credits],
+});
+
+const runTests = (client: PartialVaif<{ billing: { credits: { packages: BasePackages } } }>) => {
   test('list', async () => {
     const responsePromise = client.billing.credits.packages.list();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource packages', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource packages', () => runTests(client));
+describe('resource packages (tree shakable, base)', () => runTests(partialClient));
+describe('resource packages (tree shakable, subresource)', () => runTests(parentPartialClient));

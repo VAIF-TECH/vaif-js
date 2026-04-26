@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Org } from '@vaif/client/resources/billing/org/org';
+import { BaseUsageAlerts } from '@vaif/client/resources/billing/org/usage-alerts';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource usageAlerts', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseUsageAlerts],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Org],
+});
+
+const runTests = (client: PartialVaif<{ billing: { org: { usageAlerts: BaseUsageAlerts } } }>) => {
   test('update: only required params', async () => {
     const responsePromise = client.billing.org.usageAlerts.update('alertId', { orgId: 'orgId' });
     const rawResponse = await responsePromise.asResponse();
@@ -91,4 +107,7 @@ describe('resource usageAlerts', () => {
     notifyEmail: true,
   });
   });
-});
+};
+describe('resource usageAlerts', () => runTests(client));
+describe('resource usageAlerts (tree shakable, base)', () => runTests(partialClient));
+describe('resource usageAlerts (tree shakable, subresource)', () => runTests(parentPartialClient));

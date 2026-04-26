@@ -5,10 +5,15 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class TrainingConsent extends APIResource {
+export class BaseTrainingConsent extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'trainingConsent'] = Object.freeze(['ai', 'copilot', 'trainingConsent'] as const)
+
   create(sessionID: string, body: TrainingConsentCreateParams, options?: RequestOptions): APIPromise<TrainingConsentCreateResponse> {
     return this._client.post(path`/ai/copilot/training-consent/${sessionID}`, { body, ...options });
   }
+}
+export class TrainingConsent extends BaseTrainingConsent {
+
 }
 
 export interface TrainingConsentCreateResponse {

@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Tiers extends APIResource {
+export class BaseTiers extends APIResource {
+  static override readonly _key: readonly ['database', 'tiers'] = Object.freeze(['database', 'tiers'] as const)
+
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/database/tiers', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Tiers extends BaseTiers {
+
 }

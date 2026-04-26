@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Terminal extends APIResource {
+export class BaseTerminal extends APIResource {
+  static override readonly _key: readonly ['projects', 'terminal'] = Object.freeze(['projects', 'terminal'] as const)
+
   exec(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/terminal/exec`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -14,4 +16,7 @@ export class Terminal extends APIResource {
   getSessions(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/projects/${projectID}/terminal/sessions`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Terminal extends BaseTerminal {
+
 }

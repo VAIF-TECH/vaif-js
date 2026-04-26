@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseContacts } from '@vaif/client/resources/billing/org/contacts';
+import { Org } from '@vaif/client/resources/billing/org/org';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource contacts', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseContacts],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Org],
+});
+
+const runTests = (client: PartialVaif<{ billing: { org: { contacts: BaseContacts } } }>) => {
   test('delete: only required params', async () => {
     const responsePromise = client.billing.org.contacts.delete('contactId', { orgId: 'orgId' });
     const rawResponse = await responsePromise.asResponse();
@@ -51,4 +67,7 @@ describe('resource contacts', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource contacts', () => runTests(client));
+describe('resource contacts (tree shakable, base)', () => runTests(partialClient));
+describe('resource contacts (tree shakable, subresource)', () => runTests(parentPartialClient));

@@ -4,10 +4,15 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Inquire extends APIResource {
+export class BaseInquire extends APIResource {
+  static override readonly _key: readonly ['enterprise', 'inquire'] = Object.freeze(['enterprise', 'inquire'] as const)
+
   create(body: InquireCreateParams, options?: RequestOptions): APIPromise<InquireCreateResponse> {
     return this._client.post('/enterprise/inquire', { body, ...options });
   }
+}
+export class Inquire extends BaseInquire {
+
 }
 
 export interface InquireCreateResponse {

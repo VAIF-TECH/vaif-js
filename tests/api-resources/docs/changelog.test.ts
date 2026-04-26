@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseChangelog } from '@vaif/client/resources/docs/changelog';
+import { Docs } from '@vaif/client/resources/docs/docs';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource changelog', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseChangelog],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Docs],
+});
+
+const runTests = (client: PartialVaif<{ docs: { changelog: BaseChangelog } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.docs.changelog.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
@@ -26,4 +42,7 @@ describe('resource changelog', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource changelog', () => runTests(client));
+describe('resource changelog (tree shakable, base)', () => runTests(partialClient));
+describe('resource changelog (tree shakable, subresource)', () => runTests(parentPartialClient));

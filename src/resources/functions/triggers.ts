@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Triggers extends APIResource {
+export class BaseTriggers extends APIResource {
+  static override readonly _key: readonly ['functions', 'triggers'] = Object.freeze(['functions', 'triggers'] as const)
+
   delete(triggerID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/functions/triggers/${triggerID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -18,6 +20,9 @@ export class Triggers extends APIResource {
   triggers(functionID: string, body: TriggerTriggersParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post(path`/functions/${functionID}/triggers`, { body, ...options });
   }
+}
+export class Triggers extends BaseTriggers {
+
 }
 
 export type TriggerTriggersResponse = unknown

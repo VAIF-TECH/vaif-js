@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Events extends APIResource {
+export class BaseEvents extends APIResource {
+  static override readonly _key: readonly ['integrations', 'analytics', 'project', 'events'] = Object.freeze(['integrations', 'analytics', 'project', 'events'] as const)
+
   getEvents(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/integrations/analytics/project/${projectID}/events`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Events extends BaseEvents {
+
 }

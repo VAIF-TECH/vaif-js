@@ -6,13 +6,18 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Callback extends APIResource {
+export class BaseCallback extends APIResource {
+  static override readonly _key: readonly ['auth', 'oauth', 'callback'] = Object.freeze(['auth', 'oauth', 'callback'] as const)
+
   /**
    * Handle OAuth redirect from provider — redirects to the app with a token or error
    */
   getCallback(provider: 'google' | 'github' | 'microsoft' | 'apple', query: CallbackGetCallbackParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/auth/oauth/${provider}/callback`, { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Callback extends BaseCallback {
+
 }
 
 export interface CallbackGetCallbackParams {

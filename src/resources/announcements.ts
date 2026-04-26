@@ -5,14 +5,16 @@ import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
-export class Announcements extends APIResource {
+export class BaseAnnouncements extends APIResource {
+  static override readonly _key: readonly ['announcements'] = Object.freeze(['announcements'] as const)
+
   /**
    * Get active platform announcements
    */
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/announcements', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get('/announcements', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Announcements extends BaseAnnouncements {
+
 }

@@ -2,20 +2,18 @@
 
 import { APIResource } from '../../../core/resource';
 import * as BanAPI from './ban';
-import { Ban, BanBanParams, BanBanResponse } from './ban';
+import { Ban, BanBanParams, BanBanResponse, BaseBan } from './ban';
 import * as SessionsAPI from './sessions';
-import { SessionDeleteParams, SessionGetSessionsParams, SessionRevokeAllParams, Sessions } from './sessions';
+import { BaseSessions, SessionDeleteParams, SessionGetSessionsParams, SessionRevokeAllParams, Sessions } from './sessions';
 import * as UnbanAPI from './unban';
-import { Unban, UnbanUnbanParams } from './unban';
+import { BaseUnban, Unban, UnbanUnbanParams } from './unban';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Users extends APIResource {
-  ban: BanAPI.Ban = new BanAPI.Ban(this._client);
-  sessions: SessionsAPI.Sessions = new SessionsAPI.Sessions(this._client);
-  unban: UnbanAPI.Unban = new UnbanAPI.Unban(this._client);
+export class BaseUsers extends APIResource {
+  static override readonly _key: readonly ['projects', 'users'] = Object.freeze(['projects', 'users'] as const)
 
   retrieve(userID: string, params: UserRetrieveParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
@@ -39,6 +37,11 @@ export class Users extends APIResource {
   users(projectID: string, body: UserUsersParams, options?: RequestOptions): APIPromise<UserUsersResponse> {
     return this._client.post(path`/projects/${projectID}/users`, { body, ...options });
   }
+}
+export class Users extends BaseUsers {
+  ban: BanAPI.Ban = new BanAPI.Ban(this._client);
+  sessions: SessionsAPI.Sessions = new SessionsAPI.Sessions(this._client);
+  unban: UnbanAPI.Unban = new UnbanAPI.Unban(this._client);
 }
 
 export interface UserUpdateResponse {
@@ -151,8 +154,11 @@ export interface UserUsersParams {
 }
 
 Users.Ban = Ban;
+Users.BaseBan = BaseBan;
 Users.Sessions = Sessions;
+Users.BaseSessions = BaseSessions;
 Users.Unban = Unban;
+Users.BaseUnban = BaseUnban;
 
 export declare namespace Users {
   export {
@@ -166,12 +172,14 @@ export declare namespace Users {
 
   export {
     Ban as Ban,
+    BaseBan as BaseBan,
     type BanBanResponse as BanBanResponse,
     type BanBanParams as BanBanParams
   };
 
   export {
     Sessions as Sessions,
+    BaseSessions as BaseSessions,
     type SessionDeleteParams as SessionDeleteParams,
     type SessionGetSessionsParams as SessionGetSessionsParams,
     type SessionRevokeAllParams as SessionRevokeAllParams
@@ -179,6 +187,7 @@ export declare namespace Users {
 
   export {
     Unban as Unban,
+    BaseUnban as BaseUnban,
     type UnbanUnbanParams as UnbanUnbanParams
   };
 }

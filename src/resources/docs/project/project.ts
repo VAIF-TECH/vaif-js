@@ -2,16 +2,22 @@
 
 import { APIResource } from '../../../core/resource';
 import * as QuickstartAPI from './quickstart';
-import { Quickstart } from './quickstart';
+import { BaseQuickstart, Quickstart } from './quickstart';
 
-export class Project extends APIResource {
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['docs', 'project'] = Object.freeze(['docs', 'project'] as const)
+
+}
+export class Project extends BaseProject {
   quickstart: QuickstartAPI.Quickstart = new QuickstartAPI.Quickstart(this._client);
 }
 
 Project.Quickstart = Quickstart;
+Project.BaseQuickstart = BaseQuickstart;
 
 export declare namespace Project {
   export {
-    Quickstart as Quickstart
+    Quickstart as Quickstart,
+    BaseQuickstart as BaseQuickstart
   };
 }

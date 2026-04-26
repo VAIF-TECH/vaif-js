@@ -5,10 +5,15 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Source extends APIResource {
+export class BaseSource extends APIResource {
+  static override readonly _key: readonly ['functions', 'source'] = Object.freeze(['functions', 'source'] as const)
+
   source(functionID: string, body: SourceSourceParams, options?: RequestOptions): APIPromise<SourceSourceResponse> {
     return this._client.put(path`/functions/${functionID}/source`, { body, ...options });
   }
+}
+export class Source extends BaseSource {
+
 }
 
 export interface SourceSourceResponse {

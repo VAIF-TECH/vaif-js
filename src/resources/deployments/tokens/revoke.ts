@@ -5,13 +5,18 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Revoke extends APIResource {
+export class BaseRevoke extends APIResource {
+  static override readonly _key: readonly ['deployments', 'tokens', 'revoke'] = Object.freeze(['deployments', 'tokens', 'revoke'] as const)
+
   /**
    * Revoke a deployment token
    */
   revoke(tokenID: string, options?: RequestOptions): APIPromise<RevokeRevokeResponse> {
     return this._client.post(path`/deployments/tokens/${tokenID}/revoke`, options);
   }
+}
+export class Revoke extends BaseRevoke {
+
 }
 
 export interface RevokeRevokeResponse {

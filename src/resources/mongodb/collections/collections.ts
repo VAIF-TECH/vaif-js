@@ -2,14 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as RenameAPI from './rename';
-import { Rename } from './rename';
+import { BaseRename, Rename } from './rename';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Collections extends APIResource {
-  rename: RenameAPI.Rename = new RenameAPI.Rename(this._client);
+export class BaseCollections extends APIResource {
+  static override readonly _key: readonly ['mongoDB', 'collections'] = Object.freeze(['mongoDB', 'collections'] as const)
 
   create(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/mongodb/collections', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -23,11 +23,16 @@ export class Collections extends APIResource {
     return this._client.delete(path`/mongodb/collections/${name}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
+export class Collections extends BaseCollections {
+  rename: RenameAPI.Rename = new RenameAPI.Rename(this._client);
+}
 
 Collections.Rename = Rename;
+Collections.BaseRename = BaseRename;
 
 export declare namespace Collections {
   export {
-    Rename as Rename
+    Rename as Rename,
+    BaseRename as BaseRename
   };
 }

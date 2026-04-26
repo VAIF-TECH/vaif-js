@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Addons extends APIResource {
+export class BaseAddons extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'addons'] = Object.freeze(['billing', 'org', 'addons'] as const)
+
   update(addonID: string, params: AddonUpdateParams, options?: RequestOptions): APIPromise<void> {
     const { orgId } = params
     return this._client.patch(path`/billing/org/${orgId}/addons/${addonID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
@@ -24,6 +26,9 @@ export class Addons extends APIResource {
   getAddons(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/billing/org/${orgID}/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Addons extends BaseAddons {
+
 }
 
 export interface AddonUpdateParams {

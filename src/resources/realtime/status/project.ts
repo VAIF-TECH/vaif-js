@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Project extends APIResource {
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['realtime', 'status', 'project'] = Object.freeze(['realtime', 'status', 'project'] as const)
+
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/realtime/status/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Project extends BaseProject {
+
 }

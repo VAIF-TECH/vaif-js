@@ -1,13 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Branches } from './branches';;
-export { Clone } from './clone';;
-export { Commit } from './commit';;
-export { Files } from './files';;
-export { Git } from './git';;
-export { Init } from './init';;
-export { Log } from './log';;
-export { Pull } from './pull';;
-export { Push } from './push';;
-export { Status } from './status';;
-export { Write } from './write';;
+export { Branches, BaseBranches } from './branches';;
+export { Clone, BaseClone } from './clone';;
+export { Commit, BaseCommit } from './commit';;
+export { Files, BaseFiles } from './files';;
+export { Git, BaseGit } from './git';;
+export { Init, BaseInit } from './init';;
+export { Log, BaseLog } from './log';;
+export { Pull, BasePull } from './pull';;
+export { Push, BasePush } from './push';;
+export { Status, BaseStatus } from './status';;
+export { Write, BaseWrite } from './write';;

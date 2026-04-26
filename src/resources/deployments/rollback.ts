@@ -6,8 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Rollback extends APIResource {
+export class BaseRollback extends APIResource {
+  static override readonly _key: readonly ['deployments', 'rollback'] = Object.freeze(['deployments', 'rollback'] as const)
+
   rollback(deploymentID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/deployments/${deploymentID}/rollback`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Rollback extends BaseRollback {
+
 }

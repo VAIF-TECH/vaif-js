@@ -2,17 +2,23 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as ChatAPI from './chat';
-import { Chat, ChatCreateParams } from './chat';
+import { BaseChat, Chat, ChatCreateParams } from './chat';
 
-export class Editor extends APIResource {
+export class BaseEditor extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'editor'] = Object.freeze(['ai', 'copilot', 'editor'] as const)
+
+}
+export class Editor extends BaseEditor {
   chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
 }
 
 Editor.Chat = Chat;
+Editor.BaseChat = BaseChat;
 
 export declare namespace Editor {
   export {
     Chat as Chat,
+    BaseChat as BaseChat,
     type ChatCreateParams as ChatCreateParams
   };
 }

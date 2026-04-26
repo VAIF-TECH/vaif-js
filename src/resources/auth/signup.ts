@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Signup extends APIResource {
+export class BaseSignup extends APIResource {
+  static override readonly _key: readonly ['auth', 'signup'] = Object.freeze(['auth', 'signup'] as const)
+
   /**
    * Register a new user account
    */
   create(body: SignupCreateParams, options?: RequestOptions): APIPromise<SignupCreateResponse> {
     return this._client.post('/auth/signup', { body, ...options });
   }
+}
+export class Signup extends BaseSignup {
+
 }
 
 export interface SignupCreateResponse {

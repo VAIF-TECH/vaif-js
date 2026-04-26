@@ -5,10 +5,15 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class ChangePlan extends APIResource {
+export class BaseChangePlan extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'changePlan'] = Object.freeze(['billing', 'org', 'changePlan'] as const)
+
   changePlan(orgID: string, body: ChangePlanChangePlanParams, options?: RequestOptions): APIPromise<ChangePlanChangePlanResponse> {
     return this._client.post(path`/billing/org/${orgID}/change-plan`, { body, ...options });
   }
+}
+export class ChangePlan extends BaseChangePlan {
+
 }
 
 export interface ChangePlanChangePlanResponse {

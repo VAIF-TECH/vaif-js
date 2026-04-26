@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseApply } from '@vaif/client/resources/schema-engine/apply';
+import { SchemaEngine } from '@vaif/client/resources/schema-engine/schema-engine';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource apply', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseApply],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [SchemaEngine],
+});
+
+const runTests = (client: PartialVaif<{ schemaEngine: { apply: BaseApply } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.schemaEngine.apply.create({
     definition: { schemaVersion: '1.0', tables: [{ columns: [{ name: 'x', type: 'uuid' }], name: 'x' }] },
@@ -51,4 +67,7 @@ describe('resource apply', () => {
     migrationName: 'x',
   });
   });
-});
+};
+describe('resource apply', () => runTests(client));
+describe('resource apply (tree shakable, base)', () => runTests(partialClient));
+describe('resource apply (tree shakable, subresource)', () => runTests(parentPartialClient));

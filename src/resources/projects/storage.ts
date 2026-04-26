@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Storage extends APIResource {
+export class BaseStorage extends APIResource {
+  static override readonly _key: readonly ['projects', 'storage'] = Object.freeze(['projects', 'storage'] as const)
+
   getSettings(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/projects/${projectID}/storage/settings`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -14,6 +16,9 @@ export class Storage extends APIResource {
   settings(projectID: string, body: StorageSettingsParams, options?: RequestOptions): APIPromise<StorageSettingsResponse> {
     return this._client.patch(path`/projects/${projectID}/storage/settings`, { body, ...options });
   }
+}
+export class Storage extends BaseStorage {
+
 }
 
 export interface StorageSettingsResponse {

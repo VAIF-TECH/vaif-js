@@ -5,7 +5,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Authorize extends APIResource {
+export class BaseAuthorize extends APIResource {
+  static override readonly _key: readonly ['oauth', 'org', 'provider', 'authorize'] = Object.freeze(['oauth', 'org', 'provider', 'authorize'] as const)
+
   /**
    * Generate OAuth authorization URL
    */
@@ -13,6 +15,9 @@ export class Authorize extends APIResource {
     const { orgId } = params
     return this._client.get(path`/oauth/org/${orgId}/provider/${provider}/authorize`, options);
   }
+}
+export class Authorize extends BaseAuthorize {
+
 }
 
 export interface AuthorizeGetAuthorizeResponse {

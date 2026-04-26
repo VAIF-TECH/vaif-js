@@ -1,4 +1,4 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Analytics } from './analytics';;
-export { Project } from './project/index';;
+export { Analytics, BaseAnalytics } from './analytics';;
+export { Project, BaseProject } from './project/index';;

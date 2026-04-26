@@ -4,13 +4,18 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Providers extends APIResource {
+export class BaseProviders extends APIResource {
+  static override readonly _key: readonly ['auth', 'oauth', 'providers'] = Object.freeze(['auth', 'oauth', 'providers'] as const)
+
   /**
    * List enabled OAuth providers available for login or account linking
    */
   list(options?: RequestOptions): APIPromise<ProviderListResponse> {
     return this._client.get('/auth/oauth/providers', options);
   }
+}
+export class Providers extends BaseProviders {
+
 }
 
 export interface ProviderListResponse {

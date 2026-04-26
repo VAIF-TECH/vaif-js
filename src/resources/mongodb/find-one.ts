@@ -6,8 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class FindOne extends APIResource {
+export class BaseFindOne extends APIResource {
+  static override readonly _key: readonly ['mongoDB', 'findOne'] = Object.freeze(['mongoDB', 'findOne'] as const)
+
   findOne(collection: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/mongodb/${collection}/findOne`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class FindOne extends BaseFindOne {
+
 }

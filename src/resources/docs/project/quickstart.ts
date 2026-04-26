@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Quickstart extends APIResource {
+export class BaseQuickstart extends APIResource {
+  static override readonly _key: readonly ['docs', 'project', 'quickstart'] = Object.freeze(['docs', 'project', 'quickstart'] as const)
+
   getQuickstart(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/docs/project/${projectID}/quickstart`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Quickstart extends BaseQuickstart {
+
 }

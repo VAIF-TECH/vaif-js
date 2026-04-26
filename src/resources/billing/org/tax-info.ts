@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class TaxInfo extends APIResource {
+export class BaseTaxInfo extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'taxInfo'] = Object.freeze(['billing', 'org', 'taxInfo'] as const)
+
   getTaxInfo(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/billing/org/${orgID}/tax-info`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -14,6 +16,9 @@ export class TaxInfo extends APIResource {
   taxInfo(orgID: string, body: TaxInfoTaxInfoParams, options?: RequestOptions): APIPromise<TaxInfoTaxInfoResponse> {
     return this._client.put(path`/billing/org/${orgID}/tax-info`, { body, ...options });
   }
+}
+export class TaxInfo extends BaseTaxInfo {
+
 }
 
 export interface TaxInfoTaxInfoResponse {

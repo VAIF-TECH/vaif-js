@@ -2,13 +2,13 @@
 
 import { APIResource } from '../../../core/resource';
 import * as JsonAPI from './json';
-import { Json, JsonGetJsonResponse } from './json';
+import { BaseJson, Json, JsonGetJsonResponse } from './json';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Project extends APIResource {
-  json: JsonAPI.Json = new JsonAPI.Json(this._client);
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['quickstart', 'project'] = Object.freeze(['quickstart', 'project'] as const)
 
   /**
    * Get quickstart guide for a project
@@ -16,6 +16,9 @@ export class Project extends APIResource {
   retrieve(projectID: string, query: ProjectRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<string> {
     return this._client.get(path`/quickstart/project/${projectID}`, { query, ...options });
   }
+}
+export class Project extends BaseProject {
+  json: JsonAPI.Json = new JsonAPI.Json(this._client);
 }
 
 export type ProjectRetrieveResponse = string
@@ -27,6 +30,7 @@ export interface ProjectRetrieveParams {
 }
 
 Project.Json = Json;
+Project.BaseJson = BaseJson;
 
 export declare namespace Project {
   export {
@@ -36,6 +40,7 @@ export declare namespace Project {
 
   export {
     Json as Json,
+    BaseJson as BaseJson,
     type JsonGetJsonResponse as JsonGetJsonResponse
   };
 }

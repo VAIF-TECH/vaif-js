@@ -2,27 +2,31 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as BranchesAPI from './branches';
-import { Branches } from './branches';
+import { BaseBranches, Branches } from './branches';
 import * as CloneAPI from './clone';
-import { Clone } from './clone';
+import { BaseClone, Clone } from './clone';
 import * as CommitAPI from './commit';
-import { Commit } from './commit';
+import { BaseCommit, Commit } from './commit';
 import * as FilesAPI from './files';
-import { Files } from './files';
+import { BaseFiles, Files } from './files';
 import * as InitAPI from './init';
-import { Init } from './init';
+import { BaseInit, Init } from './init';
 import * as LogAPI from './log';
-import { Log } from './log';
+import { BaseLog, Log } from './log';
 import * as PullAPI from './pull';
-import { Pull } from './pull';
+import { BasePull, Pull } from './pull';
 import * as PushAPI from './push';
-import { Push } from './push';
+import { BasePush, Push } from './push';
 import * as StatusAPI from './status';
-import { Status } from './status';
+import { BaseStatus, Status } from './status';
 import * as WriteAPI from './write';
-import { Write } from './write';
+import { BaseWrite, Write } from './write';
 
-export class Git extends APIResource {
+export class BaseGit extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'git'] = Object.freeze(['ai', 'copilot', 'git'] as const)
+
+}
+export class Git extends BaseGit {
   branches: BranchesAPI.Branches = new BranchesAPI.Branches(this._client);
   clone: CloneAPI.Clone = new CloneAPI.Clone(this._client);
   commit: CommitAPI.Commit = new CommitAPI.Commit(this._client);
@@ -36,54 +40,74 @@ export class Git extends APIResource {
 }
 
 Git.Branches = Branches;
+Git.BaseBranches = BaseBranches;
 Git.Clone = Clone;
+Git.BaseClone = BaseClone;
 Git.Commit = Commit;
+Git.BaseCommit = BaseCommit;
 Git.Files = Files;
+Git.BaseFiles = BaseFiles;
 Git.Init = Init;
+Git.BaseInit = BaseInit;
 Git.Log = Log;
+Git.BaseLog = BaseLog;
 Git.Pull = Pull;
+Git.BasePull = BasePull;
 Git.Push = Push;
+Git.BasePush = BasePush;
 Git.Status = Status;
+Git.BaseStatus = BaseStatus;
 Git.Write = Write;
+Git.BaseWrite = BaseWrite;
 
 export declare namespace Git {
   export {
-    Branches as Branches
+    Branches as Branches,
+    BaseBranches as BaseBranches
   };
 
   export {
-    Clone as Clone
+    Clone as Clone,
+    BaseClone as BaseClone
   };
 
   export {
-    Commit as Commit
+    Commit as Commit,
+    BaseCommit as BaseCommit
   };
 
   export {
-    Files as Files
+    Files as Files,
+    BaseFiles as BaseFiles
   };
 
   export {
-    Init as Init
+    Init as Init,
+    BaseInit as BaseInit
   };
 
   export {
-    Log as Log
+    Log as Log,
+    BaseLog as BaseLog
   };
 
   export {
-    Pull as Pull
+    Pull as Pull,
+    BasePull as BasePull
   };
 
   export {
-    Push as Push
+    Push as Push,
+    BasePush as BasePush
   };
 
   export {
-    Status as Status
+    Status as Status,
+    BaseStatus as BaseStatus
   };
 
   export {
-    Write as Write
+    Write as Write,
+    BaseWrite as BaseWrite
   };
 }

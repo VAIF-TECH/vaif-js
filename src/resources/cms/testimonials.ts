@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Testimonials extends APIResource {
+export class BaseTestimonials extends APIResource {
+  static override readonly _key: readonly ['cms', 'testimonials'] = Object.freeze(['cms', 'testimonials'] as const)
+
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/cms/testimonials', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Testimonials extends BaseTestimonials {
+
 }

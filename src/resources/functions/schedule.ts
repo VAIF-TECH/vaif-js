@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Schedule extends APIResource {
+export class BaseSchedule extends APIResource {
+  static override readonly _key: readonly ['functions', 'schedule'] = Object.freeze(['functions', 'schedule'] as const)
+
   getSchedule(functionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/functions/${functionID}/schedule`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -18,6 +20,9 @@ export class Schedule extends APIResource {
   schedule2(functionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/functions/${functionID}/schedule`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Schedule extends BaseSchedule {
+
 }
 
 export type ScheduleScheduleResponse = unknown

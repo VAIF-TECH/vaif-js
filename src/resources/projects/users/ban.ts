@@ -5,11 +5,16 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Ban extends APIResource {
+export class BaseBan extends APIResource {
+  static override readonly _key: readonly ['projects', 'users', 'ban'] = Object.freeze(['projects', 'users', 'ban'] as const)
+
   ban(userID: string, params: BanBanParams, options?: RequestOptions): APIPromise<BanBanResponse> {
     const { projectId, ...body } = params
     return this._client.post(path`/projects/${projectId}/users/${userID}/ban`, { body, ...options });
   }
+}
+export class Ban extends BaseBan {
+
 }
 
 export interface BanBanResponse {

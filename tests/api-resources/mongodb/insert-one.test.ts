@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseInsertOne } from '@vaif/client/resources/mongodb/insert-one';
+import { MongoDB } from '@vaif/client/resources/mongodb/mongodb';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource insertOne', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseInsertOne],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [MongoDB],
+});
+
+const runTests = (client: PartialVaif<{ mongoDB: { insertOne: BaseInsertOne } }>) => {
   test('insertOne', async () => {
     const responsePromise = client.mongoDB.insertOne.insertOne('collection');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource insertOne', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource insertOne', () => runTests(client));
+describe('resource insertOne (tree shakable, base)', () => runTests(partialClient));
+describe('resource insertOne (tree shakable, subresource)', () => runTests(parentPartialClient));

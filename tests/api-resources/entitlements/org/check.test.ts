@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseCheck } from '@vaif/client/resources/entitlements/org/check';
+import { Org } from '@vaif/client/resources/entitlements/org/org';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource check', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCheck],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Org],
+});
+
+const runTests = (client: PartialVaif<{ entitlements: { org: { check: BaseCheck } } }>) => {
   test('check', async () => {
     const responsePromise = client.entitlements.org.check.check('orgId');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource check', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource check', () => runTests(client));
+describe('resource check (tree shakable, base)', () => runTests(partialClient));
+describe('resource check (tree shakable, subresource)', () => runTests(parentPartialClient));

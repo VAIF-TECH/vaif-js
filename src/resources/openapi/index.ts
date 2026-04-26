@@ -1,5 +1,5 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Full } from './full';;
-export { OpenAPI } from './openapi';;
-export { Project } from './project';;
+export { Full, BaseFull } from './full';;
+export { OpenAPI, BaseOpenAPI } from './openapi';;
+export { Project, BaseProject } from './project';;

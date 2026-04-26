@@ -6,18 +6,17 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Project extends APIResource {
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['alertRules', 'project'] = Object.freeze(['alertRules', 'project'] as const)
+
   create(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/alert-rules/project/${projectID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/alert-rules/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/alert-rules/project/${projectID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get(path`/alert-rules/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Project extends BaseProject {
+
 }

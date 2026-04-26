@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Functions } from '@vaif/client/resources/functions/functions';
+import { BaseInvocations } from '@vaif/client/resources/functions/invocations/invocations';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource invocations', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseInvocations],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Functions],
+});
+
+const runTests = (client: PartialVaif<{ functions: { invocations: BaseInvocations } }>) => {
   test('list', async () => {
     const responsePromise = client.functions.invocations.list();
     const rawResponse = await responsePromise.asResponse();
@@ -26,4 +42,7 @@ describe('resource invocations', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource invocations', () => runTests(client));
+describe('resource invocations (tree shakable, base)', () => runTests(partialClient));
+describe('resource invocations (tree shakable, subresource)', () => runTests(parentPartialClient));

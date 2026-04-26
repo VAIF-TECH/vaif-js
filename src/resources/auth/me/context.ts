@@ -4,13 +4,18 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Context extends APIResource {
+export class BaseContext extends APIResource {
+  static override readonly _key: readonly ['auth', 'me', 'context'] = Object.freeze(['auth', 'me', 'context'] as const)
+
   /**
    * Get current user profile, org memberships, and admin status in one call
    */
   list(options?: RequestOptions): APIPromise<ContextListResponse> {
     return this._client.get('/auth/me/context', options);
   }
+}
+export class Context extends BaseContext {
+
 }
 
 export interface ContextListResponse {
