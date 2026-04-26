@@ -149,6 +149,69 @@ describe('RealtimeClient', () => {
     await rt.disconnect();
   });
 
+  it('refreshAuth opens a new socket, replays subscriptions, swaps atomically', async () => {
+    let conn = 0;
+    const subscribed: string[] = [];
+    server.removeAllListeners('connection');
+    server.on('connection', (ws) => {
+      conn++;
+      ws.on('message', (raw) => {
+        const msg = JSON.parse(raw.toString());
+        if (msg.type === 'subscribe') {
+          subscribed.push(`conn${conn}:${msg.channel}`);
+          ws.send(JSON.stringify({ type: 'subscribed', channel: msg.channel }));
+        }
+      });
+    });
+
+    let token = 'tok-1';
+    const onDisconnect = vi.fn();
+    const rt = new RealtimeClient({
+      client: { baseUrl: `http://localhost:${port}`, getAuthToken: async () => token },
+      transport: 'websocket',
+      onDisconnect,
+    });
+    await rt.connect();
+    const ch = rt.channel('room:swap');
+    await ch.subscribe();
+    await new Promise((r) => setTimeout(r, 50));
+    expect(subscribed).toContain('conn1:room:swap');
+    expect(ch.isSubscribed).toBe(true);
+
+    token = 'tok-2';
+    await rt.refreshAuth();
+    await new Promise((r) => setTimeout(r, 100));
+
+    // Should have a second connection with the same channel resubscribed
+    expect(subscribed).toContain('conn2:room:swap');
+    expect(ch.isSubscribed).toBe(true);
+    // refreshAuth should NOT have triggered a user-visible disconnect
+    expect(onDisconnect).not.toHaveBeenCalled();
+    expect(rt.state.status).toBe('open');
+
+    await rt.disconnect();
+  });
+
+  it('refreshAuth rejects and keeps old socket if new socket fails to open', async () => {
+    server.removeAllListeners('connection');
+    server.on('connection', () => {});
+
+    const rt = new RealtimeClient({
+      client: { baseUrl: `http://localhost:${port}`, getAuthToken: async () => 'tok' },
+      transport: 'websocket',
+    });
+    await rt.connect();
+    expect(rt.state.status).toBe('open');
+
+    // Point at a port nothing's listening on for the refresh
+    rt['urlBuilder'] = new (await import('./url')).RealtimeUrlBuilder('http://localhost:1');
+    await expect(rt.refreshAuth()).rejects.toThrow();
+    // Old transport unchanged
+    expect(rt.state.status).toBe('open');
+
+    await rt.disconnect();
+  });
+
   it('fires heartbeat pings while open', async () => {
     server.removeAllListeners('connection');
     let pings = 0;

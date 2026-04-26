@@ -73,6 +73,7 @@ export class RealtimeClient {
   private openedAt = 0;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private intentionalClose = false;
+  private suppressDisconnect = false;
 
   constructor(cfg: RealtimeConfig) {
     this.cfg = cfg;
@@ -136,6 +137,79 @@ export class RealtimeClient {
     if (this.state.status !== 'closed') {
       this.fsm.transition({ type: 'disconnect_requested' });
     }
+  }
+
+  /**
+   * Path B auth refresh: opens a new transport with a fresh token, replays
+   * subscriptions, then atomically swaps. Old socket is closed silently.
+   *
+   * Throws if the new socket fails to open. The existing connection stays
+   * usable in that case.
+   */
+  async refreshAuth(): Promise<void> {
+    if (this.state.status !== 'open' || !this.transport) {
+      throw new Error('refreshAuth called when not open');
+    }
+
+    const token = (await this.cfg.client.getAuthToken?.()) ?? this.cfg.client.apiKey ?? '';
+    if (!token) {
+      throw new ConnectionError('No auth token or apiKey available', 'unauthorized');
+    }
+
+    const kind = this.state.transport;
+    const url = kind === 'websocket' ? this.urlBuilder.ws(token) : this.urlBuilder.sse(token);
+    const newTransport = createTransport({ kind });
+    // Defer wiring main handlers (onMessage / onClose / onError) until after the
+    // swap completes — if open() fails, a stray close event mustn't tear down
+    // the still-healthy old socket.
+    let swapped = false;
+    newTransport.onMessage((m) => {
+      if (swapped) this.handleMessage(m);
+    });
+    newTransport.onClose((info) => {
+      if (swapped) this.handleClose(info);
+    });
+    newTransport.onError((err) => {
+      if (swapped) this.cfg.onError?.(err);
+    });
+
+    try {
+      await newTransport.open(url, { authorization: `Bearer ${token}` });
+    } catch (err) {
+      // Old socket stays; just rethrow.
+      try {
+        newTransport.close(1000, 'refresh failed');
+      } catch {
+        /* ignore */
+      }
+      throw err;
+    }
+
+    // Replay subscribes through the new transport directly (don't queue — order matters).
+    const channelNames = Array.from(this.channels.values()).map((ch) => ch.name);
+    for (const name of channelNames) {
+      // Reset each channel's subscription state so dispatch handles the new ack
+      const ch = this.channels.get(name)!;
+      ch._resetSubscription();
+      try {
+        await newTransport.send({ type: 'subscribe', channel: name });
+      } catch (err) {
+        // If a single resubscribe fails, abandon swap and let caller decide.
+        newTransport.close(1000, 'refresh aborted');
+        throw err;
+      }
+    }
+
+    // Atomically swap: suppress old socket's onClose, swap transport, close old.
+    const oldTransport = this.transport;
+    this.suppressDisconnect = true;
+    this.transport = newTransport;
+    swapped = true;
+    oldTransport.close(1000, 'auth refresh');
+    // Clear the flag on next tick so legitimate disconnects later still fire.
+    setTimeout(() => {
+      this.suppressDisconnect = false;
+    }, 0);
   }
 
   /** @internal — public for Channel; routes through queue when not open. */
@@ -272,6 +346,10 @@ export class RealtimeClient {
   }
 
   private handleClose(info: { code: number; reason: string }): void {
+    if (this.suppressDisconnect) {
+      // Auth refresh swap — old socket close should not surface or trigger reconnect.
+      return;
+    }
     const durationMs = this.openedAt > 0 ? Date.now() - this.openedAt : 0;
     this.heartbeat.stop();
     this.transport = null;
