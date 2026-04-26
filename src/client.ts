@@ -17,170 +17,73 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { Activation } from './resources/activation';
+import { type Fetch } from './internal/builtin-types';
+import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
+import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { Announcements } from './resources/announcements';
-import { Audit } from './resources/audit';
 import { Bootstrap } from './resources/bootstrap';
-import { Cms } from './resources/cms';
-import { Contact, ContactSubmitParams, ContactSubmitResponse } from './resources/contact';
-import { Health } from './resources/health';
-import {
-  IncidentAcknowledgeResponse,
-  IncidentBulkAcknowledgeOrResolveParams,
-  IncidentBulkAcknowledgeOrResolveResponse,
-  IncidentListForProjectResponse,
-  IncidentResolveResponse,
-  Incidents,
-} from './resources/incidents';
-import { Infrastructure } from './resources/infrastructure';
+import { Contact, ContactCreateParams, ContactCreateResponse } from './resources/contact';
 import { Maintenance } from './resources/maintenance';
-import { OpenAPI } from './resources/openapi';
-import {
-  PlanApplyParams,
-  PlanApplyResponse,
-  PlanListForOrgResponse,
-  PlanRetrieveResponse,
-  PlanSaveParams,
-  PlanSaveResponse,
-  Plans,
-} from './resources/plans';
-import { Refunds } from './resources/refunds';
-import {
-  SchemaCreateParams,
-  SchemaCreateResponse,
-  SchemaListForProjectResponse,
-  Schemas,
-} from './resources/schemas';
-import { SDK } from './resources/sdk';
-import { Security } from './resources/security';
+import { readEnv } from './internal/utils/env';
+import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
+import { isEmptyObj } from './internal/utils/values';
+import { Activation } from './resources/activation/activation';
 import { AIUsage } from './resources/ai-usage/ai-usage';
 import { AI } from './resources/ai/ai';
 import { AlertRules } from './resources/alert-rules/alert-rules';
-import {
-  Auth,
-  AuthLoginParams,
-  AuthLoginResponse,
-  AuthLogoutResponse,
-  AuthRefreshTokenResponse,
-  AuthRequestPasswordResetParams,
-  AuthRequestPasswordResetResponse,
-  AuthResetPasswordParams,
-  AuthResetPasswordResponse,
-  AuthSignupParams,
-  AuthSignupResponse,
-} from './resources/auth/auth';
-import {
-  Billing,
-  BillingCreatePortalParams,
-  BillingCreatePortalResponse,
-  BillingRedeemPromoParams,
-  BillingRedeemPromoResponse,
-} from './resources/billing/billing';
+import { Audit } from './resources/audit/audit';
+import { Auth } from './resources/auth/auth';
+import { Billing } from './resources/billing/billing';
 import { BucketUpdateParams, BucketUpdateResponse, Buckets } from './resources/buckets/buckets';
+import { Cms } from './resources/cms/cms';
 import { Credits } from './resources/credits/credits';
 import { Database } from './resources/database/database';
 import { Deployments } from './resources/deployments/deployments';
-import { DocSubmitAIAnswerParams, Docs } from './resources/docs/docs';
-import {
-  Enterprise,
-  EnterpriseInquireParams,
-  EnterpriseInquireResponse,
-} from './resources/enterprise/enterprise';
+import { Docs } from './resources/docs/docs';
+import { Enterprise } from './resources/enterprise/enterprise';
 import { Entitlements } from './resources/entitlements/entitlements';
-import {
-  FunctionCreateParams,
-  FunctionCreateResponse,
-  FunctionUpdateParams,
-  FunctionUpdateResponse,
-  FunctionUpdateSourceParams,
-  FunctionUpdateSourceResponse,
-  Functions,
-} from './resources/functions/functions';
-import {
-  Generated,
-  GeneratedDeleteParams,
-  GeneratedRetrieveParams,
-  GeneratedUpdateParams,
-} from './resources/generated/generated';
+import { FunctionCreateParams, FunctionCreateResponse, FunctionUpdateParams, FunctionUpdateResponse, Functions } from './resources/functions/functions';
+import { Generated, GeneratedDeleteParams, GeneratedRetrieve2Params, GeneratedUpdateParams } from './resources/generated/generated';
 import { GitHub } from './resources/github/github';
+import { Incidents } from './resources/incidents/incidents';
+import { Infrastructure } from './resources/infrastructure/infrastructure';
 import { Integrations } from './resources/integrations/integrations';
 import { Jobs } from './resources/jobs/jobs';
 import { Logs } from './resources/logs/logs';
 import { Metrics } from './resources/metrics/metrics';
-import { MongoDB, MongoDBFindByIDParams } from './resources/mongodb/mongodb';
+import { MongoDB } from './resources/mongodb/mongodb';
 import { OAuth } from './resources/oauth/oauth';
 import { Onboarding } from './resources/onboarding/onboarding';
+import { OpenAPI } from './resources/openapi/openapi';
 import { Orgs } from './resources/orgs/orgs';
+import { PlanRetrieveResponse, Plans } from './resources/plans/plans';
 import { Pricing } from './resources/pricing/pricing';
-import {
-  ProjectCreateParams,
-  ProjectCreateResponse,
-  ProjectUpdateParams,
-  ProjectUpdateResponse,
-  Projects,
-} from './resources/projects/projects';
+import { ProjectCreateParams, ProjectCreateResponse, ProjectUpdateParams, ProjectUpdateResponse, Projects } from './resources/projects/projects';
 import { Quickstart } from './resources/quickstart/quickstart';
 import { Realtime } from './resources/realtime/realtime';
+import { Refunds } from './resources/refunds/refunds';
 import { Regions } from './resources/regions/regions';
 import { Rls } from './resources/rls/rls';
-import {
-  SchemaEngine,
-  SchemaEngineApplyParams,
-  SchemaEngineApplyResponse,
-  SchemaEngineExecuteQueryParams,
-  SchemaEngineExecuteQueryResponse,
-  SchemaEngineGetChangesResponse,
-  SchemaEngineIntrospectResponse,
-  SchemaEnginePreviewParams,
-  SchemaEnginePreviewResponse,
-} from './resources/schema-engine/schema-engine';
+import { SchemaEngine } from './resources/schema-engine/schema-engine';
+import { SchemaCreateParams, SchemaCreateResponse, Schemas } from './resources/schemas/schemas';
+import { SDK } from './resources/sdk/sdk';
+import { Security } from './resources/security/security';
 import { SSO } from './resources/sso/sso';
-import {
-  Status,
-  StatusGetUptimeResponse,
-  StatusSubscribeParams,
-  StatusSubscribeResponse,
-  StatusUnsubscribeResponse,
-} from './resources/status/status';
-import {
-  Storage,
-  StorageDownloadURLParams,
-  StorageDownloadURLResponse,
-  StorageUploadBase64Params,
-  StorageUploadBase64Response,
-  StorageUploadURLParams,
-  StorageUploadURLResponse,
-} from './resources/storage/storage';
+import { Status } from './resources/status/status';
+import { Storage } from './resources/storage/storage';
 import { Templates } from './resources/templates/templates';
 import { Users } from './resources/users/users';
-import { type Fetch } from './internal/builtin-types';
-import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
-import { FinalRequestOptions, RequestOptions } from './internal/request-options';
-import { readEnv } from './internal/utils/env';
-import {
-  type LogLevel,
-  type Logger,
-  formatRequestDetails,
-  loggerFor,
-  parseLogLevel,
-} from './internal/utils/log';
-import { isEmptyObj } from './internal/utils/values';
+import { V1 } from './resources/v1/v1';
 
 export interface ClientOptions {
-  /**
-   * Defaults to process.env['VAIF_STUDIO_API_KEY'].
-   */
   apiKey?: string | null | undefined;
 
-  /**
-   * Defaults to process.env['VAIF_STUDIO_BEARER_TOKEN'].
-   */
   bearerToken?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['VAIF_STUDIO_BASE_URL'].
+   * Defaults to process.env['VAIF_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -234,7 +137,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['VAIF_STUDIO_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['VAIF_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -247,9 +150,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Vaif Studio API.
+ * API Client for interfacing with the Vaif API. 
  */
-export class VaifStudio {
+export class Vaif {
   apiKey: string | null;
   bearerToken: string | null;
 
@@ -266,11 +169,11 @@ export class VaifStudio {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Vaif Studio API.
+   * API Client for interfacing with the Vaif API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['VAIF_STUDIO_API_KEY'] ?? null]
-   * @param {string | null | undefined} [opts.bearerToken=process.env['VAIF_STUDIO_BEARER_TOKEN'] ?? null]
-   * @param {string} [opts.baseURL=process.env['VAIF_STUDIO_BASE_URL'] ?? https://api.vaif.studio] - Override the default base URL for the API.
+   * @param {string | null | undefined} [opts.apiKey]
+   * @param {string | null | undefined} [opts.bearerToken]
+   * @param {string} [opts.baseURL=process.env['VAIF_BASE_URL'] ?? https://api.vaif.studio] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -279,11 +182,12 @@ export class VaifStudio {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('VAIF_STUDIO_BASE_URL'),
-    apiKey = readEnv('VAIF_STUDIO_API_KEY') ?? null,
-    bearerToken = readEnv('VAIF_STUDIO_BEARER_TOKEN') ?? null,
+    baseURL = readEnv('VAIF_BASE_URL'),
+    apiKey = null,
+    bearerToken = null,
     ...opts
   }: ClientOptions = {}) {
+
     const options: ClientOptions = {
       apiKey,
       bearerToken,
@@ -292,15 +196,12 @@ export class VaifStudio {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? VaifStudio.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? Vaif.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel =
-      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('VAIF_STUDIO_LOG'), "process.env['VAIF_STUDIO_LOG']", this) ??
-      defaultLogLevel;
+    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('VAIF_LOG'), 'process.env[\'VAIF_LOG\']', this) ?? defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
@@ -327,7 +228,7 @@ export class VaifStudio {
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       bearerToken: this.bearerToken,
-      ...options,
+      ...options
     });
     return client;
   }
@@ -339,12 +240,8 @@ export class VaifStudio {
     return this.baseURL !== 'https://api.vaif.studio';
   }
 
-  retrieve(options?: RequestOptions): APIPromise<void> {
-    return this.get('/', { ...options, headers: buildHeaders([{ Accept: '*/*' }, options?.headers]) });
-  }
-
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery;
+    return this._options.defaultQuery
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
@@ -362,9 +259,7 @@ export class VaifStudio {
       return;
     }
 
-    throw new Error(
-      'Could not resolve authentication method. Expected either apiKey or bearerToken to be set. Or for one of the "x-vaif-key" or "Authorization" headers to be explicitly omitted',
-    );
+    throw new Error('Could not resolve authentication method. Expected either apiKey or bearerToken to be set. Or for one of the "x-vaif-key" or "Authorization" headers to be explicitly omitted')
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
@@ -409,11 +304,7 @@ export class VaifStudio {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(
-    path: string,
-    query: Record<string, unknown> | null | undefined,
-    defaultBaseURL?: string | undefined,
-  ): string {
+  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -501,9 +392,7 @@ export class VaifStudio {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, {
-      retryCount: maxRetries - retriesRemaining,
-    });
+    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
 
     await this.prepareRequest(req, { url, options });
 
@@ -512,16 +401,7 @@ export class VaifStudio {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(
-      `[${requestLogID}] sending request`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        method: options.method,
-        url,
-        options,
-        headers: req.headers,
-      }),
-    );
+    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -540,45 +420,21 @@ export class VaifStudio {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout =
-        isAbortError(response) ||
-        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
+      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
       if (retriesRemaining) {
-        loggerFor(this).info(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
-        );
-        loggerFor(this).debug(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url,
-            durationMs: headersTime - startTime,
-            message: response.message,
-          }),
-        );
+        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
-      );
-      loggerFor(this).debug(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url,
-          durationMs: headersTime - startTime,
-          message: response.message,
-        }),
-      );
+      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
+      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
-      response.ok ? 'succeeded' : 'failed'
-    } with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -587,60 +443,27 @@ export class VaifStudio {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
-        loggerFor(this).debug(
-          `[${requestLogID}] response error (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url: response.url,
-            status: response.status,
-            headers: response.headers,
-            durationMs: headersTime - startTime,
-          }),
-        );
-        return this.retryRequest(
-          options,
-          retriesRemaining,
-          retryOfRequestLogID ?? requestLogID,
-          response.headers,
-        );
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(
-        `[${requestLogID}] response error (${retryMessage})`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url: response.url,
-          status: response.status,
-          headers: response.headers,
-          message: errMessage,
-          durationMs: Date.now() - startTime,
-        }),
-      );
+      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo);
-    loggerFor(this).debug(
-      `[${requestLogID}] response start`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        url: response.url,
-        status: response.status,
-        headers: response.headers,
-        durationMs: headersTime - startTime,
-      }),
-    );
+    loggerFor(this).info(responseInfo)
+    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -657,9 +480,7 @@ export class VaifStudio {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody =
-      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
-      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -674,6 +495,7 @@ export class VaifStudio {
     }
 
     try {
+
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -774,12 +596,11 @@ export class VaifStudio {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal }),
-      ...((globalThis as any).ReadableStream &&
-        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
+      ...(options.signal && { signal: options.signal}),
+      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
       ...(body && { body }),
-      ...((this.fetchOptions as any) ?? {}),
-      ...((options.fetchOptions as any) ?? {}),
+      ...(this.fetchOptions as any ?? {}),
+      ...(options.fetchOptions as any ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -804,17 +625,15 @@ export class VaifStudio {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {
-        Accept: 'application/json',
-        'User-Agent': this.getUserAgent(),
-        'X-Stainless-Retry-Count': String(retryCount),
-        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-        ...getPlatformHeaders(),
-      },
+      {Accept: 'application/json',
+      'User-Agent': this.getUserAgent(),
+      'X-Stainless-Retry-Count': String(retryCount),
+      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+      ...getPlatformHeaders()},
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers,
+      options.headers
     ]);
 
     this.validateHeaders(headers);
@@ -841,9 +660,11 @@ export class VaifStudio {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (typeof body === 'string' &&
+      (
+        typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')) ||
+        headers.values.has('content-type')
+      ) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -873,10 +694,10 @@ export class VaifStudio {
     }
   }
 
-  static VaifStudio = this;
-  static DEFAULT_TIMEOUT = 60000; // 1 minute
+  static Vaif = this;
+  static DEFAULT_TIMEOUT = 60000 // 1 minute
 
-  static VaifStudioError = Errors.VaifStudioError;
+  static VaifError = Errors.VaifError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -892,306 +713,333 @@ export class VaifStudio {
 
   static toFile = Uploads.toFile;
 
-  orgs: API.Orgs = new API.Orgs(this);
-  schemas: API.Schemas = new API.Schemas(this);
-  logs: API.Logs = new API.Logs(this);
-  generated: API.Generated = new API.Generated(this);
-  schemaEngine: API.SchemaEngine = new API.SchemaEngine(this);
-  realtime: API.Realtime = new API.Realtime(this);
-  functions: API.Functions = new API.Functions(this);
-  openAPI: API.OpenAPI = new API.OpenAPI(this);
-  sdk: API.SDK = new API.SDK(this);
-  docs: API.Docs = new API.Docs(this);
-  ai: API.AI = new API.AI(this);
-  templates: API.Templates = new API.Templates(this);
-  plans: API.Plans = new API.Plans(this);
-  auth: API.Auth = new API.Auth(this);
-  bootstrap: API.Bootstrap = new API.Bootstrap(this);
-  audit: API.Audit = new API.Audit(this);
-  regions: API.Regions = new API.Regions(this);
-  deployments: API.Deployments = new API.Deployments(this);
-  metrics: API.Metrics = new API.Metrics(this);
-  incidents: API.Incidents = new API.Incidents(this);
-  sso: API.SSO = new API.SSO(this);
-  onboarding: API.Onboarding = new API.Onboarding(this);
-  quickstart: API.Quickstart = new API.Quickstart(this);
-  entitlements: API.Entitlements = new API.Entitlements(this);
-  pricing: API.Pricing = new API.Pricing(this);
-  status: API.Status = new API.Status(this);
-  announcements: API.Announcements = new API.Announcements(this);
-  maintenance: API.Maintenance = new API.Maintenance(this);
   activation: API.Activation = new API.Activation(this);
-  billing: API.Billing = new API.Billing(this);
+  ai: API.AI = new API.AI(this);
   aiUsage: API.AIUsage = new API.AIUsage(this);
-  users: API.Users = new API.Users(this);
-  storage: API.Storage = new API.Storage(this);
+  alertRules: API.AlertRules = new API.AlertRules(this);
+  announcements: API.Announcements = new API.Announcements(this);
+  audit: API.Audit = new API.Audit(this);
+  auth: API.Auth = new API.Auth(this);
+  billing: API.Billing = new API.Billing(this);
+  bootstrap: API.Bootstrap = new API.Bootstrap(this);
   buckets: API.Buckets = new API.Buckets(this);
-  integrations: API.Integrations = new API.Integrations(this);
-  oauth: API.OAuth = new API.OAuth(this);
-  security: API.Security = new API.Security(this);
-  jobs: API.Jobs = new API.Jobs(this);
-  enterprise: API.Enterprise = new API.Enterprise(this);
-  refunds: API.Refunds = new API.Refunds(this);
-  credits: API.Credits = new API.Credits(this);
-  mongoDB: API.MongoDB = new API.MongoDB(this);
-  database: API.Database = new API.Database(this);
-  rls: API.Rls = new API.Rls(this);
-  infrastructure: API.Infrastructure = new API.Infrastructure(this);
-  github: API.GitHub = new API.GitHub(this);
   cms: API.Cms = new API.Cms(this);
   contact: API.Contact = new API.Contact(this);
-  alertRules: API.AlertRules = new API.AlertRules(this);
-  health: API.Health = new API.Health(this);
+  credits: API.Credits = new API.Credits(this);
+  database: API.Database = new API.Database(this);
+  deployments: API.Deployments = new API.Deployments(this);
+  docs: API.Docs = new API.Docs(this);
+  enterprise: API.Enterprise = new API.Enterprise(this);
+  entitlements: API.Entitlements = new API.Entitlements(this);
+  functions: API.Functions = new API.Functions(this);
+  generated: API.Generated = new API.Generated(this);
+  github: API.GitHub = new API.GitHub(this);
+  incidents: API.Incidents = new API.Incidents(this);
+  infrastructure: API.Infrastructure = new API.Infrastructure(this);
+  integrations: API.Integrations = new API.Integrations(this);
+  jobs: API.Jobs = new API.Jobs(this);
+  logs: API.Logs = new API.Logs(this);
+  maintenance: API.Maintenance = new API.Maintenance(this);
+  metrics: API.Metrics = new API.Metrics(this);
+  mongoDB: API.MongoDB = new API.MongoDB(this);
+  oauth: API.OAuth = new API.OAuth(this);
+  onboarding: API.Onboarding = new API.Onboarding(this);
+  openAPI: API.OpenAPI = new API.OpenAPI(this);
+  orgs: API.Orgs = new API.Orgs(this);
+  plans: API.Plans = new API.Plans(this);
+  pricing: API.Pricing = new API.Pricing(this);
   projects: API.Projects = new API.Projects(this);
+  quickstart: API.Quickstart = new API.Quickstart(this);
+  realtime: API.Realtime = new API.Realtime(this);
+  refunds: API.Refunds = new API.Refunds(this);
+  regions: API.Regions = new API.Regions(this);
+  rls: API.Rls = new API.Rls(this);
+  schemaEngine: API.SchemaEngine = new API.SchemaEngine(this);
+  schemas: API.Schemas = new API.Schemas(this);
+  sdk: API.SDK = new API.SDK(this);
+  security: API.Security = new API.Security(this);
+  sso: API.SSO = new API.SSO(this);
+  status: API.Status = new API.Status(this);
+  storage: API.Storage = new API.Storage(this);
+  templates: API.Templates = new API.Templates(this);
+  users: API.Users = new API.Users(this);
+  v1: API.V1 = new API.V1(this);
 }
 
-VaifStudio.Orgs = Orgs;
-VaifStudio.Schemas = Schemas;
-VaifStudio.Logs = Logs;
-VaifStudio.Generated = Generated;
-VaifStudio.SchemaEngine = SchemaEngine;
-VaifStudio.Realtime = Realtime;
-VaifStudio.Functions = Functions;
-VaifStudio.OpenAPI = OpenAPI;
-VaifStudio.SDK = SDK;
-VaifStudio.Docs = Docs;
-VaifStudio.AI = AI;
-VaifStudio.Templates = Templates;
-VaifStudio.Plans = Plans;
-VaifStudio.Auth = Auth;
-VaifStudio.Bootstrap = Bootstrap;
-VaifStudio.Audit = Audit;
-VaifStudio.Regions = Regions;
-VaifStudio.Deployments = Deployments;
-VaifStudio.Metrics = Metrics;
-VaifStudio.Incidents = Incidents;
-VaifStudio.SSO = SSO;
-VaifStudio.Onboarding = Onboarding;
-VaifStudio.Quickstart = Quickstart;
-VaifStudio.Entitlements = Entitlements;
-VaifStudio.Pricing = Pricing;
-VaifStudio.Status = Status;
-VaifStudio.Announcements = Announcements;
-VaifStudio.Maintenance = Maintenance;
-VaifStudio.Activation = Activation;
-VaifStudio.Billing = Billing;
-VaifStudio.AIUsage = AIUsage;
-VaifStudio.Users = Users;
-VaifStudio.Storage = Storage;
-VaifStudio.Buckets = Buckets;
-VaifStudio.Integrations = Integrations;
-VaifStudio.OAuth = OAuth;
-VaifStudio.Security = Security;
-VaifStudio.Jobs = Jobs;
-VaifStudio.Enterprise = Enterprise;
-VaifStudio.Refunds = Refunds;
-VaifStudio.Credits = Credits;
-VaifStudio.MongoDB = MongoDB;
-VaifStudio.Database = Database;
-VaifStudio.Rls = Rls;
-VaifStudio.Infrastructure = Infrastructure;
-VaifStudio.GitHub = GitHub;
-VaifStudio.Cms = Cms;
-VaifStudio.Contact = Contact;
-VaifStudio.AlertRules = AlertRules;
-VaifStudio.Health = Health;
-VaifStudio.Projects = Projects;
+Vaif.Activation = Activation;
+Vaif.AI = AI;
+Vaif.AIUsage = AIUsage;
+Vaif.AlertRules = AlertRules;
+Vaif.Announcements = Announcements;
+Vaif.Audit = Audit;
+Vaif.Auth = Auth;
+Vaif.Billing = Billing;
+Vaif.Bootstrap = Bootstrap;
+Vaif.Buckets = Buckets;
+Vaif.Cms = Cms;
+Vaif.Contact = Contact;
+Vaif.Credits = Credits;
+Vaif.Database = Database;
+Vaif.Deployments = Deployments;
+Vaif.Docs = Docs;
+Vaif.Enterprise = Enterprise;
+Vaif.Entitlements = Entitlements;
+Vaif.Functions = Functions;
+Vaif.Generated = Generated;
+Vaif.GitHub = GitHub;
+Vaif.Incidents = Incidents;
+Vaif.Infrastructure = Infrastructure;
+Vaif.Integrations = Integrations;
+Vaif.Jobs = Jobs;
+Vaif.Logs = Logs;
+Vaif.Maintenance = Maintenance;
+Vaif.Metrics = Metrics;
+Vaif.MongoDB = MongoDB;
+Vaif.OAuth = OAuth;
+Vaif.Onboarding = Onboarding;
+Vaif.OpenAPI = OpenAPI;
+Vaif.Orgs = Orgs;
+Vaif.Plans = Plans;
+Vaif.Pricing = Pricing;
+Vaif.Projects = Projects;
+Vaif.Quickstart = Quickstart;
+Vaif.Realtime = Realtime;
+Vaif.Refunds = Refunds;
+Vaif.Regions = Regions;
+Vaif.Rls = Rls;
+Vaif.SchemaEngine = SchemaEngine;
+Vaif.Schemas = Schemas;
+Vaif.SDK = SDK;
+Vaif.Security = Security;
+Vaif.SSO = SSO;
+Vaif.Status = Status;
+Vaif.Storage = Storage;
+Vaif.Templates = Templates;
+Vaif.Users = Users;
+Vaif.V1 = V1;
 
-export declare namespace VaifStudio {
-  export type RequestOptions = Opts.RequestOptions;
+export declare namespace Vaif {
+      export type RequestOptions = Opts.RequestOptions;
 
-  export { Orgs as Orgs };
+      export {
+  Activation as Activation
+};
 
-  export {
-    Schemas as Schemas,
-    type SchemaCreateResponse as SchemaCreateResponse,
-    type SchemaListForProjectResponse as SchemaListForProjectResponse,
-    type SchemaCreateParams as SchemaCreateParams,
-  };
+export {
+  AI as AI
+};
 
-  export { Logs as Logs };
+export {
+  AIUsage as AIUsage
+};
 
-  export {
-    Generated as Generated,
-    type GeneratedRetrieveParams as GeneratedRetrieveParams,
-    type GeneratedUpdateParams as GeneratedUpdateParams,
-    type GeneratedDeleteParams as GeneratedDeleteParams,
-  };
+export {
+  AlertRules as AlertRules
+};
 
-  export {
-    SchemaEngine as SchemaEngine,
-    type SchemaEngineApplyResponse as SchemaEngineApplyResponse,
-    type SchemaEngineExecuteQueryResponse as SchemaEngineExecuteQueryResponse,
-    type SchemaEngineGetChangesResponse as SchemaEngineGetChangesResponse,
-    type SchemaEngineIntrospectResponse as SchemaEngineIntrospectResponse,
-    type SchemaEnginePreviewResponse as SchemaEnginePreviewResponse,
-    type SchemaEngineApplyParams as SchemaEngineApplyParams,
-    type SchemaEngineExecuteQueryParams as SchemaEngineExecuteQueryParams,
-    type SchemaEnginePreviewParams as SchemaEnginePreviewParams,
-  };
+export {
+  Announcements as Announcements
+};
 
-  export { Realtime as Realtime };
+export {
+  Audit as Audit
+};
 
-  export {
-    Functions as Functions,
-    type FunctionCreateResponse as FunctionCreateResponse,
-    type FunctionUpdateResponse as FunctionUpdateResponse,
-    type FunctionUpdateSourceResponse as FunctionUpdateSourceResponse,
-    type FunctionCreateParams as FunctionCreateParams,
-    type FunctionUpdateParams as FunctionUpdateParams,
-    type FunctionUpdateSourceParams as FunctionUpdateSourceParams,
-  };
+export {
+  Auth as Auth
+};
 
-  export { OpenAPI as OpenAPI };
+export {
+  Billing as Billing
+};
 
-  export { SDK as SDK };
+export {
+  Bootstrap as Bootstrap
+};
 
-  export { Docs as Docs, type DocSubmitAIAnswerParams as DocSubmitAIAnswerParams };
+export {
+  Buckets as Buckets,
+  type BucketUpdateResponse as BucketUpdateResponse,
+  type BucketUpdateParams as BucketUpdateParams
+};
 
-  export { AI as AI };
+export {
+  Cms as Cms
+};
 
-  export { Templates as Templates };
+export {
+  Contact as Contact,
+  type ContactCreateResponse as ContactCreateResponse,
+  type ContactCreateParams as ContactCreateParams
+};
 
-  export {
-    Plans as Plans,
-    type PlanRetrieveResponse as PlanRetrieveResponse,
-    type PlanApplyResponse as PlanApplyResponse,
-    type PlanListForOrgResponse as PlanListForOrgResponse,
-    type PlanSaveResponse as PlanSaveResponse,
-    type PlanApplyParams as PlanApplyParams,
-    type PlanSaveParams as PlanSaveParams,
-  };
+export {
+  Credits as Credits
+};
 
-  export {
-    Auth as Auth,
-    type AuthLoginResponse as AuthLoginResponse,
-    type AuthLogoutResponse as AuthLogoutResponse,
-    type AuthRefreshTokenResponse as AuthRefreshTokenResponse,
-    type AuthRequestPasswordResetResponse as AuthRequestPasswordResetResponse,
-    type AuthResetPasswordResponse as AuthResetPasswordResponse,
-    type AuthSignupResponse as AuthSignupResponse,
-    type AuthLoginParams as AuthLoginParams,
-    type AuthRequestPasswordResetParams as AuthRequestPasswordResetParams,
-    type AuthResetPasswordParams as AuthResetPasswordParams,
-    type AuthSignupParams as AuthSignupParams,
-  };
+export {
+  Database as Database
+};
 
-  export { Bootstrap as Bootstrap };
+export {
+  Deployments as Deployments
+};
 
-  export { Audit as Audit };
+export {
+  Docs as Docs
+};
 
-  export { Regions as Regions };
+export {
+  Enterprise as Enterprise
+};
 
-  export { Deployments as Deployments };
+export {
+  Entitlements as Entitlements
+};
 
-  export { Metrics as Metrics };
+export {
+  Functions as Functions,
+  type FunctionCreateResponse as FunctionCreateResponse,
+  type FunctionUpdateResponse as FunctionUpdateResponse,
+  type FunctionCreateParams as FunctionCreateParams,
+  type FunctionUpdateParams as FunctionUpdateParams
+};
 
-  export {
-    Incidents as Incidents,
-    type IncidentAcknowledgeResponse as IncidentAcknowledgeResponse,
-    type IncidentBulkAcknowledgeOrResolveResponse as IncidentBulkAcknowledgeOrResolveResponse,
-    type IncidentListForProjectResponse as IncidentListForProjectResponse,
-    type IncidentResolveResponse as IncidentResolveResponse,
-    type IncidentBulkAcknowledgeOrResolveParams as IncidentBulkAcknowledgeOrResolveParams,
-  };
+export {
+  Generated as Generated,
+  type GeneratedUpdateParams as GeneratedUpdateParams,
+  type GeneratedDeleteParams as GeneratedDeleteParams,
+  type GeneratedRetrieve2Params as GeneratedRetrieve2Params
+};
 
-  export { SSO as SSO };
+export {
+  GitHub as GitHub
+};
 
-  export { Onboarding as Onboarding };
+export {
+  Incidents as Incidents
+};
 
-  export { Quickstart as Quickstart };
+export {
+  Infrastructure as Infrastructure
+};
 
-  export { Entitlements as Entitlements };
+export {
+  Integrations as Integrations
+};
 
-  export { Pricing as Pricing };
+export {
+  Jobs as Jobs
+};
 
-  export {
-    Status as Status,
-    type StatusGetUptimeResponse as StatusGetUptimeResponse,
-    type StatusSubscribeResponse as StatusSubscribeResponse,
-    type StatusUnsubscribeResponse as StatusUnsubscribeResponse,
-    type StatusSubscribeParams as StatusSubscribeParams,
-  };
+export {
+  Logs as Logs
+};
 
-  export { Announcements as Announcements };
+export {
+  Maintenance as Maintenance
+};
 
-  export { Maintenance as Maintenance };
+export {
+  Metrics as Metrics
+};
 
-  export { Activation as Activation };
+export {
+  MongoDB as MongoDB
+};
 
-  export {
-    Billing as Billing,
-    type BillingCreatePortalResponse as BillingCreatePortalResponse,
-    type BillingRedeemPromoResponse as BillingRedeemPromoResponse,
-    type BillingCreatePortalParams as BillingCreatePortalParams,
-    type BillingRedeemPromoParams as BillingRedeemPromoParams,
-  };
+export {
+  OAuth as OAuth
+};
 
-  export { AIUsage as AIUsage };
+export {
+  Onboarding as Onboarding
+};
 
-  export { Users as Users };
+export {
+  OpenAPI as OpenAPI
+};
 
-  export {
-    Storage as Storage,
-    type StorageDownloadURLResponse as StorageDownloadURLResponse,
-    type StorageUploadBase64Response as StorageUploadBase64Response,
-    type StorageUploadURLResponse as StorageUploadURLResponse,
-    type StorageDownloadURLParams as StorageDownloadURLParams,
-    type StorageUploadBase64Params as StorageUploadBase64Params,
-    type StorageUploadURLParams as StorageUploadURLParams,
-  };
+export {
+  Orgs as Orgs
+};
 
-  export {
-    Buckets as Buckets,
-    type BucketUpdateResponse as BucketUpdateResponse,
-    type BucketUpdateParams as BucketUpdateParams,
-  };
+export {
+  Plans as Plans,
+  type PlanRetrieveResponse as PlanRetrieveResponse
+};
 
-  export { Integrations as Integrations };
+export {
+  Pricing as Pricing
+};
 
-  export { OAuth as OAuth };
+export {
+  Projects as Projects,
+  type ProjectCreateResponse as ProjectCreateResponse,
+  type ProjectUpdateResponse as ProjectUpdateResponse,
+  type ProjectCreateParams as ProjectCreateParams,
+  type ProjectUpdateParams as ProjectUpdateParams
+};
 
-  export { Security as Security };
+export {
+  Quickstart as Quickstart
+};
 
-  export { Jobs as Jobs };
+export {
+  Realtime as Realtime
+};
 
-  export {
-    Enterprise as Enterprise,
-    type EnterpriseInquireResponse as EnterpriseInquireResponse,
-    type EnterpriseInquireParams as EnterpriseInquireParams,
-  };
+export {
+  Refunds as Refunds
+};
 
-  export { Refunds as Refunds };
+export {
+  Regions as Regions
+};
 
-  export { Credits as Credits };
+export {
+  Rls as Rls
+};
 
-  export { MongoDB as MongoDB, type MongoDBFindByIDParams as MongoDBFindByIDParams };
+export {
+  SchemaEngine as SchemaEngine
+};
 
-  export { Database as Database };
+export {
+  Schemas as Schemas,
+  type SchemaCreateResponse as SchemaCreateResponse,
+  type SchemaCreateParams as SchemaCreateParams
+};
 
-  export { Rls as Rls };
+export {
+  SDK as SDK
+};
 
-  export { Infrastructure as Infrastructure };
+export {
+  Security as Security
+};
 
-  export { GitHub as GitHub };
+export {
+  SSO as SSO
+};
 
-  export { Cms as Cms };
+export {
+  Status as Status
+};
 
-  export {
-    Contact as Contact,
-    type ContactSubmitResponse as ContactSubmitResponse,
-    type ContactSubmitParams as ContactSubmitParams,
-  };
+export {
+  Storage as Storage
+};
 
-  export { AlertRules as AlertRules };
+export {
+  Templates as Templates
+};
 
-  export { Health as Health };
+export {
+  Users as Users
+};
 
-  export {
-    Projects as Projects,
-    type ProjectCreateResponse as ProjectCreateResponse,
-    type ProjectUpdateResponse as ProjectUpdateResponse,
-    type ProjectCreateParams as ProjectCreateParams,
-    type ProjectUpdateParams as ProjectUpdateParams,
-  };
-}
+export {
+  V1 as V1
+};
+    }

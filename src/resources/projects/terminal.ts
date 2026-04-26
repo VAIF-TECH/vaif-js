@@ -8,16 +8,10 @@ import { path } from '../../internal/utils/path';
 
 export class Terminal extends APIResource {
   exec(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/terminal/exec`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/projects/${projectID}/terminal/exec`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  retrieveSessions(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/terminal/sessions`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getSessions(projectID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/projects/${projectID}/terminal/sessions`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

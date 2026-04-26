@@ -7,17 +7,11 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Members extends APIResource {
-  list(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/orgs/${orgID}/members`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getMembers(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/orgs/${orgID}/members`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   invite(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/orgs/${orgID}/members/invite`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post(path`/orgs/${orgID}/members/invite`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

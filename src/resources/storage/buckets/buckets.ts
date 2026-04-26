@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
-import * as PoliciesAPI from './policies';
-import { Policies, PolicyDeleteParams, PolicyToggleParams, PolicyUpdateParams } from './policies';
+import * as PoliciesAPI from './policies/policies';
+import { Policies, PolicyDeleteParams, PolicyUpdateParams } from './policies/policies';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
@@ -15,10 +15,7 @@ export class Buckets extends APIResource {
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/storage/buckets', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get('/storage/buckets', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -27,7 +24,7 @@ export interface BucketCreateResponse {
 
   bucket?: unknown;
 
-  [k: string]: unknown;
+[k: string]: unknown
 }
 
 export interface BucketCreateParams {
@@ -49,12 +46,14 @@ export interface BucketCreateParams {
 Buckets.Policies = Policies;
 
 export declare namespace Buckets {
-  export { type BucketCreateResponse as BucketCreateResponse, type BucketCreateParams as BucketCreateParams };
+  export {
+    type BucketCreateResponse as BucketCreateResponse,
+    type BucketCreateParams as BucketCreateParams
+  };
 
   export {
     Policies as Policies,
     type PolicyUpdateParams as PolicyUpdateParams,
-    type PolicyDeleteParams as PolicyDeleteParams,
-    type PolicyToggleParams as PolicyToggleParams,
+    type PolicyDeleteParams as PolicyDeleteParams
   };
 }

@@ -6,17 +6,11 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class Preferences extends APIResource {
-  retrieve(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/users/me/preferences', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  update(options?: RequestOptions): APIPromise<void> {
+    return this._client.patch('/users/me/preferences', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  update(options?: RequestOptions): APIPromise<void> {
-    return this._client.patch('/users/me/preferences', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  list(options?: RequestOptions): APIPromise<void> {
+    return this._client.get('/users/me/preferences', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

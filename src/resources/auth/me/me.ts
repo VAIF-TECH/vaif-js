@@ -1,20 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as AdminAPI from './admin';
+import { Admin, AdminListResponse } from './admin';
+import * as ContextAPI from './context';
+import { Context, ContextListResponse } from './context';
 import * as LinkedAccountsAPI from './linked-accounts';
-import { LinkedAccountListResponse, LinkedAccountUnlinkResponse, LinkedAccounts } from './linked-accounts';
+import { LinkedAccountDeleteResponse, LinkedAccountListResponse, LinkedAccounts } from './linked-accounts';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class Me extends APIResource {
+  admin: AdminAPI.Admin = new AdminAPI.Admin(this._client);
+  context: ContextAPI.Context = new ContextAPI.Context(this._client);
   linkedAccounts: LinkedAccountsAPI.LinkedAccounts = new LinkedAccountsAPI.LinkedAccounts(this._client);
-
-  /**
-   * Get the current authenticated user's profile
-   */
-  retrieve(options?: RequestOptions): APIPromise<MeRetrieveResponse> {
-    return this._client.get('/auth/me', options);
-  }
 
   /**
    * Update the current authenticated user's profile
@@ -24,45 +23,10 @@ export class Me extends APIResource {
   }
 
   /**
-   * Check whether the current user has admin access
+   * Get the current authenticated user's profile
    */
-  checkAdmin(options?: RequestOptions): APIPromise<MeCheckAdminResponse> {
-    return this._client.get('/auth/me/admin', options);
-  }
-
-  /**
-   * Get current user profile, org memberships, and admin status in one call
-   */
-  getContext(options?: RequestOptions): APIPromise<MeGetContextResponse> {
-    return this._client.get('/auth/me/context', options);
-  }
-}
-
-export interface MeRetrieveResponse {
-  ok: true;
-
-  user: MeRetrieveResponse.User;
-}
-
-export namespace MeRetrieveResponse {
-  export interface User {
-    id: string;
-
-    createdAt: (string & {}) | string;
-
-    email: string;
-
-    avatarUrl?: string | null;
-
-    emailVerifiedAt?: (string & {}) | string | null;
-
-    name?: string | null;
-
-    phone?: string | null;
-
-    timezone?: string | null;
-
-    updatedAt?: (string & {}) | string | null;
+  list(options?: RequestOptions): APIPromise<MeListResponse> {
+    return this._client.get('/auth/me', options);
   }
 }
 
@@ -94,37 +58,13 @@ export namespace MeUpdateResponse {
   }
 }
 
-export interface MeCheckAdminResponse {
-  isAdmin: boolean;
-
+export interface MeListResponse {
   ok: true;
 
-  permissions?: Array<string>;
-
-  role?: string;
+  user: MeListResponse.User;
 }
 
-export interface MeGetContextResponse {
-  isAdmin: boolean;
-
-  ok: true;
-
-  orgs: Array<MeGetContextResponse.Org>;
-
-  user: MeGetContextResponse.User;
-}
-
-export namespace MeGetContextResponse {
-  export interface Org {
-    orgId: string;
-
-    orgName: string;
-
-    plan: string;
-
-    role: string;
-  }
-
+export namespace MeListResponse {
   export interface User {
     id: string;
 
@@ -156,20 +96,30 @@ export interface MeUpdateParams {
   timezone?: string;
 }
 
+Me.Admin = Admin;
+Me.Context = Context;
 Me.LinkedAccounts = LinkedAccounts;
 
 export declare namespace Me {
   export {
-    type MeRetrieveResponse as MeRetrieveResponse,
     type MeUpdateResponse as MeUpdateResponse,
-    type MeCheckAdminResponse as MeCheckAdminResponse,
-    type MeGetContextResponse as MeGetContextResponse,
-    type MeUpdateParams as MeUpdateParams,
+    type MeListResponse as MeListResponse,
+    type MeUpdateParams as MeUpdateParams
+  };
+
+  export {
+    Admin as Admin,
+    type AdminListResponse as AdminListResponse
+  };
+
+  export {
+    Context as Context,
+    type ContextListResponse as ContextListResponse
   };
 
   export {
     LinkedAccounts as LinkedAccounts,
     type LinkedAccountListResponse as LinkedAccountListResponse,
-    type LinkedAccountUnlinkResponse as LinkedAccountUnlinkResponse,
+    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse
   };
 }

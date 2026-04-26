@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { hasOwn } from './values';
-import { type VaifStudio } from '../../client';
+import { type Vaif } from '../../client';
 import { RequestOptions } from '../request-options';
 
-type LogFn = (message: string, ...rest: unknown[]) => void;
+type LogFn = (message: string, ...rest: unknown[]) => void
 export type Logger = {
   error: LogFn;
   warn: LogFn;
@@ -21,22 +21,14 @@ const levelNumbers = {
   debug: 500,
 };
 
-export const parseLogLevel = (
-  maybeLevel: string | undefined,
-  sourceName: string,
-  client: VaifStudio,
-): LogLevel | undefined => {
+export const parseLogLevel = (maybeLevel: string | undefined, sourceName: string, client: Vaif): LogLevel | undefined => {
   if (!maybeLevel) {
     return undefined;
   }
   if (hasOwn(levelNumbers, maybeLevel)) {
     return maybeLevel;
-  }
-  loggerFor(client).warn(
-    `${sourceName} was set to ${JSON.stringify(maybeLevel)}, expected one of ${JSON.stringify(
-      Object.keys(levelNumbers),
-    )}`,
-  );
+  };
+  loggerFor(client).warn(`${sourceName} was set to ${JSON.stringify(maybeLevel)}, expected one of ${JSON.stringify(Object.keys(levelNumbers))}`);
   return undefined;
 };
 
@@ -60,7 +52,7 @@ const noopLogger = {
 
 let cachedLoggers = /* @__PURE__ */ new WeakMap<Logger, [LogLevel, Logger]>();
 
-export function loggerFor(client: VaifStudio): Logger {
+export function loggerFor(client: Vaif): Logger {
   const logger = client.logger;
   const logLevel = client.logLevel ?? 'off';
   if (!logger) {
@@ -97,25 +89,11 @@ export const formatRequestDetails = (details: {
   body?: unknown;
 }) => {
   if (details.options) {
-    details.options = { ...details.options };
+    details.options = {...details.options};
     delete details.options['headers']; // redundant + leaks internals
   }
   if (details.headers) {
-    details.headers = Object.fromEntries(
-      (details.headers instanceof Headers ? [...details.headers] : Object.entries(details.headers)).map(
-        ([name, value]) => [
-          name,
-          (
-            name.toLowerCase() === 'x-vaif-key' ||
-            name.toLowerCase() === 'authorization' ||
-            name.toLowerCase() === 'cookie' ||
-            name.toLowerCase() === 'set-cookie'
-          ) ?
-            '***'
-          : value,
-        ],
-      ),
-    );
+    details.headers = Object.fromEntries((details.headers instanceof Headers ? [...details.headers] : Object.entries(details.headers)).map(([name, value]) => [name, name.toLowerCase() === 'x-vaif-key' || name.toLowerCase() === 'authorization' || name.toLowerCase() === 'cookie' || name.toLowerCase() === 'set-cookie' ? '***' : value]))
   }
   if ('retryOfRequestLogID' in details) {
     if (details.retryOfRequestLogID) {
@@ -123,5 +101,5 @@ export const formatRequestDetails = (details: {
     }
     delete details.retryOfRequestLogID;
   }
-  return details;
-};
+  return details
+}

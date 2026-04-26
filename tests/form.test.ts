@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'vaif-studio/internal/uploads';
-import { toFile } from 'vaif-studio/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@vaif-tech/client/internal/uploads';
+import { toFile } from '@vaif-tech/client/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

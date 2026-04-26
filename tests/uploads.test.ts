@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'vaif-studio/internal/to-file';
-import { toFile } from 'vaif-studio/core/uploads';
+import type { ResponseLike } from '@vaif-tech/client/internal/to-file';
+import { toFile } from '@vaif-tech/client/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('vaif-studio/core/uploads');
+    const uploads = await import('@vaif-tech/client/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(

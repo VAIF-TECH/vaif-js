@@ -1,16 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource schedule', () => {
-  // Mock server tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.functions.schedule.retrieve('functionId');
+  test('getSchedule', async () => {
+    const responsePromise = client.functions.schedule.getSchedule('functionId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,9 +16,8 @@ describe('resource schedule', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('update: only required params', async () => {
-    const responsePromise = client.functions.schedule.update('functionId', { cron: 'x' });
+  test('schedule: only required params', async () => {
+    const responsePromise = client.functions.schedule.schedule('functionId', { cron: 'x' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -32,14 +27,12 @@ describe('resource schedule', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('update: required and optional params', async () => {
-    const response = await client.functions.schedule.update('functionId', { cron: 'x', enabled: true });
+  test('schedule: required and optional params', async () => {
+    const response = await client.functions.schedule.schedule('functionId', { cron: 'x', enabled: true });
   });
 
-  // Mock server tests are disabled
-  test.skip('delete', async () => {
-    const responsePromise = client.functions.schedule.delete('functionId');
+  test('schedule2', async () => {
+    const responsePromise = client.functions.schedule.schedule2('functionId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

@@ -8,16 +8,16 @@ export class Contact extends APIResource {
   /**
    * Submit a contact form
    */
-  submit(body: ContactSubmitParams, options?: RequestOptions): APIPromise<ContactSubmitResponse> {
+  create(body: ContactCreateParams, options?: RequestOptions): APIPromise<ContactCreateResponse> {
     return this._client.post('/contact', { body, ...options });
   }
 }
 
-export interface ContactSubmitResponse {
+export interface ContactCreateResponse {
   success: true;
 }
 
-export interface ContactSubmitParams {
+export interface ContactCreateParams {
   email: string;
 
   message: string;
@@ -33,7 +33,7 @@ export interface ContactSubmitParams {
 
 export declare namespace Contact {
   export {
-    type ContactSubmitResponse as ContactSubmitResponse,
-    type ContactSubmitParams as ContactSubmitParams,
+    type ContactCreateResponse as ContactCreateResponse,
+    type ContactCreateParams as ContactCreateParams
   };
 }

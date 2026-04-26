@@ -1,39 +1,41 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../../core/resource';
+import * as CopyAPI from './copy';
+import { Copy } from './copy';
+import * as DeleteBatchAPI from './delete-batch';
+import { DeleteBatch } from './delete-batch';
 import * as MetadataAPI from './metadata';
 import { Metadata } from './metadata';
-import { APIPromise } from '../../../core/api-promise';
-import { buildHeaders } from '../../../internal/headers';
-import { RequestOptions } from '../../../internal/request-options';
+import * as MoveAPI from './move';
+import { Move } from './move';
 
 export class Files extends APIResource {
+  copy: CopyAPI.Copy = new CopyAPI.Copy(this._client);
+  deleteBatch: DeleteBatchAPI.DeleteBatch = new DeleteBatchAPI.DeleteBatch(this._client);
   metadata: MetadataAPI.Metadata = new MetadataAPI.Metadata(this._client);
-
-  copy(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/storage/files/copy', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  deleteBatch(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/storage/files/delete-batch', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  move(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/storage/files/move', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
+  move: MoveAPI.Move = new MoveAPI.Move(this._client);
 }
 
+Files.Copy = Copy;
+Files.DeleteBatch = DeleteBatch;
 Files.Metadata = Metadata;
+Files.Move = Move;
 
 export declare namespace Files {
-  export { Metadata as Metadata };
+  export {
+    Copy as Copy
+  };
+
+  export {
+    DeleteBatch as DeleteBatch
+  };
+
+  export {
+    Metadata as Metadata
+  };
+
+  export {
+    Move as Move
+  };
 }

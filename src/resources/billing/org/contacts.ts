@@ -7,37 +7,31 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class Contacts extends APIResource {
-  create(
-    orgID: string,
-    body: ContactCreateParams,
-    options?: RequestOptions,
-  ): APIPromise<ContactCreateResponse> {
+  delete(contactID: string, params: ContactDeleteParams, options?: RequestOptions): APIPromise<void> {
+    const { orgId } = params
+    return this._client.delete(path`/billing/org/${orgId}/contacts/${contactID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  }
+
+  contacts(orgID: string, body: ContactContactsParams, options?: RequestOptions): APIPromise<ContactContactsResponse> {
     return this._client.post(path`/billing/org/${orgID}/contacts`, { body, ...options });
   }
 
-  list(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/contacts`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  delete(contactID: string, params: ContactDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params;
-    return this._client.delete(path`/billing/org/${orgId}/contacts/${contactID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  getContacts(orgID: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.get(path`/billing/org/${orgID}/contacts`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-export interface ContactCreateResponse {
+export interface ContactContactsResponse {
   contactId: string;
 
   ok: true;
 }
 
-export interface ContactCreateParams {
+export interface ContactDeleteParams {
+  orgId: string;
+}
+
+export interface ContactContactsParams {
   email: string;
 
   name: string;
@@ -49,14 +43,10 @@ export interface ContactCreateParams {
   receiveInvoices?: boolean;
 }
 
-export interface ContactDeleteParams {
-  orgId: string;
-}
-
 export declare namespace Contacts {
   export {
-    type ContactCreateResponse as ContactCreateResponse,
-    type ContactCreateParams as ContactCreateParams,
+    type ContactContactsResponse as ContactContactsResponse,
     type ContactDeleteParams as ContactDeleteParams,
+    type ContactContactsParams as ContactContactsParams
   };
 }

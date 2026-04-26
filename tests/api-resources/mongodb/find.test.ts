@@ -1,15 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource find', () => {
-  // Mock server tests are disabled
-  test.skip('cursor', async () => {
+  test('cursor', async () => {
     const responsePromise = client.mongoDB.find.cursor('collection');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -20,9 +16,8 @@ describe('resource find', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('execute', async () => {
-    const responsePromise = client.mongoDB.find.execute('collection');
+  test('find', async () => {
+    const responsePromise = client.mongoDB.find.find('collection');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

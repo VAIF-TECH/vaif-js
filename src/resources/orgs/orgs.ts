@@ -2,78 +2,73 @@
 
 import { APIResource } from '../../core/resource';
 import * as BillingContactsAPI from './billing-contacts';
-import {
-  BillingContactCreateParams,
-  BillingContactCreateResponse,
-  BillingContactDeleteParams,
-  BillingContactDeleteResponse,
-  BillingContactListResponse,
-  BillingContacts,
-} from './billing-contacts';
-import * as InvitesAPI from './invites';
-import { InviteDeleteParams, Invites } from './invites';
+import { BillingContactBillingContactsParams, BillingContactBillingContactsResponse, BillingContactDeleteParams, BillingContactDeleteResponse, BillingContactGetBillingContactsResponse, BillingContacts } from './billing-contacts';
+import * as CheckNameAPI from './check-name';
+import { CheckName } from './check-name';
 import * as MembersAPI from './members';
 import { Members } from './members';
+import * as MembershipAPI from './membership';
+import { Membership } from './membership';
 import * as ProfileAPI from './profile';
 import { Profile } from './profile';
+import * as InvitesAPI from './invites/invites';
+import { InviteDeleteParams, Invites } from './invites/invites';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
 
 export class Orgs extends APIResource {
-  members: MembersAPI.Members = new MembersAPI.Members(this._client);
-  invites: InvitesAPI.Invites = new InvitesAPI.Invites(this._client);
-  profile: ProfileAPI.Profile = new ProfileAPI.Profile(this._client);
   billingContacts: BillingContactsAPI.BillingContacts = new BillingContactsAPI.BillingContacts(this._client);
+  checkName: CheckNameAPI.CheckName = new CheckNameAPI.CheckName(this._client);
+  invites: InvitesAPI.Invites = new InvitesAPI.Invites(this._client);
+  members: MembersAPI.Members = new MembersAPI.Members(this._client);
+  membership: MembershipAPI.Membership = new MembershipAPI.Membership(this._client);
+  profile: ProfileAPI.Profile = new ProfileAPI.Profile(this._client);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/orgs/', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.post('/orgs/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/orgs/', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  checkName(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/orgs/check-name', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
-  }
-
-  retrieveMembership(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/orgs/${orgID}/membership`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get('/orgs/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
-Orgs.Members = Members;
-Orgs.Invites = Invites;
-Orgs.Profile = Profile;
 Orgs.BillingContacts = BillingContacts;
+Orgs.CheckName = CheckName;
+Orgs.Invites = Invites;
+Orgs.Members = Members;
+Orgs.Membership = Membership;
+Orgs.Profile = Profile;
 
 export declare namespace Orgs {
-  export { Members as Members };
-
-  export { Invites as Invites, type InviteDeleteParams as InviteDeleteParams };
-
-  export { Profile as Profile };
-
   export {
     BillingContacts as BillingContacts,
-    type BillingContactCreateResponse as BillingContactCreateResponse,
-    type BillingContactListResponse as BillingContactListResponse,
     type BillingContactDeleteResponse as BillingContactDeleteResponse,
-    type BillingContactCreateParams as BillingContactCreateParams,
+    type BillingContactBillingContactsResponse as BillingContactBillingContactsResponse,
+    type BillingContactGetBillingContactsResponse as BillingContactGetBillingContactsResponse,
     type BillingContactDeleteParams as BillingContactDeleteParams,
+    type BillingContactBillingContactsParams as BillingContactBillingContactsParams
+  };
+
+  export {
+    CheckName as CheckName
+  };
+
+  export {
+    Invites as Invites,
+    type InviteDeleteParams as InviteDeleteParams
+  };
+
+  export {
+    Members as Members
+  };
+
+  export {
+    Membership as Membership
+  };
+
+  export {
+    Profile as Profile
   };
 }

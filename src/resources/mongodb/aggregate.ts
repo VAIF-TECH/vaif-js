@@ -7,17 +7,11 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Aggregate extends APIResource {
-  cursor(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/aggregate/cursor`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  aggregate(collection: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/mongodb/${collection}/aggregate`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
-  execute(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/aggregate`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  cursor(collection: string, options?: RequestOptions): APIPromise<void> {
+    return this._client.post(path`/mongodb/${collection}/aggregate/cursor`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }

@@ -1,16 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import VaifStudio from 'vaif-studio';
+import Vaif from '@vaif-tech/client';
 
-const client = new VaifStudio({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource members', () => {
-  // Mock server tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.orgs.members.list('orgId');
+  test('getMembers', async () => {
+    const responsePromise = client.orgs.members.getMembers('orgId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,8 +16,7 @@ describe('resource members', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server tests are disabled
-  test.skip('invite', async () => {
+  test('invite', async () => {
     const responsePromise = client.orgs.members.invite('orgId');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
