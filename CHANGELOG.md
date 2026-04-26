@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2026-04-26)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/VAIF-TECH/vaif-js/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* rename to @vaif/client (npm org created) ([44626ee](https://github.com/VAIF-TECH/vaif-js/commit/44626ee53a1f0a91d9feefc698c64c0825f0198d))
+
 ## 0.1.0 (2026-04-26)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/VAIF-TECH/vaif-js/compare/v0.0.1...v0.1.0)
