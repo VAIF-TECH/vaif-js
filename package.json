@@ -47,7 +47,8 @@
     "tsconfig-paths": "^4.0.0",
     "tslib": "^2.8.1",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.31.1"
+    "typescript-eslint": "8.31.1",
+    "vitest": "^4.1.5"
   },
   "overrides": {
     "minimatch": "^9.0.5"
@@ -60,10 +61,31 @@
   "resolutions": {
     "minimatch": "^9.0.5"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./realtime": {
+      "import": "./dist/lib/realtime/index.mjs",
+      "require": "./dist/lib/realtime/index.js",
+      "types": "./dist/lib/realtime/index.d.ts"
+    },
+    "./storage": {
+      "import": "./dist/lib/storage/index.mjs",
+      "require": "./dist/lib/storage/index.js",
+      "types": "./dist/lib/storage/index.d.ts"
+    },
+    "./storage/browser": {
+      "import": "./dist/lib/storage/browser.mjs",
+      "require": "./dist/lib/storage/browser.js",
+      "types": "./dist/lib/storage/browser.d.ts"
+    },
+    "./storage/resume": {
+      "import": "./dist/lib/storage/resume.mjs",
+      "require": "./dist/lib/storage/resume.js",
+      "types": "./dist/lib/storage/resume.d.ts"
     },
     "./*.mjs": {
       "default": "./dist/*.mjs"
