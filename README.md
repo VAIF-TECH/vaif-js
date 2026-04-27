@@ -55,6 +55,22 @@ const login: Vaif.Auth.LoginCreateResponse = await client.auth.login.create(para
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
 
+## Realtime
+
+`@vaif/client` ships with a tree-shakable realtime layer for WebSocket subscriptions, presence, and Postgres CDC events:
+
+```ts
+import { Realtime } from '@vaif/client/realtime';
+
+const rt = new Realtime({ client: vaif });
+await rt.connect();
+const channel = rt.channel('room:123');
+channel.on('broadcast', { event: 'message' }, (p) => console.log(p));
+await channel.subscribe();
+```
+
+See [Realtime Quickstart](./docs/realtime-quickstart.md) for the full guide.
+
 ## Handling errors
 
 When the library is unable to connect to the API,
