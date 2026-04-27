@@ -5,7 +5,9 @@ import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Refresh extends APIResource {
+export class BaseRefresh extends APIResource {
+  static override readonly _key: readonly ['oauth', 'org', 'provider', 'refresh'] = Object.freeze(['oauth', 'org', 'provider', 'refresh'] as const)
+
   /**
    * Refresh an OAuth token
    */
@@ -13,6 +15,9 @@ export class Refresh extends APIResource {
     const { orgId } = params
     return this._client.post(path`/oauth/org/${orgId}/provider/${provider}/refresh`, options);
   }
+}
+export class Refresh extends BaseRefresh {
+
 }
 
 export interface RefreshRefreshResponse {

@@ -5,13 +5,18 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Introspect extends APIResource {
+export class BaseIntrospect extends APIResource {
+  static override readonly _key: readonly ['schemaEngine', 'introspect'] = Object.freeze(['schemaEngine', 'introspect'] as const)
+
   /**
    * Introspect current database schema for a project
    */
   retrieve(projectID: string, options?: RequestOptions): APIPromise<IntrospectRetrieveResponse> {
     return this._client.get(path`/schema-engine/introspect/${projectID}`, options);
   }
+}
+export class Introspect extends BaseIntrospect {
+
 }
 
 export interface IntrospectRetrieveResponse {

@@ -4,13 +4,18 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Token extends APIResource {
+export class BaseToken extends APIResource {
+  static override readonly _key: readonly ['auth', 'cli', 'token'] = Object.freeze(['auth', 'cli', 'token'] as const)
+
   /**
    * Poll for CLI auth token after browser approval
    */
   create(body: TokenCreateParams, options?: RequestOptions): APIPromise<TokenCreateResponse> {
     return this._client.post('/auth/cli/token', { body, ...options });
   }
+}
+export class Token extends BaseToken {
+
 }
 
 export type TokenCreateResponse = TokenCreateResponse.UnionMember0 | TokenCreateResponse.UnionMember1

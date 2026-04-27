@@ -6,8 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Faqs extends APIResource {
+export class BaseFaqs extends APIResource {
+  static override readonly _key: readonly ['cms', 'faqs'] = Object.freeze(['cms', 'faqs'] as const)
+
   retrieve(pageSlug: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/cms/faqs/${pageSlug}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Faqs extends BaseFaqs {
+
 }

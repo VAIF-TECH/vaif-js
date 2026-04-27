@@ -6,8 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class DeployStatus extends APIResource {
+export class BaseDeployStatus extends APIResource {
+  static override readonly _key: readonly ['functions', 'deployStatus'] = Object.freeze(['functions', 'deployStatus'] as const)
+
   getDeployStatus(functionID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/functions/${functionID}/deploy-status`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class DeployStatus extends BaseDeployStatus {
+
 }

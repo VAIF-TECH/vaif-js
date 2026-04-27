@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Quickstart } from '@vaif/client/resources/quickstart/quickstart';
+import { BaseProject } from '@vaif/client/resources/quickstart/project/project';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource project', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseProject],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Quickstart],
+});
+
+const runTests = (client: PartialVaif<{ quickstart: { project: BaseProject } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.quickstart.project.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -22,4 +38,7 @@ describe('resource project', () => {
       .rejects
       .toThrow(Vaif.NotFoundError);
   });
-});
+};
+describe('resource project', () => runTests(client));
+describe('resource project (tree shakable, base)', () => runTests(partialClient));
+describe('resource project (tree shakable, subresource)', () => runTests(parentPartialClient));

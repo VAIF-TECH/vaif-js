@@ -6,11 +6,16 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Revoke extends APIResource {
+export class BaseRevoke extends APIResource {
+  static override readonly _key: readonly ['projects', 'apiKeys', 'revoke'] = Object.freeze(['projects', 'apiKeys', 'revoke'] as const)
+
   revoke(keyID: string, params: RevokeRevokeParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
     return this._client.post(path`/projects/${projectId}/api-keys/${keyID}/revoke`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Revoke extends BaseRevoke {
+
 }
 
 export interface RevokeRevokeParams {

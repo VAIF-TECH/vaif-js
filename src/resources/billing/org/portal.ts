@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Portal extends APIResource {
+export class BasePortal extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'portal'] = Object.freeze(['billing', 'org', 'portal'] as const)
+
   portal(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/billing/org/${orgID}/portal`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Portal extends BasePortal {
+
 }

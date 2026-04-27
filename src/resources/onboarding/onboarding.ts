@@ -2,16 +2,22 @@
 
 import { APIResource } from '../../core/resource';
 import * as OrgAPI from './org/org';
-import { Org } from './org/org';
+import { BaseOrg, Org } from './org/org';
 
-export class Onboarding extends APIResource {
+export class BaseOnboarding extends APIResource {
+  static override readonly _key: readonly ['onboarding'] = Object.freeze(['onboarding'] as const)
+
+}
+export class Onboarding extends BaseOnboarding {
   org: OrgAPI.Org = new OrgAPI.Org(this._client);
 }
 
 Onboarding.Org = Org;
+Onboarding.BaseOrg = BaseOrg;
 
 export declare namespace Onboarding {
   export {
-    Org as Org
+    Org as Org,
+    BaseOrg as BaseOrg
   };
 }

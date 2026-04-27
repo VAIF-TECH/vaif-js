@@ -5,13 +5,18 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class PartURL extends APIResource {
+export class BasePartURL extends APIResource {
+  static override readonly _key: readonly ['storage', 'multipart', 'partURL'] = Object.freeze(['storage', 'multipart', 'partURL'] as const)
+
   /**
    * Get a signed URL for uploading a part
    */
   partURL(uploadID: string, body: PartURLPartURLParams, options?: RequestOptions): APIPromise<PartURLPartURLResponse> {
     return this._client.post(path`/storage/multipart/${uploadID}/part-url`, { body, ...options });
   }
+}
+export class PartURL extends BasePartURL {
+
 }
 
 export interface PartURLPartURLResponse {

@@ -2,13 +2,13 @@
 
 import { APIResource } from '../../../core/resource';
 import * as PoliciesAPI from './policies/policies';
-import { Policies, PolicyDeleteParams, PolicyUpdateParams } from './policies/policies';
+import { BasePolicies, Policies, PolicyDeleteParams, PolicyUpdateParams } from './policies/policies';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Buckets extends APIResource {
-  policies: PoliciesAPI.Policies = new PoliciesAPI.Policies(this._client);
+export class BaseBuckets extends APIResource {
+  static override readonly _key: readonly ['storage', 'buckets'] = Object.freeze(['storage', 'buckets'] as const)
 
   create(body: BucketCreateParams, options?: RequestOptions): APIPromise<BucketCreateResponse> {
     return this._client.post('/storage/buckets', { body, ...options });
@@ -17,6 +17,9 @@ export class Buckets extends APIResource {
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/storage/buckets', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Buckets extends BaseBuckets {
+  policies: PoliciesAPI.Policies = new PoliciesAPI.Policies(this._client);
 }
 
 export interface BucketCreateResponse {
@@ -44,6 +47,7 @@ export interface BucketCreateParams {
 }
 
 Buckets.Policies = Policies;
+Buckets.BasePolicies = BasePolicies;
 
 export declare namespace Buckets {
   export {
@@ -53,6 +57,7 @@ export declare namespace Buckets {
 
   export {
     Policies as Policies,
+    BasePolicies as BasePolicies,
     type PolicyUpdateParams as PolicyUpdateParams,
     type PolicyDeleteParams as PolicyDeleteParams
   };

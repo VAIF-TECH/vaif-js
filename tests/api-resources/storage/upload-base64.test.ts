@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Storage } from '@vaif/client/resources/storage/storage';
+import { BaseUploadBase64 } from '@vaif/client/resources/storage/upload-base64';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource uploadBase64', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseUploadBase64],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Storage],
+});
+
+const runTests = (client: PartialVaif<{ storage: { uploadBase64: BaseUploadBase64 } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.storage.uploadBase64.create({
     bucket: 'x',
@@ -30,4 +46,7 @@ describe('resource uploadBase64', () => {
     contentType: 'contentType',
   });
   });
-});
+};
+describe('resource uploadBase64', () => runTests(client));
+describe('resource uploadBase64 (tree shakable, base)', () => runTests(partialClient));
+describe('resource uploadBase64 (tree shakable, subresource)', () => runTests(parentPartialClient));

@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseInstall } from '@vaif/client/resources/realtime/install';
+import { Realtime } from '@vaif/client/resources/realtime/realtime';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource install', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseInstall],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Realtime],
+});
+
+const runTests = (client: PartialVaif<{ realtime: { install: BaseInstall } }>) => {
   test('create', async () => {
     const responsePromise = client.realtime.install.create();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource install', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource install', () => runTests(client));
+describe('resource install (tree shakable, base)', () => runTests(partialClient));
+describe('resource install (tree shakable, subresource)', () => runTests(parentPartialClient));

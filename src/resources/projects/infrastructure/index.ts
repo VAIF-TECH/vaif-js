@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Infrastructure, type InfrastructureDeleteParams } from './infrastructure';;
-export { Metrics, type MetricGetMetricsParams } from './metrics';;
-export { MigrateNow, type MigrateNowMigrateNowParams } from './migrate-now';;
-export { Replicas, type ReplicaGetReplicasParams, type ReplicaReplicaParams } from './replicas';;
-export { Resize, type ResizeResizeParams } from './resize';;
-export { ResizeCustom, type ResizeCustomResizeCustomParams } from './resize-custom';;
-export { Start, type StartStartParams } from './start';;
-export { Stop, type StopStopParams } from './stop';;
-export { UpgradeOptions, type UpgradeOptionGetUpgradeOptionsParams } from './upgrade-options';;
+export { Infrastructure, BaseInfrastructure, type InfrastructureDeleteParams } from './infrastructure';;
+export { Metrics, BaseMetrics, type MetricGetMetricsParams } from './metrics';;
+export { MigrateNow, BaseMigrateNow, type MigrateNowMigrateNowParams } from './migrate-now';;
+export { Replicas, BaseReplicas, type ReplicaGetReplicasParams, type ReplicaReplicaParams } from './replicas';;
+export { Resize, BaseResize, type ResizeResizeParams } from './resize';;
+export { ResizeCustom, BaseResizeCustom, type ResizeCustomResizeCustomParams } from './resize-custom';;
+export { Start, BaseStart, type StartStartParams } from './start';;
+export { Stop, BaseStop, type StopStopParams } from './stop';;
+export { UpgradeOptions, BaseUpgradeOptions, type UpgradeOptionGetUpgradeOptionsParams } from './upgrade-options';;

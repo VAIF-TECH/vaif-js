@@ -2,12 +2,12 @@
 
 import { APIResource } from '../../core/resource';
 import * as ProjectAPI from './project';
-import { Project, ProjectRetrieveResponse } from './project';
+import { BaseProject, Project, ProjectRetrieveResponse } from './project';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Schemas extends APIResource {
-  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
+export class BaseSchemas extends APIResource {
+  static override readonly _key: readonly ['schemas'] = Object.freeze(['schemas'] as const)
 
   /**
    * Save a project schema
@@ -15,6 +15,9 @@ export class Schemas extends APIResource {
   create(body: SchemaCreateParams, options?: RequestOptions): APIPromise<SchemaCreateResponse> {
     return this._client.post('/schemas/', { body, ...options });
   }
+}
+export class Schemas extends BaseSchemas {
+  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
 }
 
 export interface SchemaCreateResponse {
@@ -44,6 +47,7 @@ export interface SchemaCreateParams {
 }
 
 Schemas.Project = Project;
+Schemas.BaseProject = BaseProject;
 
 export declare namespace Schemas {
   export {
@@ -53,6 +57,7 @@ export declare namespace Schemas {
 
   export {
     Project as Project,
+    BaseProject as BaseProject,
     type ProjectRetrieveResponse as ProjectRetrieveResponse
   };
 }

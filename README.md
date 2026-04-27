@@ -167,6 +167,57 @@ Note that requests which time out will be [retried twice by default](#retries).
 
 ## Advanced Usage
 
+### Tree shaking
+
+This library supports tree shaking to reduce bundle size. Instead of importing the full client, you can create a client only including the API resources you need:
+
+```ts
+import { createClient } from '@vaif/client/tree-shakable';
+import { Login } from '@vaif/client/resources/auth/login';
+import { BaseAlertRules } from '@vaif/client/resources/alert-rules/alert-rules';
+
+const client = createClient({
+  // Specify the resources you'd like to use ...
+  resources: [Login, BaseAlertRules],
+});
+
+// ... then make API calls as usual.
+const login = await client.auth.login.create({ email: 'dev@stainless.com', password: 'xxxxxxxx' });
+await client.alertRules.update('ruleId');
+```
+
+Each API resource has two versions, the full resource (e.g., `Login`) which includes all subresources, and the base resource (e.g., `BaseLogin`) which does not.
+
+The tree-shaken client is fully typed, so TypeScript will provide accurate autocomplete and prevent access to resources not included in your configuration.
+The `createClient` function automatically infers the correct type, but you can also use the `PartialVaif` type explicitly:
+
+```ts
+import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import { BaseLogin } from '@vaif/client/resources/auth/login';
+
+// Explicit variable type
+const client: PartialVaif<{ auth: { login: BaseLogin } }> = createClient({
+  resources: [BaseLogin],
+  /* ... */
+});
+
+// Function parameter type
+async function main(client: PartialVaif<{ auth: { login: BaseLogin } }>) {
+  const login = await client.auth.login.create({ email: 'dev@stainless.com', password: 'xxxxxxxx' });
+}
+
+// Works with any client that has the login resource
+const treeShakableClient = createClient({
+  resources: [BaseLogin],
+  /* ... */
+});
+const fullClient = new Vaif(/* ... */);
+
+main(treeShakableClient); // Works
+main(fullClient); // Also works
+```
+
 ### Accessing raw Response data (e.g., headers)
 
 The "raw" `Response` returned by `fetch()` can be accessed through the `.asResponse()` method on the `APIPromise` type that all methods return.

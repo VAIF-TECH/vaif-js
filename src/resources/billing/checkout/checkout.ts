@@ -2,16 +2,19 @@
 
 import { APIResource } from '../../../core/resource';
 import * as VerifyAPI from './verify';
-import { Verify } from './verify';
+import { BaseVerify, Verify } from './verify';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Checkout extends APIResource {
-  verify: VerifyAPI.Verify = new VerifyAPI.Verify(this._client);
+export class BaseCheckout extends APIResource {
+  static override readonly _key: readonly ['billing', 'checkout'] = Object.freeze(['billing', 'checkout'] as const)
 
   create(body: CheckoutCreateParams, options?: RequestOptions): APIPromise<CheckoutCreateResponse> {
     return this._client.post('/billing/checkout', { body, ...options });
   }
+}
+export class Checkout extends BaseCheckout {
+  verify: VerifyAPI.Verify = new VerifyAPI.Verify(this._client);
 }
 
 export interface CheckoutCreateResponse {
@@ -33,6 +36,7 @@ export interface CheckoutCreateParams {
 }
 
 Checkout.Verify = Verify;
+Checkout.BaseVerify = BaseVerify;
 
 export declare namespace Checkout {
   export {
@@ -41,6 +45,7 @@ export declare namespace Checkout {
   };
 
   export {
-    Verify as Verify
+    Verify as Verify,
+    BaseVerify as BaseVerify
   };
 }

@@ -5,8 +5,13 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Compare extends APIResource {
+export class BaseCompare extends APIResource {
+  static override readonly _key: readonly ['pricing', 'compare'] = Object.freeze(['pricing', 'compare'] as const)
+
   list(options?: RequestOptions): APIPromise<void> {
     return this._client.get('/pricing/compare', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Compare extends BaseCompare {
+
 }

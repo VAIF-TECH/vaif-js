@@ -6,8 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class UpdateOne extends APIResource {
+export class BaseUpdateOne extends APIResource {
+  static override readonly _key: readonly ['mongoDB', 'updateOne'] = Object.freeze(['mongoDB', 'updateOne'] as const)
+
   updateOne(collection: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/mongodb/${collection}/updateOne`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class UpdateOne extends BaseUpdateOne {
+
 }

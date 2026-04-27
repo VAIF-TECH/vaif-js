@@ -2,15 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ProjectAPI from './project';
-import { Project, ProjectRetrieveResponse } from './project';
+import { BaseProject, Project, ProjectRetrieveResponse } from './project';
 import * as RevokeAPI from './revoke';
-import { Revoke, RevokeRevokeResponse } from './revoke';
+import { BaseRevoke, Revoke, RevokeRevokeResponse } from './revoke';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Tokens extends APIResource {
-  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
-  revoke: RevokeAPI.Revoke = new RevokeAPI.Revoke(this._client);
+export class BaseTokens extends APIResource {
+  static override readonly _key: readonly ['deployments', 'tokens'] = Object.freeze(['deployments', 'tokens'] as const)
 
   /**
    * Create a deployment token
@@ -18,6 +17,10 @@ export class Tokens extends APIResource {
   create(body: TokenCreateParams, options?: RequestOptions): APIPromise<TokenCreateResponse> {
     return this._client.post('/deployments/tokens', { body, ...options });
   }
+}
+export class Tokens extends BaseTokens {
+  project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
+  revoke: RevokeAPI.Revoke = new RevokeAPI.Revoke(this._client);
 }
 
 export interface TokenCreateResponse {
@@ -35,7 +38,9 @@ export interface TokenCreateParams {
 }
 
 Tokens.Project = Project;
+Tokens.BaseProject = BaseProject;
 Tokens.Revoke = Revoke;
+Tokens.BaseRevoke = BaseRevoke;
 
 export declare namespace Tokens {
   export {
@@ -45,11 +50,13 @@ export declare namespace Tokens {
 
   export {
     Project as Project,
+    BaseProject as BaseProject,
     type ProjectRetrieveResponse as ProjectRetrieveResponse
   };
 
   export {
     Revoke as Revoke,
+    BaseRevoke as BaseRevoke,
     type RevokeRevokeResponse as RevokeRevokeResponse
   };
 }

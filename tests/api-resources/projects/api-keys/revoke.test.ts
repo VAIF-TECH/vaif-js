@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { APIKeys } from '@vaif/client/resources/projects/api-keys/api-keys';
+import { BaseRevoke } from '@vaif/client/resources/projects/api-keys/revoke';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource revoke', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseRevoke],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [APIKeys],
+});
+
+const runTests = (client: PartialVaif<{ projects: { apiKeys: { revoke: BaseRevoke } } }>) => {
   test('revoke: only required params', async () => {
     const responsePromise = client.projects.apiKeys.revoke.revoke('keyId', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -19,4 +35,7 @@ describe('resource revoke', () => {
   test('revoke: required and optional params', async () => {
     const response = await client.projects.apiKeys.revoke.revoke('keyId', { projectId: 'projectId' });
   });
-});
+};
+describe('resource revoke', () => runTests(client));
+describe('resource revoke (tree shakable, base)', () => runTests(partialClient));
+describe('resource revoke (tree shakable, subresource)', () => runTests(parentPartialClient));

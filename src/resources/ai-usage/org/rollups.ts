@@ -6,8 +6,13 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Rollups extends APIResource {
+export class BaseRollups extends APIResource {
+  static override readonly _key: readonly ['aiUsage', 'org', 'rollups'] = Object.freeze(['aiUsage', 'org', 'rollups'] as const)
+
   getRollups(orgID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.get(path`/ai-usage/org/${orgID}/rollups`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Rollups extends BaseRollups {
+
 }

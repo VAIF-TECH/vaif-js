@@ -5,10 +5,15 @@ import { APIPromise } from '../../../../core/api-promise';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Rollback extends APIResource {
+export class BaseRollback extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'executions', 'rollback'] = Object.freeze(['ai', 'copilot', 'executions', 'rollback'] as const)
+
   rollback(executionID: string, body: RollbackRollbackParams, options?: RequestOptions): APIPromise<RollbackRollbackResponse> {
     return this._client.post(path`/ai/copilot/execution/${executionID}/rollback`, { body, ...options });
   }
+}
+export class Rollback extends BaseRollback {
+
 }
 
 export interface RollbackRollbackResponse {

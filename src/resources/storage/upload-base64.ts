@@ -4,10 +4,15 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class UploadBase64 extends APIResource {
+export class BaseUploadBase64 extends APIResource {
+  static override readonly _key: readonly ['storage', 'uploadBase64'] = Object.freeze(['storage', 'uploadBase64'] as const)
+
   create(body: UploadBase64CreateParams, options?: RequestOptions): APIPromise<UploadBase64CreateResponse> {
     return this._client.post('/storage/upload-base64', { body, ...options });
   }
+}
+export class UploadBase64 extends BaseUploadBase64 {
+
 }
 
 export interface UploadBase64CreateResponse {

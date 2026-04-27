@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Org } from '@vaif/client/resources/oauth/org/org';
+import { BaseProvider } from '@vaif/client/resources/oauth/org/provider/provider';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource provider', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseProvider],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Org],
+});
+
+const runTests = (client: PartialVaif<{ oauth: { org: { provider: BaseProvider } } }>) => {
   test('update: only required params', async () => {
     const responsePromise = client.oauth.org.provider.update('x', { orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
     const rawResponse = await responsePromise.asResponse();
@@ -40,4 +56,7 @@ describe('resource provider', () => {
   test('delete: required and optional params', async () => {
     const response = await client.oauth.org.provider.delete('x', { orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
   });
-});
+};
+describe('resource provider', () => runTests(client));
+describe('resource provider (tree shakable, base)', () => runTests(partialClient));
+describe('resource provider (tree shakable, subresource)', () => runTests(parentPartialClient));

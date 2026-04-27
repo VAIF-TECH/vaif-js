@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseCommit } from '@vaif/client/resources/ai/copilot/git/commit';
+import { Git } from '@vaif/client/resources/ai/copilot/git/git';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource commit', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseCommit],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Git],
+});
+
+const runTests = (client: PartialVaif<{ ai: { copilot: { git: { commit: BaseCommit } } } }>) => {
   test('create', async () => {
     const responsePromise = client.ai.copilot.git.commit.create();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource commit', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource commit', () => runTests(client));
+describe('resource commit (tree shakable, base)', () => runTests(partialClient));
+describe('resource commit (tree shakable, subresource)', () => runTests(parentPartialClient));

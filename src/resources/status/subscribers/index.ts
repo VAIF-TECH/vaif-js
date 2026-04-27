@@ -1,4 +1,4 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Count } from './count';;
-export { Subscribers } from './subscribers';;
+export { Count, BaseCount } from './count';;
+export { Subscribers, BaseSubscribers } from './subscribers';;

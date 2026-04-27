@@ -4,10 +4,15 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Portal extends APIResource {
+export class BasePortal extends APIResource {
+  static override readonly _key: readonly ['billing', 'portal'] = Object.freeze(['billing', 'portal'] as const)
+
   create(body: PortalCreateParams, options?: RequestOptions): APIPromise<PortalCreateResponse> {
     return this._client.post('/billing/portal', { body, ...options });
   }
+}
+export class Portal extends BasePortal {
+
 }
 
 export interface PortalCreateResponse {

@@ -6,11 +6,16 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
-export class Pdf extends APIResource {
+export class BasePdf extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'invoices', 'pdf'] = Object.freeze(['billing', 'org', 'invoices', 'pdf'] as const)
+
   getPdf(invoiceID: string, params: PdfGetPdfParams, options?: RequestOptions): APIPromise<void> {
     const { orgId } = params
     return this._client.get(path`/billing/org/${orgId}/invoices/${invoiceID}/pdf`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Pdf extends BasePdf {
+
 }
 
 export interface PdfGetPdfParams {

@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Plans } from '@vaif/client/resources/plans/plans';
+import { BaseSave } from '@vaif/client/resources/plans/save';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource save', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseSave],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Plans],
+});
+
+const runTests = (client: PartialVaif<{ plans: { save: BaseSave } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.plans.save.create({
     name: 'x',
@@ -43,4 +59,7 @@ describe('resource save', () => {
     visibility: 'public',
   });
   });
-});
+};
+describe('resource save', () => runTests(client));
+describe('resource save (tree shakable, base)', () => runTests(partialClient));
+describe('resource save (tree shakable, subresource)', () => runTests(parentPartialClient));

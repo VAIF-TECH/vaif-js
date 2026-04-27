@@ -5,13 +5,18 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Org extends APIResource {
+export class BaseOrg extends APIResource {
+  static override readonly _key: readonly ['plans', 'org'] = Object.freeze(['plans', 'org'] as const)
+
   /**
    * List saved plans for an organization
    */
   retrieve(orgID: string, options?: RequestOptions): APIPromise<OrgRetrieveResponse> {
     return this._client.get(path`/plans/org/${orgID}`, options);
   }
+}
+export class Org extends BaseOrg {
+
 }
 
 export interface OrgRetrieveResponse {

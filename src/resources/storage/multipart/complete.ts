@@ -5,13 +5,18 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Complete extends APIResource {
+export class BaseComplete extends APIResource {
+  static override readonly _key: readonly ['storage', 'multipart', 'complete'] = Object.freeze(['storage', 'multipart', 'complete'] as const)
+
   /**
    * Complete a multipart upload
    */
   complete(uploadID: string, body: CompleteCompleteParams, options?: RequestOptions): APIPromise<CompleteCompleteResponse> {
     return this._client.post(path`/storage/multipart/${uploadID}/complete`, { body, ...options });
   }
+}
+export class Complete extends BaseComplete {
+
 }
 
 export interface CompleteCompleteResponse {

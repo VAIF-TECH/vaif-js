@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Database extends APIResource {
+export class BaseDatabase extends APIResource {
+  static override readonly _key: readonly ['projects', 'database'] = Object.freeze(['projects', 'database'] as const)
+
   dedicated(projectID: string, body: DatabaseDedicatedParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post(path`/projects/${projectID}/database/dedicated`, { body, ...options });
   }
@@ -30,6 +32,9 @@ export class Database extends APIResource {
   restart(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/database/dedicated/restart`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Database extends BaseDatabase {
+
 }
 
 export type DatabaseDedicatedResponse = unknown

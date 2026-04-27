@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseName } from '@vaif/client/resources/functions/project/name';
+import { Project } from '@vaif/client/resources/functions/project/project';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource name', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseName],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Project],
+});
+
+const runTests = (client: PartialVaif<{ functions: { project: { name: BaseName } } }>) => {
   test('retrieve: only required params', async () => {
     const responsePromise = client.functions.project.name.retrieve('functionName', { projectId: 'projectId' });
     const rawResponse = await responsePromise.asResponse();
@@ -19,4 +35,7 @@ describe('resource name', () => {
   test('retrieve: required and optional params', async () => {
     const response = await client.functions.project.name.retrieve('functionName', { projectId: 'projectId' });
   });
-});
+};
+describe('resource name', () => runTests(client));
+describe('resource name (tree shakable, base)', () => runTests(partialClient));
+describe('resource name (tree shakable, subresource)', () => runTests(parentPartialClient));

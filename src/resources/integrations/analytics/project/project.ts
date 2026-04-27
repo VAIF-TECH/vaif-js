@@ -2,24 +2,32 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as EventsAPI from './events';
-import { Events } from './events';
+import { BaseEvents, Events } from './events';
 import * as StatsAPI from './stats';
-import { Stats } from './stats';
+import { BaseStats, Stats } from './stats';
 
-export class Project extends APIResource {
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['integrations', 'analytics', 'project'] = Object.freeze(['integrations', 'analytics', 'project'] as const)
+
+}
+export class Project extends BaseProject {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
   stats: StatsAPI.Stats = new StatsAPI.Stats(this._client);
 }
 
 Project.Events = Events;
+Project.BaseEvents = BaseEvents;
 Project.Stats = Stats;
+Project.BaseStats = BaseStats;
 
 export declare namespace Project {
   export {
-    Events as Events
+    Events as Events,
+    BaseEvents as BaseEvents
   };
 
   export {
-    Stats as Stats
+    Stats as Stats,
+    BaseStats as BaseStats
   };
 }

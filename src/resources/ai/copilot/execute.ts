@@ -4,10 +4,15 @@ import { APIResource } from '../../../core/resource';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class Execute extends APIResource {
+export class BaseExecute extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'execute'] = Object.freeze(['ai', 'copilot', 'execute'] as const)
+
   create(body: ExecuteCreateParams, options?: RequestOptions): APIPromise<ExecuteCreateResponse> {
     return this._client.post('/ai/copilot/execute', { body, ...options });
   }
+}
+export class Execute extends BaseExecute {
+
 }
 
 export interface ExecuteCreateResponse {

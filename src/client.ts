@@ -150,9 +150,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Vaif API. 
+ * Base class for Vaif API clients.
  */
-export class Vaif {
+export class BaseVaif {
   apiKey: string | null;
   bearerToken: string | null;
 
@@ -196,7 +196,7 @@ export class Vaif {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? Vaif.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? BaseVaif.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
@@ -694,8 +694,14 @@ export class Vaif {
     }
   }
 
-  static Vaif = this;
   static DEFAULT_TIMEOUT = 60000 // 1 minute
+}
+
+/**
+ * API Client for interfacing with the Vaif API. 
+ */
+export class Vaif extends BaseVaif {
+  static Vaif = this;
 
   static VaifError = Errors.VaifError;
   static APIError = Errors.APIError;

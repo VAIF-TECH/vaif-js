@@ -5,10 +5,15 @@ import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
-export class AIAnswer extends APIResource {
+export class BaseAIAnswer extends APIResource {
+  static override readonly _key: readonly ['docs', 'aiAnswer'] = Object.freeze(['docs', 'aiAnswer'] as const)
+
   create(body: AIAnswerCreateParams, options?: RequestOptions): APIPromise<void> {
     return this._client.post('/docs/ai-answer', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class AIAnswer extends BaseAIAnswer {
+
 }
 
 export interface AIAnswerCreateParams {

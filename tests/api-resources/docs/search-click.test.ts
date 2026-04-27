@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Docs } from '@vaif/client/resources/docs/docs';
+import { BaseSearchClick } from '@vaif/client/resources/docs/search-click';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource searchClick', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseSearchClick],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Docs],
+});
+
+const runTests = (client: PartialVaif<{ docs: { searchClick: BaseSearchClick } }>) => {
   test('create', async () => {
     const responsePromise = client.docs.searchClick.create();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource searchClick', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource searchClick', () => runTests(client));
+describe('resource searchClick (tree shakable, base)', () => runTests(partialClient));
+describe('resource searchClick (tree shakable, subresource)', () => runTests(parentPartialClient));

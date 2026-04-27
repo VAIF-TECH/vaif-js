@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class GitHub extends APIResource {
+export class BaseGitHub extends APIResource {
+  static override readonly _key: readonly ['projects', 'github'] = Object.freeze(['projects', 'github'] as const)
+
   branch(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/github/branch`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -42,4 +44,7 @@ export class GitHub extends APIResource {
   push(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/github/push`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class GitHub extends BaseGitHub {
+
 }

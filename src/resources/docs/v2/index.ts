@@ -1,4 +1,4 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Pages } from './pages';
-export { V2 } from './v2';
+export { Pages, BasePages } from './pages';;
+export { V2, BaseV2 } from './v2';;

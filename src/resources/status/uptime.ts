@@ -5,13 +5,18 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Uptime extends APIResource {
+export class BaseUptime extends APIResource {
+  static override readonly _key: readonly ['status', 'uptime'] = Object.freeze(['status', 'uptime'] as const)
+
   /**
    * Get uptime history for a component
    */
   retrieve(componentID: string, options?: RequestOptions): APIPromise<UptimeRetrieveResponse> {
     return this._client.get(path`/status/uptime/${componentID}`, options);
   }
+}
+export class Uptime extends BaseUptime {
+
 }
 
 export interface UptimeRetrieveResponse {

@@ -5,8 +5,13 @@ import { APIPromise } from '../../../../core/api-promise';
 import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
-export class Push extends APIResource {
+export class BasePush extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'git', 'push'] = Object.freeze(['ai', 'copilot', 'git', 'push'] as const)
+
   create(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/ai/copilot/git/push', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Push extends BasePush {
+
 }

@@ -6,11 +6,16 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Start extends APIResource {
+export class BaseStart extends APIResource {
+  static override readonly _key: readonly ['projects', 'infrastructure', 'start'] = Object.freeze(['projects', 'infrastructure', 'start'] as const)
+
   start(instanceID: string, params: StartStartParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
     return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/start`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Start extends BaseStart {
+
 }
 
 export interface StartStartParams {

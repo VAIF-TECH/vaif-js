@@ -6,7 +6,9 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Settings extends APIResource {
+export class BaseSettings extends APIResource {
+  static override readonly _key: readonly ['projects', 'settings'] = Object.freeze(['projects', 'settings'] as const)
+
   addons(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.patch(path`/projects/${projectID}/settings/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
@@ -46,4 +48,7 @@ export class Settings extends APIResource {
   rotate(projectID: string, options?: RequestOptions): APIPromise<void> {
     return this._client.post(path`/projects/${projectID}/settings/jwt/rotate`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class Settings extends BaseSettings {
+
 }

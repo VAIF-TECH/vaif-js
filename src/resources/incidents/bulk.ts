@@ -4,13 +4,18 @@ import { APIResource } from '../../core/resource';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
-export class Bulk extends APIResource {
+export class BaseBulk extends APIResource {
+  static override readonly _key: readonly ['incidents', 'bulk'] = Object.freeze(['incidents', 'bulk'] as const)
+
   /**
    * Bulk acknowledge or resolve incidents
    */
   create(body: BulkCreateParams, options?: RequestOptions): APIPromise<BulkCreateResponse> {
     return this._client.post('/incidents/bulk', { body, ...options });
   }
+}
+export class Bulk extends BaseBulk {
+
 }
 
 export interface BulkCreateResponse {

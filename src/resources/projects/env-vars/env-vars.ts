@@ -2,14 +2,14 @@
 
 import { APIResource } from '../../../core/resource';
 import * as ValueAPI from './value';
-import { Value, ValueGetValueParams } from './value';
+import { BaseValue, Value, ValueGetValueParams } from './value';
 import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class EnvVars extends APIResource {
-  value: ValueAPI.Value = new ValueAPI.Value(this._client);
+export class BaseEnvVars extends APIResource {
+  static override readonly _key: readonly ['projects', 'envVars'] = Object.freeze(['projects', 'envVars'] as const)
 
   update(envVarID: string, params: EnvVarUpdateParams, options?: RequestOptions): APIPromise<void> {
     const { projectId } = params
@@ -29,6 +29,9 @@ export class EnvVars extends APIResource {
     return this._client.get(path`/projects/${projectID}/env-vars`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
+export class EnvVars extends BaseEnvVars {
+  value: ValueAPI.Value = new ValueAPI.Value(this._client);
+}
 
 export interface EnvVarUpdateParams {
   projectId: string;
@@ -39,6 +42,7 @@ export interface EnvVarDeleteParams {
 }
 
 EnvVars.Value = Value;
+EnvVars.BaseValue = BaseValue;
 
 export declare namespace EnvVars {
   export {
@@ -48,6 +52,7 @@ export declare namespace EnvVars {
 
   export {
     Value as Value,
+    BaseValue as BaseValue,
     type ValueGetValueParams as ValueGetValueParams
   };
 }

@@ -2,13 +2,13 @@
 
 import { APIResource } from '../../../core/resource';
 import * as StreamAPI from './stream';
-import { Stream } from './stream';
+import { BaseStream, Stream } from './stream';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Project extends APIResource {
-  stream: StreamAPI.Stream = new StreamAPI.Stream(this._client);
+export class BaseProject extends APIResource {
+  static override readonly _key: readonly ['logs', 'project'] = Object.freeze(['logs', 'project'] as const)
 
   /**
    * List logs for a project
@@ -16,6 +16,9 @@ export class Project extends APIResource {
   retrieve(projectID: string, query: ProjectRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<ProjectRetrieveResponse> {
     return this._client.get(path`/logs/project/${projectID}`, { query, ...options });
   }
+}
+export class Project extends BaseProject {
+  stream: StreamAPI.Stream = new StreamAPI.Stream(this._client);
 }
 
 export type ProjectRetrieveResponse = Array<ProjectRetrieveResponse.ProjectRetrieveResponseItem>
@@ -43,6 +46,7 @@ export interface ProjectRetrieveParams {
 }
 
 Project.Stream = Stream;
+Project.BaseStream = BaseStream;
 
 export declare namespace Project {
   export {
@@ -51,6 +55,7 @@ export declare namespace Project {
   };
 
   export {
-    Stream as Stream
+    Stream as Stream,
+    BaseStream as BaseStream
   };
 }

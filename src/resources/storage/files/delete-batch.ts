@@ -5,8 +5,13 @@ import { APIPromise } from '../../../core/api-promise';
 import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
-export class DeleteBatch extends APIResource {
+export class BaseDeleteBatch extends APIResource {
+  static override readonly _key: readonly ['storage', 'files', 'deleteBatch'] = Object.freeze(['storage', 'files', 'deleteBatch'] as const)
+
   create(options?: RequestOptions): APIPromise<void> {
     return this._client.post('/storage/files/delete-batch', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
+}
+export class DeleteBatch extends BaseDeleteBatch {
+
 }

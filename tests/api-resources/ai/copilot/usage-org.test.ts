@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { Copilot } from '@vaif/client/resources/ai/copilot/copilot';
+import { BaseUsageOrg } from '@vaif/client/resources/ai/copilot/usage-org';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource usageOrg', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseUsageOrg],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Copilot],
+});
+
+const runTests = (client: PartialVaif<{ ai: { copilot: { usageOrg: BaseUsageOrg } } }>) => {
   test('retrieve', async () => {
     const responsePromise = client.ai.copilot.usageOrg.retrieve('orgId');
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource usageOrg', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource usageOrg', () => runTests(client));
+describe('resource usageOrg (tree shakable, base)', () => runTests(partialClient));
+describe('resource usageOrg (tree shakable, subresource)', () => runTests(parentPartialClient));

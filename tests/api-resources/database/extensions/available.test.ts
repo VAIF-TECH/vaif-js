@@ -1,10 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { BaseAvailable } from '@vaif/client/resources/database/extensions/available';
+import { Extensions } from '@vaif/client/resources/database/extensions/extensions';
+
 import Vaif from '@vaif/client';
+import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
-describe('resource available', () => {
+const partialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [BaseAvailable],
+});
+
+const parentPartialClient = createClient({
+  apiKey: 'My API Key',
+  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  resources: [Extensions],
+});
+
+const runTests = (client: PartialVaif<{ database: { extensions: { available: BaseAvailable } } }>) => {
   test('list', async () => {
     const responsePromise = client.database.extensions.available.list();
     const rawResponse = await responsePromise.asResponse();
@@ -15,4 +31,7 @@ describe('resource available', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
-});
+};
+describe('resource available', () => runTests(client));
+describe('resource available (tree shakable, base)', () => runTests(partialClient));
+describe('resource available (tree shakable, subresource)', () => runTests(parentPartialClient));

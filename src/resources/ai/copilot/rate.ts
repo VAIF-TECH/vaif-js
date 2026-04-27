@@ -5,10 +5,15 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class Rate extends APIResource {
+export class BaseRate extends APIResource {
+  static override readonly _key: readonly ['ai', 'copilot', 'rate'] = Object.freeze(['ai', 'copilot', 'rate'] as const)
+
   create(messageID: string, body: RateCreateParams, options?: RequestOptions): APIPromise<RateCreateResponse> {
     return this._client.post(path`/ai/copilot/rate/${messageID}`, { body, ...options });
   }
+}
+export class Rate extends BaseRate {
+
 }
 
 export interface RateCreateResponse {

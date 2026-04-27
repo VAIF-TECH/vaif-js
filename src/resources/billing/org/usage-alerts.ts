@@ -6,7 +6,9 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
-export class UsageAlerts extends APIResource {
+export class BaseUsageAlerts extends APIResource {
+  static override readonly _key: readonly ['billing', 'org', 'usageAlerts'] = Object.freeze(['billing', 'org', 'usageAlerts'] as const)
+
   update(alertID: string, params: UsageAlertUpdateParams, options?: RequestOptions): APIPromise<UsageAlertUpdateResponse> {
     const { orgId, ...body } = params
     return this._client.patch(path`/billing/org/${orgId}/usage-alerts/${alertID}`, { body, ...options });
@@ -32,6 +34,9 @@ export class UsageAlerts extends APIResource {
   usageAlerts(orgID: string, body: UsageAlertUsageAlertsParams, options?: RequestOptions): APIPromise<UsageAlertUsageAlertsResponse> {
     return this._client.post(path`/billing/org/${orgID}/usage-alerts`, { body, ...options });
   }
+}
+export class UsageAlerts extends BaseUsageAlerts {
+
 }
 
 export interface UsageAlertUpdateResponse {

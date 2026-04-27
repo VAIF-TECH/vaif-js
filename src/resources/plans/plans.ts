@@ -2,19 +2,17 @@
 
 import { APIResource } from '../../core/resource';
 import * as ApplyAPI from './apply';
-import { Apply, ApplyCreateParams, ApplyCreateResponse } from './apply';
+import { Apply, ApplyCreateParams, ApplyCreateResponse, BaseApply } from './apply';
 import * as OrgAPI from './org';
-import { Org, OrgRetrieveResponse } from './org';
+import { BaseOrg, Org, OrgRetrieveResponse } from './org';
 import * as SaveAPI from './save';
-import { Save, SaveCreateParams, SaveCreateResponse } from './save';
+import { BaseSave, Save, SaveCreateParams, SaveCreateResponse } from './save';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
-export class Plans extends APIResource {
-  apply: ApplyAPI.Apply = new ApplyAPI.Apply(this._client);
-  org: OrgAPI.Org = new OrgAPI.Org(this._client);
-  save: SaveAPI.Save = new SaveAPI.Save(this._client);
+export class BasePlans extends APIResource {
+  static override readonly _key: readonly ['plans'] = Object.freeze(['plans'] as const)
 
   /**
    * Get a saved plan by ID
@@ -22,6 +20,11 @@ export class Plans extends APIResource {
   retrieve(planID: string, options?: RequestOptions): APIPromise<PlanRetrieveResponse> {
     return this._client.get(path`/plans/${planID}`, options);
   }
+}
+export class Plans extends BasePlans {
+  apply: ApplyAPI.Apply = new ApplyAPI.Apply(this._client);
+  org: OrgAPI.Org = new OrgAPI.Org(this._client);
+  save: SaveAPI.Save = new SaveAPI.Save(this._client);
 }
 
 export interface PlanRetrieveResponse {
@@ -53,8 +56,11 @@ export namespace PlanRetrieveResponse {
 }
 
 Plans.Apply = Apply;
+Plans.BaseApply = BaseApply;
 Plans.Org = Org;
+Plans.BaseOrg = BaseOrg;
 Plans.Save = Save;
+Plans.BaseSave = BaseSave;
 
 export declare namespace Plans {
   export {
@@ -63,17 +69,20 @@ export declare namespace Plans {
 
   export {
     Apply as Apply,
+    BaseApply as BaseApply,
     type ApplyCreateResponse as ApplyCreateResponse,
     type ApplyCreateParams as ApplyCreateParams
   };
 
   export {
     Org as Org,
+    BaseOrg as BaseOrg,
     type OrgRetrieveResponse as OrgRetrieveResponse
   };
 
   export {
     Save as Save,
+    BaseSave as BaseSave,
     type SaveCreateResponse as SaveCreateResponse,
     type SaveCreateParams as SaveCreateParams
   };
