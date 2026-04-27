@@ -50,6 +50,26 @@ export type UploadOptions = {
 
   // Cancellation
   signal?: AbortSignal;
+
+  // Telemetry hooks
+  onUploadStart?: (info: {
+    uploadId: string;
+    bucket: string;
+    path: string;
+    totalBytes: number;
+  }) => void;
+  onUploadRetry?: (info: {
+    uploadId: string;
+    partNumber: number;
+    attempt: number;
+    error: Error;
+  }) => void;
+  onUploadComplete?: (info: {
+    uploadId: string;
+    result: UploadResult;
+    durationMs: number;
+  }) => void;
+  onUploadCancelled?: (info: { uploadId: string; bytesUploaded: number }) => void;
 };
 
 /**

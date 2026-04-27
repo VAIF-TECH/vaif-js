@@ -1,6 +1,6 @@
 import { sliceInput } from './slicer';
-import { runMultipart } from './multipart';
-import { UploadError } from './errors';
+import { runMultipart, type MultipartControl } from './multipart';
+import { UploadCancelledError, UploadError } from './errors';
 import type { UploadOptions, UploadResult, UploadHandle } from './types';
 
 const DEFAULT_MULTIPART_THRESHOLD = 5 * 1024 * 1024; // 5 MB
@@ -12,44 +12,131 @@ type StorageClient = {
   apiKey?: string;
 };
 
+function authHeaders(client: StorageClient): Record<string, string> {
+  return client.apiKey ? { authorization: `Bearer ${client.apiKey}` } : {};
+}
+
 /**
  * Upload a file to the configured storage bucket.
  *
  * Returns a Promise-like handle. Awaiting it yields the `UploadResult`.
  * `handle.cancel()` aborts the upload. `handle.pause()` / `handle.resume()`
  * stop and restart in-flight chunk transfers (multipart only).
- *
- * For inputs smaller than `multipartThreshold` (default 5 MB), uses a
- * single `POST /storage/upload`. Larger or streaming inputs use the
- * multipart flow with `concurrency` chunks in flight at a time.
  */
 export function upload(client: StorageClient, opts: UploadOptions): UploadHandle {
   const totalBytes = sliceInput.size(opts.file) ?? 0;
   const threshold = opts.multipartThreshold ?? DEFAULT_MULTIPART_THRESHOLD;
 
-  // Decide one-shot vs multipart. Streaming inputs (size unknown) always go multipart.
   const useMultipart =
     sliceInput.size(opts.file) === undefined || totalBytes >= threshold;
 
-  // Build the work promise
-  const promise: Promise<UploadResult> = useMultipart
-    ? runMultipart(client, opts, totalBytes, {
-        chunkSize: opts.chunkSize ?? DEFAULT_CHUNK_SIZE,
-        concurrency: opts.concurrency ?? DEFAULT_CONCURRENCY,
-      })
-    : runOneShot(client, opts, totalBytes);
+  // Internal AbortController unifies external signal + handle.cancel()
+  const controller = new AbortController();
+  if (opts.signal) {
+    if (opts.signal.aborted) controller.abort();
+    else opts.signal.addEventListener('abort', () => controller.abort(), { once: true });
+  }
 
-  // Construct the handle (Promise + control methods)
-  const handle = promise as UploadHandle;
+  let paused = false;
+  let uploadId = '';
+  let bytesUploaded = 0;
+  const startedAt = Date.now();
+
+  const control: MultipartControl = {
+    signal: controller.signal,
+    isPaused: () => paused,
+    setUploadId: (id) => {
+      uploadId = id;
+    },
+    setBytesUploaded: (n) => {
+      bytesUploaded = n;
+    },
+  };
+
+  const work = (async (): Promise<UploadResult> => {
+    try {
+      if (useMultipart) {
+        const result = await runMultipart(client, opts, totalBytes, {
+          chunkSize: opts.chunkSize ?? DEFAULT_CHUNK_SIZE,
+          concurrency: opts.concurrency ?? DEFAULT_CONCURRENCY,
+        }, control);
+        try {
+          opts.onUploadComplete?.({
+            uploadId,
+            result,
+            durationMs: Date.now() - startedAt,
+          });
+        } catch {
+          /* ignore */
+        }
+        return result;
+      } else {
+        const result = await runOneShot(client, opts, totalBytes, controller.signal);
+        try {
+          opts.onUploadComplete?.({
+            uploadId: uploadId || 'oneshot',
+            result,
+            durationMs: Date.now() - startedAt,
+          });
+        } catch {
+          /* ignore */
+        }
+        return result;
+      }
+    } catch (err) {
+      if (controller.signal.aborted || err instanceof UploadCancelledError) {
+        // Best-effort: abort server-side multipart + clear resume record.
+        if (uploadId) {
+          try {
+            const abortUrl = new URL(
+              `/storage/multipart/${encodeURIComponent(uploadId)}/abort`,
+              client.baseUrl,
+            ).toString();
+            await fetch(abortUrl, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json', ...authHeaders(client) },
+              body: JSON.stringify({ uploadId }),
+            }).catch(() => undefined);
+          } catch {
+            /* ignore */
+          }
+        }
+        if (opts.resume) {
+          try {
+            await opts.resume.store.delete(opts.resume.key);
+          } catch {
+            /* ignore */
+          }
+        }
+        try {
+          opts.onUploadCancelled?.({ uploadId, bytesUploaded });
+        } catch {
+          /* ignore */
+        }
+        throw err instanceof UploadCancelledError ? err : new UploadCancelledError();
+      }
+      throw err;
+    }
+  })();
+
+  // Cast through unknown to attach control methods to the Promise.
+  const handle = work as unknown as UploadHandle;
   handle.cancel = async () => {
-    // H4 fills this in. For now, no-op.
+    controller.abort();
+    // Allow microtasks to settle (the promise's catch handler does the abort POST + delete).
+    try {
+      await work.catch(() => undefined);
+    } catch {
+      /* ignore */
+    }
   };
   handle.pause = () => {
-    /* H5 */
+    paused = true;
   };
   handle.resume = () => {
-    /* H5 */
+    paused = false;
   };
+  if (opts.resume) handle.resumeKey = opts.resume.key;
   return handle;
 }
 
@@ -57,6 +144,7 @@ async function runOneShot(
   client: StorageClient,
   opts: UploadOptions,
   totalBytes: number,
+  signal: AbortSignal,
 ): Promise<UploadResult> {
   // Materialize the input into a single buffer.
   const buffer = new Uint8Array(totalBytes);
@@ -77,10 +165,23 @@ async function runOneShot(
   if (opts.upsert) headers['x-upsert'] = 'true';
   if (opts.metadata) headers['x-metadata'] = JSON.stringify(opts.metadata);
 
+  // Telemetry: onUploadStart for one-shot
+  try {
+    opts.onUploadStart?.({
+      uploadId: 'oneshot',
+      bucket: opts.bucket,
+      path: opts.path,
+      totalBytes,
+    });
+  } catch {
+    /* ignore */
+  }
+
   const res = await fetch(url, {
     method: 'POST',
     headers,
     body: buffer as unknown as ArrayBuffer,
+    signal,
   });
   if (!res.ok) {
     let detail = '';
