@@ -13,8 +13,14 @@ const sample = (): ResumeRecord => ({
 describe('indexedDbResumeStore', () => {
   beforeEach(async () => {
     // Reset by deleting the test db
+    type Req = {
+      onsuccess: (() => void) | null;
+      onerror: (() => void) | null;
+      onblocked: (() => void) | null;
+    };
+    const idb = (globalThis as unknown as { indexedDB: { deleteDatabase(name: string): Req } }).indexedDB;
     await new Promise<void>((resolve) => {
-      const req = indexedDB.deleteDatabase('vaif_resumes');
+      const req = idb.deleteDatabase('vaif_resumes');
       req.onsuccess = () => resolve();
       req.onerror = () => resolve();
       req.onblocked = () => resolve();

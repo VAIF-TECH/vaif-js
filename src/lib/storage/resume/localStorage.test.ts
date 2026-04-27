@@ -25,13 +25,13 @@ describe('localStorageResumeStore', () => {
     const s = localStorageResumeStore();
     await s.set('myupload', sample());
     expect(await s.get('myupload')).toEqual(sample());
-    expect(localStorage.getItem('vaif-resume:myupload')).not.toBeNull();
+    expect((globalThis as unknown as { localStorage: { getItem(k: string): string | null } }).localStorage.getItem('vaif-resume:myupload')).not.toBeNull();
   });
 
   it('returns undefined for missing or unrelated keys', async () => {
     const s = localStorageResumeStore();
     expect(await s.get('nope')).toBeUndefined();
-    localStorage.setItem('unrelated', 'data'); // not under prefix
+    (globalThis as unknown as { localStorage: { setItem(k: string, v: string): void } }).localStorage.setItem('unrelated', 'data'); // not under prefix
     expect(await s.get('unrelated')).toBeUndefined();
   });
 

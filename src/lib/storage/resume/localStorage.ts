@@ -7,8 +7,14 @@ function k(key: string): string {
   return `${KEY_PREFIX}${key}`;
 }
 
-function ensureLocalStorage(): Storage {
-  const ls = (globalThis as { localStorage?: Storage }).localStorage;
+type LocalStorageLike = {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem(key: string): void;
+};
+
+function ensureLocalStorage(): LocalStorageLike {
+  const ls = (globalThis as { localStorage?: LocalStorageLike }).localStorage;
   if (!ls) {
     throw new ResumeStoreError('localStorage is unavailable in this runtime', 'storage_unavailable');
   }
