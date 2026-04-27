@@ -71,6 +71,24 @@ await channel.subscribe();
 
 See [Realtime Quickstart](./docs/realtime-quickstart.md) for the full guide.
 
+## Storage
+
+Resumable file uploads with progress tracking, multipart support, and browser helpers:
+
+```ts
+import { upload } from '@vaif/client/storage';
+const { path, etag } = await upload(vaif, { bucket: 'avatars', path: 'me.jpg', file: blob });
+```
+
+Browser drag-and-drop:
+
+```ts
+import { createDropZone } from '@vaif/client/storage/browser';
+const cleanup = createDropZone(myDiv, vaif, { bucket: 'inbox', accept: ['image/*'] });
+```
+
+See [Storage Quickstart](./docs/storage-quickstart.md) for the full guide.
+
 ## Handling errors
 
 When the library is unable to connect to the API,

@@ -94,6 +94,19 @@ await realtime.refreshAuth();
 
 `onTransportFallback` telemetry fires when the fallback happens — useful for ops dashboards.
 
+## What's covered automatically
+
+You get these behaviors without writing any code — they kick in as soon as you call `realtime.connect()`:
+
+| Behavior                  | What it does                                                                                  |
+| ------------------------- | --------------------------------------------------------------------------------------------- |
+| **Auth refresh**          | `refreshAuth()` opens a new socket with the fresh JWT, replays subscriptions, swaps atomically |
+| **Online / offline**      | Pauses heartbeats and queues outbound messages when `navigator.onLine` is `false`; flushes on reconnect |
+| **Page visibility**       | Throttles heartbeats and reconnect attempts while the tab is hidden; resumes full cadence on focus |
+| **Rate-limit token bucket** | Outbound `send()` / `track()` calls are smoothed against a per-channel token bucket so a burst can't get you disconnected |
+| **Reconnect with backoff** | Exponential backoff with jitter, capped at `maxDelayMs`, replays subscriptions transparently  |
+| **Outgoing queue**        | Buffers messages while disconnected; drops oldest (configurable) when full                    |
+
 ## Error model
 
 | Class | Surfaces in |
