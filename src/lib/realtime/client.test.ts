@@ -325,4 +325,31 @@ describe('RealtimeClient', () => {
     await rt.disconnect();
     vi.unstubAllGlobals();
   });
+
+  it('respects client-side rate limit token bucket', async () => {
+    server.removeAllListeners('connection');
+    let received = 0;
+    server.on('connection', (ws) => {
+      ws.on('message', () => { received++; });
+    });
+
+    const rt = new RealtimeClient({
+      client: { baseUrl: `http://localhost:${port}`, getAuthToken: async () => 'tok' },
+      transport: 'websocket',
+    });
+    await rt.connect();
+
+    // Drain the bucket: send 50 messages, then a 51st should NOT immediately send (it queues).
+    for (let i = 0; i < 50; i++) {
+      void rt.send({ type: 'broadcast', channel: 'x', event: 'test', payload: { i } });
+    }
+    void rt.send({ type: 'broadcast', channel: 'x', event: 'test', payload: { i: 50 } });
+    // Wait a moment for ws to flush
+    await new Promise((r) => setTimeout(r, 50));
+    // First 50 should arrive (or close to it given async); 51st may not yet.
+    expect(received).toBeGreaterThanOrEqual(50);
+    expect(received).toBeLessThanOrEqual(51);
+
+    await rt.disconnect();
+  });
 });

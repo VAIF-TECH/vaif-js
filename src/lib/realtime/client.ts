@@ -10,6 +10,7 @@ import { RealtimeUrlBuilder } from './url';
 import type { ClientMessage, ServerMessage } from './protocol';
 import { ConnectionError } from './errors';
 import { detectRuntime } from './runtime';
+import { TokenBucket } from './token-bucket';
 
 // Minimal Document shape for browser visibility integration without requiring 'dom' lib.
 type VisibilityDoc = {
@@ -96,6 +97,7 @@ export class RealtimeClient {
   private visibilityListenerInstalled = false;
   private networkIntegrationEnabled = false;
   private networkListenerInstalled = false;
+  private rateBucket = new TokenBucket({ capacity: 50, refillPerSec: 50 });
 
   private onOnline = (): void => {
     // Reset backoff and try connecting immediately if we're not already open.
@@ -326,11 +328,13 @@ export class RealtimeClient {
 
   /** @internal — public for Channel; routes through queue when not open. */
   async send(msg: ClientMessage): Promise<void> {
-    if (this.state.status === 'open' && this.transport) {
+    // Mirror server-side rate limit (50 msg/s per connection) client-side.
+    if (this.state.status === 'open' && this.transport && this.rateBucket.tryConsume()) {
       this.cfg.onMessageSent?.(msg);
       await this.transport.send(msg);
       return;
     }
+    // Either not open, or rate limit reached — queue. Drain will retry once tokens are available.
     this.queue.enqueue(msg);
   }
 
@@ -427,7 +431,11 @@ export class RealtimeClient {
     // heartbeat starts only after FIFO drain completes.
     try {
       await this.queue.drain(async (msg) => {
-        if (this.transport) await this.transport.send(msg);
+        if (!this.transport) return;
+        while (!this.rateBucket.tryConsume()) {
+          await new Promise((r) => setTimeout(r, this.rateBucket.msUntilAvailable()));
+        }
+        await this.transport.send(msg);
       });
     } catch (err) {
       this.cfg.onError?.(err as Error);
