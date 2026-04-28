@@ -23,13 +23,15 @@ export class Token extends BaseToken {}
 /**
  * CLI auth token poll: still pending — the user hasn't approved the device yet.
  */
-export type TokenCreateResponse = TokenCreateResponse.UnionMember0 | TokenCreateResponse.UnionMember1;
+export type TokenCreateResponse =
+  | TokenCreateResponse.AuthCliTokenPost200Variant0
+  | TokenCreateResponse.AuthCliTokenPost200Variant1;
 
 export namespace TokenCreateResponse {
   /**
    * CLI auth token poll: still pending — the user hasn't approved the device yet.
    */
-  export interface UnionMember0 {
+  export interface AuthCliTokenPost200Variant0 {
     ok: false;
 
     status: 'pending';
@@ -38,17 +40,17 @@ export namespace TokenCreateResponse {
   /**
    * CLI auth token poll: approved — token issued, login complete.
    */
-  export interface UnionMember1 {
+  export interface AuthCliTokenPost200Variant1 {
     accessToken: string;
 
     expiresIn: number;
 
     ok: true;
 
-    user: UnionMember1.User;
+    user: AuthCliTokenPost200Variant1.User;
   }
 
-  export namespace UnionMember1 {
+  export namespace AuthCliTokenPost200Variant1 {
     export interface User {
       id: string;
 
