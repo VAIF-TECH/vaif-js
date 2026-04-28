@@ -15,12 +15,13 @@ import * as SummaryAPI from './summary';
 import { BaseSummary, Summary } from './summary';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['aiUsage', 'org'] = Object.freeze(['aiUsage', 'org'] as const)
-
+  static override readonly _key: readonly ['aiUsage', 'org'] = Object.freeze(['aiUsage', 'org'] as const);
 }
 export class Org extends BaseOrg {
   breakdown: BreakdownAPI.Breakdown = new BreakdownAPI.Breakdown(this._client);
-  exhaustionEvents: ExhaustionEventsAPI.ExhaustionEvents = new ExhaustionEventsAPI.ExhaustionEvents(this._client);
+  exhaustionEvents: ExhaustionEventsAPI.ExhaustionEvents = new ExhaustionEventsAPI.ExhaustionEvents(
+    this._client,
+  );
   history: HistoryAPI.History = new HistoryAPI.History(this._client);
   recent: RecentAPI.Recent = new RecentAPI.Recent(this._client);
   rollups: RollupsAPI.Rollups = new RollupsAPI.Rollups(this._client);
@@ -41,33 +42,15 @@ Org.Summary = Summary;
 Org.BaseSummary = BaseSummary;
 
 export declare namespace Org {
-  export {
-    Breakdown as Breakdown,
-    BaseBreakdown as BaseBreakdown
-  };
+  export { Breakdown as Breakdown, BaseBreakdown as BaseBreakdown };
 
-  export {
-    ExhaustionEvents as ExhaustionEvents,
-    BaseExhaustionEvents as BaseExhaustionEvents
-  };
+  export { ExhaustionEvents as ExhaustionEvents, BaseExhaustionEvents as BaseExhaustionEvents };
 
-  export {
-    History as History,
-    BaseHistory as BaseHistory
-  };
+  export { History as History, BaseHistory as BaseHistory };
 
-  export {
-    Recent as Recent,
-    BaseRecent as BaseRecent
-  };
+  export { Recent as Recent, BaseRecent as BaseRecent };
 
-  export {
-    Rollups as Rollups,
-    BaseRollups as BaseRollups
-  };
+  export { Rollups as Rollups, BaseRollups as BaseRollups };
 
-  export {
-    Summary as Summary,
-    BaseSummary as BaseSummary
-  };
+  export { Summary as Summary, BaseSummary as BaseSummary };
 }

@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseAudit extends APIResource {
-  static override readonly _key: readonly ['security', 'audit'] = Object.freeze(['security', 'audit'] as const)
+  static override readonly _key: readonly ['security', 'audit'] = Object.freeze([
+    'security',
+    'audit',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/security/audit/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/security/audit/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Audit extends BaseAudit {
-
-}
+export class Audit extends BaseAudit {}

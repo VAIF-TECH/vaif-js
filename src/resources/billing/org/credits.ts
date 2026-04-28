@@ -7,19 +7,28 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseCredits extends APIResource {
-  static override readonly _key: readonly ['billing', 'org', 'credits'] = Object.freeze(['billing', 'org', 'credits'] as const)
+  static override readonly _key: readonly ['billing', 'org', 'credits'] = Object.freeze([
+    'billing',
+    'org',
+    'credits',
+  ] as const);
 
   getTransactions(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/credits/transactions`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/credits/transactions`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  purchase(orgID: string, body: CreditPurchaseParams, options?: RequestOptions): APIPromise<CreditPurchaseResponse> {
+  purchase(
+    orgID: string,
+    body: CreditPurchaseParams,
+    options?: RequestOptions,
+  ): APIPromise<CreditPurchaseResponse> {
     return this._client.post(path`/billing/org/${orgID}/credits/purchase`, { body, ...options });
   }
 }
-export class Credits extends BaseCredits {
-
-}
+export class Credits extends BaseCredits {}
 
 export interface CreditPurchaseResponse {
   checkoutUrl: string | null;
@@ -38,6 +47,6 @@ export interface CreditPurchaseParams {
 export declare namespace Credits {
   export {
     type CreditPurchaseResponse as CreditPurchaseResponse,
-    type CreditPurchaseParams as CreditPurchaseParams
+    type CreditPurchaseParams as CreditPurchaseParams,
   };
 }

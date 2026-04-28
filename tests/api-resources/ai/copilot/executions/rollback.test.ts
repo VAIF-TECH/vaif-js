@@ -6,23 +6,28 @@ import { BaseRollback } from '@vaif/client/resources/ai/copilot/executions/rollb
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseRollback],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Executions],
 });
 
 const runTests = (client: PartialVaif<{ ai: { copilot: { executions: { rollback: BaseRollback } } } }>) => {
   test('rollback: only required params', async () => {
-    const responsePromise = client.ai.copilot.executions.rollback.rollback('executionId', { checkpointId: 'checkpointId' });
+    const responsePromise = client.ai.copilot.executions.rollback.rollback('executionId', {
+      checkpointId: 'checkpointId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,7 +38,9 @@ const runTests = (client: PartialVaif<{ ai: { copilot: { executions: { rollback:
   });
 
   test('rollback: required and optional params', async () => {
-    const response = await client.ai.copilot.executions.rollback.rollback('executionId', { checkpointId: 'checkpointId' });
+    const response = await client.ai.copilot.executions.rollback.rollback('executionId', {
+      checkpointId: 'checkpointId',
+    });
   });
 };
 describe('resource rollback', () => runTests(client));

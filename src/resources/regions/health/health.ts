@@ -8,10 +8,16 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseHealth extends APIResource {
-  static override readonly _key: readonly ['regions', 'health'] = Object.freeze(['regions', 'health'] as const)
+  static override readonly _key: readonly ['regions', 'health'] = Object.freeze([
+    'regions',
+    'health',
+  ] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/regions/health', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/regions/health', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Health extends BaseHealth {
@@ -22,8 +28,5 @@ Health.Check = Check;
 Health.BaseCheck = BaseCheck;
 
 export declare namespace Health {
-  export {
-    Check as Check,
-    BaseCheck as BaseCheck
-  };
+  export { Check as Check, BaseCheck as BaseCheck };
 }

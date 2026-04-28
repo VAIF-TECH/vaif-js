@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['integrations', 'dlq', 'project'] = Object.freeze(['integrations', 'dlq', 'project'] as const)
+  static override readonly _key: readonly ['integrations', 'dlq', 'project'] = Object.freeze([
+    'integrations',
+    'dlq',
+    'project',
+  ] as const);
 
   /**
    * List failed deliveries (DLQ) for a project
@@ -15,16 +19,12 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/integrations/dlq/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}
 
 export interface ProjectRetrieveResponse {
   deliveries: Array<unknown>;
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

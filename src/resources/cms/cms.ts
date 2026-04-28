@@ -15,8 +15,7 @@ import * as TestimonialsAPI from './testimonials';
 import { BaseTestimonials, Testimonials } from './testimonials';
 
 export class BaseCms extends APIResource {
-  static override readonly _key: readonly ['cms'] = Object.freeze(['cms'] as const)
-
+  static override readonly _key: readonly ['cms'] = Object.freeze(['cms'] as const);
 }
 export class Cms extends BaseCms {
   careers: CareersAPI.Careers = new CareersAPI.Careers(this._client);
@@ -41,33 +40,15 @@ Cms.Testimonials = Testimonials;
 Cms.BaseTestimonials = BaseTestimonials;
 
 export declare namespace Cms {
-  export {
-    Careers as Careers,
-    BaseCareers as BaseCareers
-  };
+  export { Careers as Careers, BaseCareers as BaseCareers };
 
-  export {
-    Faqs as Faqs,
-    BaseFaqs as BaseFaqs
-  };
+  export { Faqs as Faqs, BaseFaqs as BaseFaqs };
 
-  export {
-    Pages as Pages,
-    BasePages as BasePages
-  };
+  export { Pages as Pages, BasePages as BasePages };
 
-  export {
-    Partners as Partners,
-    BasePartners as BasePartners
-  };
+  export { Partners as Partners, BasePartners as BasePartners };
 
-  export {
-    Team as Team,
-    BaseTeam as BaseTeam
-  };
+  export { Team as Team, BaseTeam as BaseTeam };
 
-  export {
-    Testimonials as Testimonials,
-    BaseTestimonials as BaseTestimonials
-  };
+  export { Testimonials as Testimonials, BaseTestimonials as BaseTestimonials };
 }

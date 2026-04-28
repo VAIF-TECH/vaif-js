@@ -23,8 +23,11 @@ import * as WriteAPI from './write';
 import { BaseWrite, Write } from './write';
 
 export class BaseGit extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'git'] = Object.freeze(['ai', 'copilot', 'git'] as const)
-
+  static override readonly _key: readonly ['ai', 'copilot', 'git'] = Object.freeze([
+    'ai',
+    'copilot',
+    'git',
+  ] as const);
 }
 export class Git extends BaseGit {
   branches: BranchesAPI.Branches = new BranchesAPI.Branches(this._client);
@@ -61,53 +64,23 @@ Git.Write = Write;
 Git.BaseWrite = BaseWrite;
 
 export declare namespace Git {
-  export {
-    Branches as Branches,
-    BaseBranches as BaseBranches
-  };
+  export { Branches as Branches, BaseBranches as BaseBranches };
 
-  export {
-    Clone as Clone,
-    BaseClone as BaseClone
-  };
+  export { Clone as Clone, BaseClone as BaseClone };
 
-  export {
-    Commit as Commit,
-    BaseCommit as BaseCommit
-  };
+  export { Commit as Commit, BaseCommit as BaseCommit };
 
-  export {
-    Files as Files,
-    BaseFiles as BaseFiles
-  };
+  export { Files as Files, BaseFiles as BaseFiles };
 
-  export {
-    Init as Init,
-    BaseInit as BaseInit
-  };
+  export { Init as Init, BaseInit as BaseInit };
 
-  export {
-    Log as Log,
-    BaseLog as BaseLog
-  };
+  export { Log as Log, BaseLog as BaseLog };
 
-  export {
-    Pull as Pull,
-    BasePull as BasePull
-  };
+  export { Pull as Pull, BasePull as BasePull };
 
-  export {
-    Push as Push,
-    BasePush as BasePush
-  };
+  export { Push as Push, BasePush as BasePush };
 
-  export {
-    Status as Status,
-    BaseStatus as BaseStatus
-  };
+  export { Status as Status, BaseStatus as BaseStatus };
 
-  export {
-    Write as Write,
-    BaseWrite as BaseWrite
-  };
+  export { Write as Write, BaseWrite as BaseWrite };
 }

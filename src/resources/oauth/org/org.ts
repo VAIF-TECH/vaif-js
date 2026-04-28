@@ -4,13 +4,20 @@ import { APIResource } from '../../../core/resource';
 import * as ConfigureAPI from './configure';
 import { BaseConfigure, Configure, ConfigureConfigureParams, ConfigureConfigureResponse } from './configure';
 import * as ProviderAPI from './provider/provider';
-import { BaseProvider, Provider, ProviderDeleteParams, ProviderDeleteResponse, ProviderUpdateParams, ProviderUpdateResponse } from './provider/provider';
+import {
+  BaseProvider,
+  Provider,
+  ProviderDeleteParams,
+  ProviderDeleteResponse,
+  ProviderUpdateParams,
+  ProviderUpdateResponse,
+} from './provider/provider';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['oauth', 'org'] = Object.freeze(['oauth', 'org'] as const)
+  static override readonly _key: readonly ['oauth', 'org'] = Object.freeze(['oauth', 'org'] as const);
 
   /**
    * List OAuth configurations for an organization
@@ -50,15 +57,13 @@ Org.Provider = Provider;
 Org.BaseProvider = BaseProvider;
 
 export declare namespace Org {
-  export {
-    type OrgRetrieveResponse as OrgRetrieveResponse
-  };
+  export { type OrgRetrieveResponse as OrgRetrieveResponse };
 
   export {
     Configure as Configure,
     BaseConfigure as BaseConfigure,
     type ConfigureConfigureResponse as ConfigureConfigureResponse,
-    type ConfigureConfigureParams as ConfigureConfigureParams
+    type ConfigureConfigureParams as ConfigureConfigureParams,
   };
 
   export {
@@ -67,6 +72,6 @@ export declare namespace Org {
     type ProviderUpdateResponse as ProviderUpdateResponse,
     type ProviderDeleteResponse as ProviderDeleteResponse,
     type ProviderUpdateParams as ProviderUpdateParams,
-    type ProviderDeleteParams as ProviderDeleteParams
+    type ProviderDeleteParams as ProviderDeleteParams,
   };
 }

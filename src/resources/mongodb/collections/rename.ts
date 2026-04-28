@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseRename extends APIResource {
-  static override readonly _key: readonly ['mongoDB', 'collections', 'rename'] = Object.freeze(['mongoDB', 'collections', 'rename'] as const)
+  static override readonly _key: readonly ['mongoDB', 'collections', 'rename'] = Object.freeze([
+    'mongoDB',
+    'collections',
+    'rename',
+  ] as const);
 
   rename(name: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/collections/${name}/rename`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/mongodb/collections/${name}/rename`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Rename extends BaseRename {
-
-}
+export class Rename extends BaseRename {}

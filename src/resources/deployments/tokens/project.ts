@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['deployments', 'tokens', 'project'] = Object.freeze(['deployments', 'tokens', 'project'] as const)
+  static override readonly _key: readonly ['deployments', 'tokens', 'project'] = Object.freeze([
+    'deployments',
+    'tokens',
+    'project',
+  ] as const);
 
   /**
    * List deployment tokens for a project
@@ -15,9 +19,7 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/deployments/tokens/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}
 
 export interface ProjectRetrieveResponse {
   tokens: Array<ProjectRetrieveResponse.Token>;
@@ -36,7 +38,5 @@ export namespace ProjectRetrieveResponse {
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

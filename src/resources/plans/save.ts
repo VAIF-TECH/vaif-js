@@ -5,7 +5,7 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseSave extends APIResource {
-  static override readonly _key: readonly ['plans', 'save'] = Object.freeze(['plans', 'save'] as const)
+  static override readonly _key: readonly ['plans', 'save'] = Object.freeze(['plans', 'save'] as const);
 
   /**
    * Save an AI-generated plan
@@ -14,9 +14,7 @@ export class BaseSave extends APIResource {
     return this._client.post('/plans/save', { body, ...options });
   }
 }
-export class Save extends BaseSave {
-
-}
+export class Save extends BaseSave {}
 
 export interface SaveCreateResponse {
   ok: true;
@@ -44,7 +42,7 @@ export namespace SaveCreateResponse {
 
     updatedAt?: string | (string & {}) | null;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -83,8 +81,5 @@ export namespace SaveCreateParams {
 }
 
 export declare namespace Save {
-  export {
-    type SaveCreateResponse as SaveCreateResponse,
-    type SaveCreateParams as SaveCreateParams
-  };
+  export { type SaveCreateResponse as SaveCreateResponse, type SaveCreateParams as SaveCreateParams };
 }

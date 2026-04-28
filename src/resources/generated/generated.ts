@@ -15,29 +15,44 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseGenerated extends APIResource {
-  static override readonly _key: readonly ['generated'] = Object.freeze(['generated'] as const)
+  static override readonly _key: readonly ['generated'] = Object.freeze(['generated'] as const);
 
   create(table: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/generated/${table}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/generated/${table}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retrieve(table: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/generated/${table}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/generated/${table}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   update(id: string, params: GeneratedUpdateParams, options?: RequestOptions): APIPromise<void> {
-    const { table } = params
-    return this._client.patch(path`/generated/${table}/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { table } = params;
+    return this._client.patch(path`/generated/${table}/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   delete(id: string, params: GeneratedDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { table } = params
-    return this._client.delete(path`/generated/${table}/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { table } = params;
+    return this._client.delete(path`/generated/${table}/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retrieve2(id: string, params: GeneratedRetrieve2Params, options?: RequestOptions): APIPromise<void> {
-    const { table } = params
-    return this._client.get(path`/generated/${table}/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { table } = params;
+    return this._client.get(path`/generated/${table}/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Generated extends BaseGenerated {
@@ -72,26 +87,14 @@ export declare namespace Generated {
   export {
     type GeneratedUpdateParams as GeneratedUpdateParams,
     type GeneratedDeleteParams as GeneratedDeleteParams,
-    type GeneratedRetrieve2Params as GeneratedRetrieve2Params
+    type GeneratedRetrieve2Params as GeneratedRetrieve2Params,
   };
 
-  export {
-    Aggregate as Aggregate,
-    BaseAggregate as BaseAggregate
-  };
+  export { Aggregate as Aggregate, BaseAggregate as BaseAggregate };
 
-  export {
-    Bulk as Bulk,
-    BaseBulk as BaseBulk
-  };
+  export { Bulk as Bulk, BaseBulk as BaseBulk };
 
-  export {
-    Query as Query,
-    BaseQuery as BaseQuery
-  };
+  export { Query as Query, BaseQuery as BaseQuery };
 
-  export {
-    Search as Search,
-    BaseSearch as BaseSearch
-  };
+  export { Search as Search, BaseSearch as BaseSearch };
 }

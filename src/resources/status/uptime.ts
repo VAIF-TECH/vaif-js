@@ -6,7 +6,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseUptime extends APIResource {
-  static override readonly _key: readonly ['status', 'uptime'] = Object.freeze(['status', 'uptime'] as const)
+  static override readonly _key: readonly ['status', 'uptime'] = Object.freeze(['status', 'uptime'] as const);
 
   /**
    * Get uptime history for a component
@@ -15,9 +15,7 @@ export class BaseUptime extends APIResource {
     return this._client.get(path`/status/uptime/${componentID}`, options);
   }
 }
-export class Uptime extends BaseUptime {
-
-}
+export class Uptime extends BaseUptime {}
 
 export interface UptimeRetrieveResponse {
   componentId: string;
@@ -38,7 +36,5 @@ export namespace UptimeRetrieveResponse {
 }
 
 export declare namespace Uptime {
-  export {
-    type UptimeRetrieveResponse as UptimeRetrieveResponse
-  };
+  export { type UptimeRetrieveResponse as UptimeRetrieveResponse };
 }

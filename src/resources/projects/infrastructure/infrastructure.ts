@@ -23,39 +23,66 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseInfrastructure extends APIResource {
-  static override readonly _key: readonly ['projects', 'infrastructure'] = Object.freeze(['projects', 'infrastructure'] as const)
+  static override readonly _key: readonly ['projects', 'infrastructure'] = Object.freeze([
+    'projects',
+    'infrastructure',
+  ] as const);
 
   delete(instanceID: string, params: InfrastructureDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.delete(path`/projects/${projectId}/infrastructure/${instanceID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.delete(path`/projects/${projectId}/infrastructure/${instanceID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getInfrastructure(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/infrastructure`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/infrastructure`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getMigrationStatus(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/infrastructure/migration-status`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/infrastructure/migration-status`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getProgress(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/infrastructure/migration/progress`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/infrastructure/migration/progress`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   provision(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/infrastructure/provision`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/infrastructure/provision`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   provisionCustom(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/infrastructure/provision-custom`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/infrastructure/provision-custom`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retry(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/infrastructure/migration/retry`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/infrastructure/migration/retry`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   rollback(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/infrastructure/migration/rollback`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/infrastructure/migration/rollback`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Infrastructure extends BaseInfrastructure {
@@ -91,56 +118,42 @@ Infrastructure.UpgradeOptions = UpgradeOptions;
 Infrastructure.BaseUpgradeOptions = BaseUpgradeOptions;
 
 export declare namespace Infrastructure {
-  export {
-    type InfrastructureDeleteParams as InfrastructureDeleteParams
-  };
+  export { type InfrastructureDeleteParams as InfrastructureDeleteParams };
 
   export {
     Metrics as Metrics,
     BaseMetrics as BaseMetrics,
-    type MetricGetMetricsParams as MetricGetMetricsParams
+    type MetricGetMetricsParams as MetricGetMetricsParams,
   };
 
   export {
     MigrateNow as MigrateNow,
     BaseMigrateNow as BaseMigrateNow,
-    type MigrateNowMigrateNowParams as MigrateNowMigrateNowParams
+    type MigrateNowMigrateNowParams as MigrateNowMigrateNowParams,
   };
 
   export {
     Replicas as Replicas,
     BaseReplicas as BaseReplicas,
     type ReplicaGetReplicasParams as ReplicaGetReplicasParams,
-    type ReplicaReplicaParams as ReplicaReplicaParams
+    type ReplicaReplicaParams as ReplicaReplicaParams,
   };
 
-  export {
-    Resize as Resize,
-    BaseResize as BaseResize,
-    type ResizeResizeParams as ResizeResizeParams
-  };
+  export { Resize as Resize, BaseResize as BaseResize, type ResizeResizeParams as ResizeResizeParams };
 
   export {
     ResizeCustom as ResizeCustom,
     BaseResizeCustom as BaseResizeCustom,
-    type ResizeCustomResizeCustomParams as ResizeCustomResizeCustomParams
+    type ResizeCustomResizeCustomParams as ResizeCustomResizeCustomParams,
   };
 
-  export {
-    Start as Start,
-    BaseStart as BaseStart,
-    type StartStartParams as StartStartParams
-  };
+  export { Start as Start, BaseStart as BaseStart, type StartStartParams as StartStartParams };
 
-  export {
-    Stop as Stop,
-    BaseStop as BaseStop,
-    type StopStopParams as StopStopParams
-  };
+  export { Stop as Stop, BaseStop as BaseStop, type StopStopParams as StopStopParams };
 
   export {
     UpgradeOptions as UpgradeOptions,
     BaseUpgradeOptions as BaseUpgradeOptions,
-    type UpgradeOptionGetUpgradeOptionsParams as UpgradeOptionGetUpgradeOptionsParams
+    type UpgradeOptionGetUpgradeOptionsParams as UpgradeOptionGetUpgradeOptionsParams,
   };
 }

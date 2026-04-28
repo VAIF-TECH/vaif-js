@@ -9,7 +9,10 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseTokens extends APIResource {
-  static override readonly _key: readonly ['deployments', 'tokens'] = Object.freeze(['deployments', 'tokens'] as const)
+  static override readonly _key: readonly ['deployments', 'tokens'] = Object.freeze([
+    'deployments',
+    'tokens',
+  ] as const);
 
   /**
    * Create a deployment token
@@ -43,20 +46,13 @@ Tokens.Revoke = Revoke;
 Tokens.BaseRevoke = BaseRevoke;
 
 export declare namespace Tokens {
-  export {
-    type TokenCreateResponse as TokenCreateResponse,
-    type TokenCreateParams as TokenCreateParams
-  };
+  export { type TokenCreateResponse as TokenCreateResponse, type TokenCreateParams as TokenCreateParams };
 
   export {
     Project as Project,
     BaseProject as BaseProject,
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
+    type ProjectRetrieveResponse as ProjectRetrieveResponse,
   };
 
-  export {
-    Revoke as Revoke,
-    BaseRevoke as BaseRevoke,
-    type RevokeRevokeResponse as RevokeRevokeResponse
-  };
+  export { Revoke as Revoke, BaseRevoke as BaseRevoke, type RevokeRevokeResponse as RevokeRevokeResponse };
 }

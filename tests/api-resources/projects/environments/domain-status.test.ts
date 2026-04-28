@@ -6,23 +6,30 @@ import { Environments } from '@vaif/client/resources/projects/environments/envir
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseDomainStatus],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Environments],
 });
 
-const runTests = (client: PartialVaif<{ projects: { environments: { domainStatus: BaseDomainStatus } } }>) => {
+const runTests = (
+  client: PartialVaif<{ projects: { environments: { domainStatus: BaseDomainStatus } } }>,
+) => {
   test('getDomainStatus: only required params', async () => {
-    const responsePromise = client.projects.environments.domainStatus.getDomainStatus('envId', { projectId: 'projectId' });
+    const responsePromise = client.projects.environments.domainStatus.getDomainStatus('envId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,7 +40,9 @@ const runTests = (client: PartialVaif<{ projects: { environments: { domainStatus
   });
 
   test('getDomainStatus: required and optional params', async () => {
-    const response = await client.projects.environments.domainStatus.getDomainStatus('envId', { projectId: 'projectId' });
+    const response = await client.projects.environments.domainStatus.getDomainStatus('envId', {
+      projectId: 'projectId',
+    });
   });
 };
 describe('resource domainStatus', () => runTests(client));

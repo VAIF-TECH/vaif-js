@@ -6,18 +6,24 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseComplete extends APIResource {
-  static override readonly _key: readonly ['storage', 'multipart', 'complete'] = Object.freeze(['storage', 'multipart', 'complete'] as const)
+  static override readonly _key: readonly ['storage', 'multipart', 'complete'] = Object.freeze([
+    'storage',
+    'multipart',
+    'complete',
+  ] as const);
 
   /**
    * Complete a multipart upload
    */
-  complete(uploadID: string, body: CompleteCompleteParams, options?: RequestOptions): APIPromise<CompleteCompleteResponse> {
+  complete(
+    uploadID: string,
+    body: CompleteCompleteParams,
+    options?: RequestOptions,
+  ): APIPromise<CompleteCompleteResponse> {
     return this._client.post(path`/storage/multipart/${uploadID}/complete`, { body, ...options });
   }
 }
-export class Complete extends BaseComplete {
-
-}
+export class Complete extends BaseComplete {}
 
 export interface CompleteCompleteResponse {
   key: string;
@@ -44,6 +50,6 @@ export namespace CompleteCompleteParams {
 export declare namespace Complete {
   export {
     type CompleteCompleteResponse as CompleteCompleteResponse,
-    type CompleteCompleteParams as CompleteCompleteParams
+    type CompleteCompleteParams as CompleteCompleteParams,
   };
 }

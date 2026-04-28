@@ -7,10 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseSchedule extends APIResource {
-  static override readonly _key: readonly ['functions', 'schedule'] = Object.freeze(['functions', 'schedule'] as const)
+  static override readonly _key: readonly ['functions', 'schedule'] = Object.freeze([
+    'functions',
+    'schedule',
+  ] as const);
 
   getSchedule(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/${functionID}/schedule`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/functions/${functionID}/schedule`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   schedule(functionID: string, body: ScheduleScheduleParams, options?: RequestOptions): APIPromise<unknown> {
@@ -18,14 +24,15 @@ export class BaseSchedule extends APIResource {
   }
 
   schedule2(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/functions/${functionID}/schedule`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/functions/${functionID}/schedule`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Schedule extends BaseSchedule {
+export class Schedule extends BaseSchedule {}
 
-}
-
-export type ScheduleScheduleResponse = unknown
+export type ScheduleScheduleResponse = unknown;
 
 export interface ScheduleScheduleParams {
   cron: string;
@@ -36,6 +43,6 @@ export interface ScheduleScheduleParams {
 export declare namespace Schedule {
   export {
     type ScheduleScheduleResponse as ScheduleScheduleResponse,
-    type ScheduleScheduleParams as ScheduleScheduleParams
+    type ScheduleScheduleParams as ScheduleScheduleParams,
   };
 }

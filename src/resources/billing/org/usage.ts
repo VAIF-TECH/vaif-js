@@ -7,20 +7,31 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseUsage extends APIResource {
-  static override readonly _key: readonly ['billing', 'org', 'usage'] = Object.freeze(['billing', 'org', 'usage'] as const)
+  static override readonly _key: readonly ['billing', 'org', 'usage'] = Object.freeze([
+    'billing',
+    'org',
+    'usage',
+  ] as const);
 
   getHistory(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage/history`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage/history`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getRealtime(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage/realtime`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage/realtime`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getUsage(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Usage extends BaseUsage {
-
-}
+export class Usage extends BaseUsage {}

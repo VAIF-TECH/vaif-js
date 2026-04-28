@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseCallback extends APIResource {
-  static override readonly _key: readonly ['auth', 'cli', 'callback'] = Object.freeze(['auth', 'cli', 'callback'] as const)
+  static override readonly _key: readonly ['auth', 'cli', 'callback'] = Object.freeze([
+    'auth',
+    'cli',
+    'callback',
+  ] as const);
 
   /**
    * Approve a pending CLI auth session from the web app
@@ -14,9 +18,7 @@ export class BaseCallback extends APIResource {
     return this._client.post('/auth/cli/callback', { body, ...options });
   }
 }
-export class Callback extends BaseCallback {
-
-}
+export class Callback extends BaseCallback {}
 
 export interface CallbackCreateResponse {
   ok: true;
@@ -29,6 +31,6 @@ export interface CallbackCreateParams {
 export declare namespace Callback {
   export {
     type CallbackCreateResponse as CallbackCreateResponse,
-    type CallbackCreateParams as CallbackCreateParams
+    type CallbackCreateParams as CallbackCreateParams,
   };
 }

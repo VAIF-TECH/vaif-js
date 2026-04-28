@@ -5,7 +5,7 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseRefresh extends APIResource {
-  static override readonly _key: readonly ['auth', 'refresh'] = Object.freeze(['auth', 'refresh'] as const)
+  static override readonly _key: readonly ['auth', 'refresh'] = Object.freeze(['auth', 'refresh'] as const);
 
   /**
    * Rotate the refresh token and issue a new access token
@@ -14,9 +14,7 @@ export class BaseRefresh extends APIResource {
     return this._client.post('/auth/refresh', options);
   }
 }
-export class Refresh extends BaseRefresh {
-
-}
+export class Refresh extends BaseRefresh {}
 
 export interface RefreshCreateResponse {
   accessToken: string;
@@ -47,7 +45,5 @@ export namespace RefreshCreateResponse {
 }
 
 export declare namespace Refresh {
-  export {
-    type RefreshCreateResponse as RefreshCreateResponse
-  };
+  export { type RefreshCreateResponse as RefreshCreateResponse };
 }

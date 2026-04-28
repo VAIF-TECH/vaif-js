@@ -10,7 +10,10 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseSubscriptions extends APIResource {
-  static override readonly _key: readonly ['integrations', 'subscriptions'] = Object.freeze(['integrations', 'subscriptions'] as const)
+  static override readonly _key: readonly ['integrations', 'subscriptions'] = Object.freeze([
+    'integrations',
+    'subscriptions',
+  ] as const);
 
   /**
    * Create an integration subscription
@@ -64,7 +67,7 @@ export namespace SubscriptionCreateResponse {
 
     updatedAt?: string | (string & {});
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -94,7 +97,7 @@ export namespace SubscriptionUpdateResponse {
 
     updatedAt?: string | (string & {});
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -150,18 +153,14 @@ export declare namespace Subscriptions {
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionUpdateResponse as SubscriptionUpdateResponse,
     type SubscriptionDeleteResponse as SubscriptionDeleteResponse,
-    type SubscriptionCreateParams as SubscriptionCreateParams
+    type SubscriptionCreateParams as SubscriptionCreateParams,
   };
 
   export {
     Project as Project,
     BaseProject as BaseProject,
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
+    type ProjectRetrieveResponse as ProjectRetrieveResponse,
   };
 
-  export {
-    Test as Test,
-    BaseTest as BaseTest,
-    type TestTestResponse as TestTestResponse
-  };
+  export { Test as Test, BaseTest as BaseTest, type TestTestResponse as TestTestResponse };
 }

@@ -11,8 +11,7 @@ import * as WrappersAPI from './wrappers/wrappers';
 import { BaseWrappers, Wrappers } from './wrappers/wrappers';
 
 export class BaseDatabase extends APIResource {
-  static override readonly _key: readonly ['database'] = Object.freeze(['database'] as const)
-
+  static override readonly _key: readonly ['database'] = Object.freeze(['database'] as const);
 }
 export class Database extends BaseDatabase {
   connector: ConnectorAPI.Connector = new ConnectorAPI.Connector(this._client);
@@ -31,23 +30,11 @@ Database.Wrappers = Wrappers;
 Database.BaseWrappers = BaseWrappers;
 
 export declare namespace Database {
-  export {
-    Connector as Connector,
-    BaseConnector as BaseConnector
-  };
+  export { Connector as Connector, BaseConnector as BaseConnector };
 
-  export {
-    Extensions as Extensions,
-    BaseExtensions as BaseExtensions
-  };
+  export { Extensions as Extensions, BaseExtensions as BaseExtensions };
 
-  export {
-    Tiers as Tiers,
-    BaseTiers as BaseTiers
-  };
+  export { Tiers as Tiers, BaseTiers as BaseTiers };
 
-  export {
-    Wrappers as Wrappers,
-    BaseWrappers as BaseWrappers
-  };
+  export { Wrappers as Wrappers, BaseWrappers as BaseWrappers };
 }

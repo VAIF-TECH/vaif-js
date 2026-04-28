@@ -7,8 +7,10 @@ import * as ProjectAPI from './project/project';
 import { BaseProject, Project, ProjectDeleteParams } from './project/project';
 
 export class BaseExtensions extends APIResource {
-  static override readonly _key: readonly ['database', 'extensions'] = Object.freeze(['database', 'extensions'] as const)
-
+  static override readonly _key: readonly ['database', 'extensions'] = Object.freeze([
+    'database',
+    'extensions',
+  ] as const);
 }
 export class Extensions extends BaseExtensions {
   available: AvailableAPI.Available = new AvailableAPI.Available(this._client);
@@ -21,14 +23,7 @@ Extensions.Project = Project;
 Extensions.BaseProject = BaseProject;
 
 export declare namespace Extensions {
-  export {
-    Available as Available,
-    BaseAvailable as BaseAvailable
-  };
+  export { Available as Available, BaseAvailable as BaseAvailable };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject,
-    type ProjectDeleteParams as ProjectDeleteParams
-  };
+  export { Project as Project, BaseProject as BaseProject, type ProjectDeleteParams as ProjectDeleteParams };
 }

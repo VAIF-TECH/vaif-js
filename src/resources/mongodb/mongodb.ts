@@ -47,8 +47,7 @@ import * as CursorAPI from './cursor/cursor';
 import { BaseCursor, Cursor } from './cursor/cursor';
 
 export class BaseMongoDB extends APIResource {
-  static override readonly _key: readonly ['mongoDB'] = Object.freeze(['mongoDB'] as const)
-
+  static override readonly _key: readonly ['mongoDB'] = Object.freeze(['mongoDB'] as const);
 }
 export class MongoDB extends BaseMongoDB {
   aggregate: AggregateAPI.Aggregate = new AggregateAPI.Aggregate(this._client);
@@ -64,9 +63,15 @@ export class MongoDB extends BaseMongoDB {
   find: FindAPI.Find = new FindAPI.Find(this._client);
   findByID: FindByIDAPI.FindByID = new FindByIDAPI.FindByID(this._client);
   findOne: FindOneAPI.FindOne = new FindOneAPI.FindOne(this._client);
-  findOneAndDelete: FindOneAndDeleteAPI.FindOneAndDelete = new FindOneAndDeleteAPI.FindOneAndDelete(this._client);
-  findOneAndReplace: FindOneAndReplaceAPI.FindOneAndReplace = new FindOneAndReplaceAPI.FindOneAndReplace(this._client);
-  findOneAndUpdate: FindOneAndUpdateAPI.FindOneAndUpdate = new FindOneAndUpdateAPI.FindOneAndUpdate(this._client);
+  findOneAndDelete: FindOneAndDeleteAPI.FindOneAndDelete = new FindOneAndDeleteAPI.FindOneAndDelete(
+    this._client,
+  );
+  findOneAndReplace: FindOneAndReplaceAPI.FindOneAndReplace = new FindOneAndReplaceAPI.FindOneAndReplace(
+    this._client,
+  );
+  findOneAndUpdate: FindOneAndUpdateAPI.FindOneAndUpdate = new FindOneAndUpdateAPI.FindOneAndUpdate(
+    this._client,
+  );
   indexes: IndexesAPI.Indexes = new IndexesAPI.Indexes(this._client);
   insertMany: InsertManyAPI.InsertMany = new InsertManyAPI.InsertMany(this._client);
   insertOne: InsertOneAPI.InsertOne = new InsertOneAPI.InsertOne(this._client);
@@ -121,115 +126,51 @@ MongoDB.UpdateOne = UpdateOne;
 MongoDB.BaseUpdateOne = BaseUpdateOne;
 
 export declare namespace MongoDB {
-  export {
-    Aggregate as Aggregate,
-    BaseAggregate as BaseAggregate
-  };
+  export { Aggregate as Aggregate, BaseAggregate as BaseAggregate };
 
-  export {
-    BulkWrite as BulkWrite,
-    BaseBulkWrite as BaseBulkWrite
-  };
+  export { BulkWrite as BulkWrite, BaseBulkWrite as BaseBulkWrite };
 
-  export {
-    Collections as Collections,
-    BaseCollections as BaseCollections
-  };
+  export { Collections as Collections, BaseCollections as BaseCollections };
 
-  export {
-    Command as Command,
-    BaseCommand as BaseCommand
-  };
+  export { Command as Command, BaseCommand as BaseCommand };
 
-  export {
-    Count as Count,
-    BaseCount as BaseCount
-  };
+  export { Count as Count, BaseCount as BaseCount };
 
-  export {
-    Cursor as Cursor,
-    BaseCursor as BaseCursor
-  };
+  export { Cursor as Cursor, BaseCursor as BaseCursor };
 
-  export {
-    DeleteMany as DeleteMany,
-    BaseDeleteMany as BaseDeleteMany
-  };
+  export { DeleteMany as DeleteMany, BaseDeleteMany as BaseDeleteMany };
 
-  export {
-    DeleteOne as DeleteOne,
-    BaseDeleteOne as BaseDeleteOne
-  };
+  export { DeleteOne as DeleteOne, BaseDeleteOne as BaseDeleteOne };
 
-  export {
-    Distinct as Distinct,
-    BaseDistinct as BaseDistinct
-  };
+  export { Distinct as Distinct, BaseDistinct as BaseDistinct };
 
-  export {
-    EstimatedCount as EstimatedCount,
-    BaseEstimatedCount as BaseEstimatedCount
-  };
+  export { EstimatedCount as EstimatedCount, BaseEstimatedCount as BaseEstimatedCount };
 
-  export {
-    Find as Find,
-    BaseFind as BaseFind
-  };
+  export { Find as Find, BaseFind as BaseFind };
 
   export {
     FindByID as FindByID,
     BaseFindByID as BaseFindByID,
-    type FindByIDRetrieveParams as FindByIDRetrieveParams
+    type FindByIDRetrieveParams as FindByIDRetrieveParams,
   };
 
-  export {
-    FindOne as FindOne,
-    BaseFindOne as BaseFindOne
-  };
+  export { FindOne as FindOne, BaseFindOne as BaseFindOne };
 
-  export {
-    FindOneAndDelete as FindOneAndDelete,
-    BaseFindOneAndDelete as BaseFindOneAndDelete
-  };
+  export { FindOneAndDelete as FindOneAndDelete, BaseFindOneAndDelete as BaseFindOneAndDelete };
 
-  export {
-    FindOneAndReplace as FindOneAndReplace,
-    BaseFindOneAndReplace as BaseFindOneAndReplace
-  };
+  export { FindOneAndReplace as FindOneAndReplace, BaseFindOneAndReplace as BaseFindOneAndReplace };
 
-  export {
-    FindOneAndUpdate as FindOneAndUpdate,
-    BaseFindOneAndUpdate as BaseFindOneAndUpdate
-  };
+  export { FindOneAndUpdate as FindOneAndUpdate, BaseFindOneAndUpdate as BaseFindOneAndUpdate };
 
-  export {
-    Indexes as Indexes,
-    BaseIndexes as BaseIndexes,
-    type IndexDeleteParams as IndexDeleteParams
-  };
+  export { Indexes as Indexes, BaseIndexes as BaseIndexes, type IndexDeleteParams as IndexDeleteParams };
 
-  export {
-    InsertMany as InsertMany,
-    BaseInsertMany as BaseInsertMany
-  };
+  export { InsertMany as InsertMany, BaseInsertMany as BaseInsertMany };
 
-  export {
-    InsertOne as InsertOne,
-    BaseInsertOne as BaseInsertOne
-  };
+  export { InsertOne as InsertOne, BaseInsertOne as BaseInsertOne };
 
-  export {
-    ReplaceOne as ReplaceOne,
-    BaseReplaceOne as BaseReplaceOne
-  };
+  export { ReplaceOne as ReplaceOne, BaseReplaceOne as BaseReplaceOne };
 
-  export {
-    UpdateMany as UpdateMany,
-    BaseUpdateMany as BaseUpdateMany
-  };
+  export { UpdateMany as UpdateMany, BaseUpdateMany as BaseUpdateMany };
 
-  export {
-    UpdateOne as UpdateOne,
-    BaseUpdateOne as BaseUpdateOne
-  };
+  export { UpdateOne as UpdateOne, BaseUpdateOne as BaseUpdateOne };
 }

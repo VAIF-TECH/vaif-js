@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseTest extends APIResource {
-  static override readonly _key: readonly ['integrations', 'subscriptions', 'test'] = Object.freeze(['integrations', 'subscriptions', 'test'] as const)
+  static override readonly _key: readonly ['integrations', 'subscriptions', 'test'] = Object.freeze([
+    'integrations',
+    'subscriptions',
+    'test',
+  ] as const);
 
   /**
    * Send a test event to an integration subscription
@@ -15,16 +19,12 @@ export class BaseTest extends APIResource {
     return this._client.post(path`/integrations/subscriptions/${id}/test`, options);
   }
 }
-export class Test extends BaseTest {
-
-}
+export class Test extends BaseTest {}
 
 export interface TestTestResponse {
   ok: true;
 }
 
 export declare namespace Test {
-  export {
-    type TestTestResponse as TestTestResponse
-  };
+  export { type TestTestResponse as TestTestResponse };
 }

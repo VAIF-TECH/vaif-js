@@ -11,8 +11,7 @@ import * as ResolveAPI from './resolve';
 import { BaseResolve, Resolve, ResolveResolveResponse } from './resolve';
 
 export class BaseIncidents extends APIResource {
-  static override readonly _key: readonly ['incidents'] = Object.freeze(['incidents'] as const)
-
+  static override readonly _key: readonly ['incidents'] = Object.freeze(['incidents'] as const);
 }
 export class Incidents extends BaseIncidents {
   ack: AckAPI.Ack = new AckAPI.Ack(this._client);
@@ -31,28 +30,24 @@ Incidents.Resolve = Resolve;
 Incidents.BaseResolve = BaseResolve;
 
 export declare namespace Incidents {
-  export {
-    Ack as Ack,
-    BaseAck as BaseAck,
-    type AckAckResponse as AckAckResponse
-  };
+  export { Ack as Ack, BaseAck as BaseAck, type AckAckResponse as AckAckResponse };
 
   export {
     Bulk as Bulk,
     BaseBulk as BaseBulk,
     type BulkCreateResponse as BulkCreateResponse,
-    type BulkCreateParams as BulkCreateParams
+    type BulkCreateParams as BulkCreateParams,
   };
 
   export {
     Project as Project,
     BaseProject as BaseProject,
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
+    type ProjectRetrieveResponse as ProjectRetrieveResponse,
   };
 
   export {
     Resolve as Resolve,
     BaseResolve as BaseResolve,
-    type ResolveResolveResponse as ResolveResolveResponse
+    type ResolveResolveResponse as ResolveResolveResponse,
   };
 }

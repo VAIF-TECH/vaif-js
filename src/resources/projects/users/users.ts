@@ -4,7 +4,13 @@ import { APIResource } from '../../../core/resource';
 import * as BanAPI from './ban';
 import { Ban, BanBanParams, BanBanResponse, BaseBan } from './ban';
 import * as SessionsAPI from './sessions';
-import { BaseSessions, SessionDeleteParams, SessionGetSessionsParams, SessionRevokeAllParams, Sessions } from './sessions';
+import {
+  BaseSessions,
+  SessionDeleteParams,
+  SessionGetSessionsParams,
+  SessionRevokeAllParams,
+  Sessions,
+} from './sessions';
 import * as UnbanAPI from './unban';
 import { BaseUnban, Unban, UnbanUnbanParams } from './unban';
 import { APIPromise } from '../../../core/api-promise';
@@ -13,25 +19,37 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseUsers extends APIResource {
-  static override readonly _key: readonly ['projects', 'users'] = Object.freeze(['projects', 'users'] as const)
+  static override readonly _key: readonly ['projects', 'users'] = Object.freeze([
+    'projects',
+    'users',
+  ] as const);
 
   retrieve(userID: string, params: UserRetrieveParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.get(path`/projects/${projectId}/users/${userID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.get(path`/projects/${projectId}/users/${userID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   update(userID: string, params: UserUpdateParams, options?: RequestOptions): APIPromise<UserUpdateResponse> {
-    const { projectId, ...body } = params
+    const { projectId, ...body } = params;
     return this._client.patch(path`/projects/${projectId}/users/${userID}`, { body, ...options });
   }
 
   delete(userID: string, params: UserDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.delete(path`/projects/${projectId}/users/${userID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.delete(path`/projects/${projectId}/users/${userID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getUsers(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/users`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/users`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   users(projectID: string, body: UserUsersParams, options?: RequestOptions): APIPromise<UserUsersResponse> {
@@ -70,7 +88,7 @@ export namespace UserUpdateResponse {
 
     metadata?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -92,7 +110,7 @@ export namespace UserUsersResponse {
 
     metadata?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -167,14 +185,14 @@ export declare namespace Users {
     type UserRetrieveParams as UserRetrieveParams,
     type UserUpdateParams as UserUpdateParams,
     type UserDeleteParams as UserDeleteParams,
-    type UserUsersParams as UserUsersParams
+    type UserUsersParams as UserUsersParams,
   };
 
   export {
     Ban as Ban,
     BaseBan as BaseBan,
     type BanBanResponse as BanBanResponse,
-    type BanBanParams as BanBanParams
+    type BanBanParams as BanBanParams,
   };
 
   export {
@@ -182,12 +200,8 @@ export declare namespace Users {
     BaseSessions as BaseSessions,
     type SessionDeleteParams as SessionDeleteParams,
     type SessionGetSessionsParams as SessionGetSessionsParams,
-    type SessionRevokeAllParams as SessionRevokeAllParams
+    type SessionRevokeAllParams as SessionRevokeAllParams,
   };
 
-  export {
-    Unban as Unban,
-    BaseUnban as BaseUnban,
-    type UnbanUnbanParams as UnbanUnbanParams
-  };
+  export { Unban as Unban, BaseUnban as BaseUnban, type UnbanUnbanParams as UnbanUnbanParams };
 }

@@ -6,7 +6,10 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['incidents', 'project'] = Object.freeze(['incidents', 'project'] as const)
+  static override readonly _key: readonly ['incidents', 'project'] = Object.freeze([
+    'incidents',
+    'project',
+  ] as const);
 
   /**
    * List incidents for a project
@@ -15,9 +18,7 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/incidents/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}
 
 export interface ProjectRetrieveResponse {
   incidents: Array<ProjectRetrieveResponse.Incident>;
@@ -41,12 +42,10 @@ export namespace ProjectRetrieveResponse {
 
     updatedAt?: string | (string & {}) | null;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

@@ -6,12 +6,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseEnableAll extends APIResource {
-  static override readonly _key: readonly ['realtime', 'enableAll'] = Object.freeze(['realtime', 'enableAll'] as const)
+  static override readonly _key: readonly ['realtime', 'enableAll'] = Object.freeze([
+    'realtime',
+    'enableAll',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/realtime/enable-all', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/realtime/enable-all', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class EnableAll extends BaseEnableAll {
-
-}
+export class EnableAll extends BaseEnableAll {}

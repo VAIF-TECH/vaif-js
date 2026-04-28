@@ -17,8 +17,7 @@ import * as SubscriptionsAPI from './subscriptions/subscriptions';
 import { BaseSubscriptions, Subscriptions } from './subscriptions/subscriptions';
 
 export class BaseRealtime extends APIResource {
-  static override readonly _key: readonly ['realtime'] = Object.freeze(['realtime'] as const)
-
+  static override readonly _key: readonly ['realtime'] = Object.freeze(['realtime'] as const);
 }
 export class Realtime extends BaseRealtime {
   connections: ConnectionsAPI.Connections = new ConnectionsAPI.Connections(this._client);
@@ -46,38 +45,17 @@ Realtime.Subscriptions = Subscriptions;
 Realtime.BaseSubscriptions = BaseSubscriptions;
 
 export declare namespace Realtime {
-  export {
-    Connections as Connections,
-    BaseConnections as BaseConnections
-  };
+  export { Connections as Connections, BaseConnections as BaseConnections };
 
-  export {
-    EnableAll as EnableAll,
-    BaseEnableAll as BaseEnableAll
-  };
+  export { EnableAll as EnableAll, BaseEnableAll as BaseEnableAll };
 
-  export {
-    Events as Events,
-    BaseEvents as BaseEvents
-  };
+  export { Events as Events, BaseEvents as BaseEvents };
 
-  export {
-    Install as Install,
-    BaseInstall as BaseInstall
-  };
+  export { Install as Install, BaseInstall as BaseInstall };
 
-  export {
-    Stats as Stats,
-    BaseStats as BaseStats
-  };
+  export { Stats as Stats, BaseStats as BaseStats };
 
-  export {
-    Status as Status,
-    BaseStatus as BaseStatus
-  };
+  export { Status as Status, BaseStatus as BaseStatus };
 
-  export {
-    Subscriptions as Subscriptions,
-    BaseSubscriptions as BaseSubscriptions
-  };
+  export { Subscriptions as Subscriptions, BaseSubscriptions as BaseSubscriptions };
 }

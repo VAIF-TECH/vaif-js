@@ -6,17 +6,20 @@ import { Users } from '@vaif/client/resources/projects/users/users';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseBan],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Users],
 });
 
@@ -33,7 +36,10 @@ const runTests = (client: PartialVaif<{ projects: { users: { ban: BaseBan } } }>
   });
 
   test('ban: required and optional params', async () => {
-    const response = await client.projects.users.ban.ban('userId', { projectId: 'projectId', reason: 'reason' });
+    const response = await client.projects.users.ban.ban('userId', {
+      projectId: 'projectId',
+      reason: 'reason',
+    });
   });
 };
 describe('resource ban', () => runTests(client));

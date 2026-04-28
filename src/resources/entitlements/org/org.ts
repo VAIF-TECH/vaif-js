@@ -9,10 +9,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['entitlements', 'org'] = Object.freeze(['entitlements', 'org'] as const)
+  static override readonly _key: readonly ['entitlements', 'org'] = Object.freeze([
+    'entitlements',
+    'org',
+  ] as const);
 
   retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/entitlements/org/${orgID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/entitlements/org/${orgID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Org extends BaseOrg {
@@ -23,8 +29,5 @@ Org.Check = Check;
 Org.BaseCheck = BaseCheck;
 
 export declare namespace Org {
-  export {
-    Check as Check,
-    BaseCheck as BaseCheck
-  };
+  export { Check as Check, BaseCheck as BaseCheck };
 }

@@ -5,8 +5,7 @@ import * as ProjectAPI from './project/project';
 import { BaseProject, Project, ProjectRetrieveParams, ProjectRetrieveResponse } from './project/project';
 
 export class BaseQuickstart extends APIResource {
-  static override readonly _key: readonly ['quickstart'] = Object.freeze(['quickstart'] as const)
-
+  static override readonly _key: readonly ['quickstart'] = Object.freeze(['quickstart'] as const);
 }
 export class Quickstart extends BaseQuickstart {
   project: ProjectAPI.Project = new ProjectAPI.Project(this._client);
@@ -20,6 +19,6 @@ export declare namespace Quickstart {
     Project as Project,
     BaseProject as BaseProject,
     type ProjectRetrieveResponse as ProjectRetrieveResponse,
-    type ProjectRetrieveParams as ProjectRetrieveParams
+    type ProjectRetrieveParams as ProjectRetrieveParams,
   };
 }

@@ -5,22 +5,23 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseUploadURL extends APIResource {
-  static override readonly _key: readonly ['storage', 'uploadURL'] = Object.freeze(['storage', 'uploadURL'] as const)
+  static override readonly _key: readonly ['storage', 'uploadURL'] = Object.freeze([
+    'storage',
+    'uploadURL',
+  ] as const);
 
   create(body: UploadURLCreateParams, options?: RequestOptions): APIPromise<UploadURLCreateResponse> {
     return this._client.post('/storage/upload-url', { body, ...options });
   }
 }
-export class UploadURL extends BaseUploadURL {
-
-}
+export class UploadURL extends BaseUploadURL {}
 
 export interface UploadURLCreateResponse {
   ok: true;
 
   url: string;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface UploadURLCreateParams {
@@ -34,6 +35,6 @@ export interface UploadURLCreateParams {
 export declare namespace UploadURL {
   export {
     type UploadURLCreateResponse as UploadURLCreateResponse,
-    type UploadURLCreateParams as UploadURLCreateParams
+    type UploadURLCreateParams as UploadURLCreateParams,
   };
 }

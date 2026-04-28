@@ -6,12 +6,19 @@ import { buildHeaders } from '../../../../../internal/headers';
 import { RequestOptions } from '../../../../../internal/request-options';
 
 export class BaseGcp extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform', 'gcp'] = Object.freeze(['ai', 'copilot', 'export', 'terraform', 'gcp'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform', 'gcp'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+    'terraform',
+    'gcp',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/export/terraform/gcp', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/export/terraform/gcp', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Gcp extends BaseGcp {
-
-}
+export class Gcp extends BaseGcp {}

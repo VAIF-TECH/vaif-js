@@ -6,23 +6,30 @@ import { Project } from '@vaif/client/resources/database/extensions/project/proj
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseInstall],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Project],
 });
 
-const runTests = (client: PartialVaif<{ database: { extensions: { project: { install: BaseInstall } } } }>) => {
+const runTests = (
+  client: PartialVaif<{ database: { extensions: { project: { install: BaseInstall } } } }>,
+) => {
   test('install: only required params', async () => {
-    const responsePromise = client.database.extensions.project.install.install('projectId', { extensionId: 'x' });
+    const responsePromise = client.database.extensions.project.install.install('projectId', {
+      extensionId: 'x',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,10 +41,10 @@ const runTests = (client: PartialVaif<{ database: { extensions: { project: { ins
 
   test('install: required and optional params', async () => {
     const response = await client.database.extensions.project.install.install('projectId', {
-    extensionId: 'x',
-    config: { foo: 'bar' },
-    envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      extensionId: 'x',
+      config: { foo: 'bar' },
+      envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
   });
 };
 describe('resource install', () => runTests(client));

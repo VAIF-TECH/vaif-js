@@ -8,12 +8,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['logs', 'project'] = Object.freeze(['logs', 'project'] as const)
+  static override readonly _key: readonly ['logs', 'project'] = Object.freeze(['logs', 'project'] as const);
 
   /**
    * List logs for a project
    */
-  retrieve(projectID: string, query: ProjectRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<ProjectRetrieveResponse> {
+  retrieve(
+    projectID: string,
+    query: ProjectRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ProjectRetrieveResponse> {
     return this._client.get(path`/logs/project/${projectID}`, { query, ...options });
   }
 }
@@ -21,7 +25,7 @@ export class Project extends BaseProject {
   stream: StreamAPI.Stream = new StreamAPI.Stream(this._client);
 }
 
-export type ProjectRetrieveResponse = Array<ProjectRetrieveResponse.ProjectRetrieveResponseItem>
+export type ProjectRetrieveResponse = Array<ProjectRetrieveResponse.ProjectRetrieveResponseItem>;
 
 export namespace ProjectRetrieveResponse {
   export interface ProjectRetrieveResponseItem {
@@ -35,7 +39,7 @@ export namespace ProjectRetrieveResponse {
 
     message?: string | null;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -51,11 +55,8 @@ Project.BaseStream = BaseStream;
 export declare namespace Project {
   export {
     type ProjectRetrieveResponse as ProjectRetrieveResponse,
-    type ProjectRetrieveParams as ProjectRetrieveParams
+    type ProjectRetrieveParams as ProjectRetrieveParams,
   };
 
-  export {
-    Stream as Stream,
-    BaseStream as BaseStream
-  };
+  export { Stream as Stream, BaseStream as BaseStream };
 }

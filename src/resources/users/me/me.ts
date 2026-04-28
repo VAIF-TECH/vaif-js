@@ -12,20 +12,27 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseMe extends APIResource {
-  static override readonly _key: readonly ['users', 'me'] = Object.freeze(['users', 'me'] as const)
+  static override readonly _key: readonly ['users', 'me'] = Object.freeze(['users', 'me'] as const);
 
   update(options?: RequestOptions): APIPromise<void> {
-    return this._client.patch('/users/me', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.patch('/users/me', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/users/me', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/users/me', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Me extends BaseMe {
   changePassword: ChangePasswordAPI.ChangePassword = new ChangePasswordAPI.ChangePassword(this._client);
   preferences: PreferencesAPI.Preferences = new PreferencesAPI.Preferences(this._client);
-  requestAccountDelete: RequestAccountDeleteAPI.RequestAccountDelete = new RequestAccountDeleteAPI.RequestAccountDelete(this._client);
+  requestAccountDelete: RequestAccountDeleteAPI.RequestAccountDelete =
+    new RequestAccountDeleteAPI.RequestAccountDelete(this._client);
 }
 
 Me.ChangePassword = ChangePassword;
@@ -36,18 +43,12 @@ Me.RequestAccountDelete = RequestAccountDelete;
 Me.BaseRequestAccountDelete = BaseRequestAccountDelete;
 
 export declare namespace Me {
-  export {
-    ChangePassword as ChangePassword,
-    BaseChangePassword as BaseChangePassword
-  };
+  export { ChangePassword as ChangePassword, BaseChangePassword as BaseChangePassword };
 
-  export {
-    Preferences as Preferences,
-    BasePreferences as BasePreferences
-  };
+  export { Preferences as Preferences, BasePreferences as BasePreferences };
 
   export {
     RequestAccountDelete as RequestAccountDelete,
-    BaseRequestAccountDelete as BaseRequestAccountDelete
+    BaseRequestAccountDelete as BaseRequestAccountDelete,
   };
 }

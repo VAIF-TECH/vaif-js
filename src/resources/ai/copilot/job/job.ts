@@ -13,14 +13,21 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseJob extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'job'] = Object.freeze(['ai', 'copilot', 'job'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'job'] = Object.freeze([
+    'ai',
+    'copilot',
+    'job',
+  ] as const);
 
   create(body: JobCreateParams, options?: RequestOptions): APIPromise<JobCreateResponse> {
     return this._client.post('/ai/copilot/job', { body, ...options });
   }
 
   retrieve(jobID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/job/${jobID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/job/${jobID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Job extends BaseJob {
@@ -141,23 +148,11 @@ Job.Retry = Retry;
 Job.BaseRetry = BaseRetry;
 
 export declare namespace Job {
-  export {
-    type JobCreateResponse as JobCreateResponse,
-    type JobCreateParams as JobCreateParams
-  };
+  export { type JobCreateResponse as JobCreateResponse, type JobCreateParams as JobCreateParams };
 
-  export {
-    Cancel as Cancel,
-    BaseCancel as BaseCancel
-  };
+  export { Cancel as Cancel, BaseCancel as BaseCancel };
 
-  export {
-    Events as Events,
-    BaseEvents as BaseEvents
-  };
+  export { Events as Events, BaseEvents as BaseEvents };
 
-  export {
-    Retry as Retry,
-    BaseRetry as BaseRetry
-  };
+  export { Retry as Retry, BaseRetry as BaseRetry };
 }

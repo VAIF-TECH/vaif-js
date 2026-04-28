@@ -11,8 +11,7 @@ import * as MoveAPI from './move';
 import { BaseMove, Move } from './move';
 
 export class BaseFiles extends APIResource {
-  static override readonly _key: readonly ['storage', 'files'] = Object.freeze(['storage', 'files'] as const)
-
+  static override readonly _key: readonly ['storage', 'files'] = Object.freeze(['storage', 'files'] as const);
 }
 export class Files extends BaseFiles {
   copy: CopyAPI.Copy = new CopyAPI.Copy(this._client);
@@ -31,23 +30,11 @@ Files.Move = Move;
 Files.BaseMove = BaseMove;
 
 export declare namespace Files {
-  export {
-    Copy as Copy,
-    BaseCopy as BaseCopy
-  };
+  export { Copy as Copy, BaseCopy as BaseCopy };
 
-  export {
-    DeleteBatch as DeleteBatch,
-    BaseDeleteBatch as BaseDeleteBatch
-  };
+  export { DeleteBatch as DeleteBatch, BaseDeleteBatch as BaseDeleteBatch };
 
-  export {
-    Metadata as Metadata,
-    BaseMetadata as BaseMetadata
-  };
+  export { Metadata as Metadata, BaseMetadata as BaseMetadata };
 
-  export {
-    Move as Move,
-    BaseMove as BaseMove
-  };
+  export { Move as Move, BaseMove as BaseMove };
 }

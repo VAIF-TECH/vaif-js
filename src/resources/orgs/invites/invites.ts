@@ -9,15 +9,21 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseInvites extends APIResource {
-  static override readonly _key: readonly ['orgs', 'invites'] = Object.freeze(['orgs', 'invites'] as const)
+  static override readonly _key: readonly ['orgs', 'invites'] = Object.freeze(['orgs', 'invites'] as const);
 
   delete(inviteID: string, params: InviteDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params
-    return this._client.delete(path`/orgs/${orgId}/invites/${inviteID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { orgId } = params;
+    return this._client.delete(path`/orgs/${orgId}/invites/${inviteID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getInvites(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/orgs/${orgID}/invites`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/orgs/${orgID}/invites`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Invites extends BaseInvites {
@@ -32,12 +38,7 @@ Invites.Accept = Accept;
 Invites.BaseAccept = BaseAccept;
 
 export declare namespace Invites {
-  export {
-    type InviteDeleteParams as InviteDeleteParams
-  };
+  export { type InviteDeleteParams as InviteDeleteParams };
 
-  export {
-    Accept as Accept,
-    BaseAccept as BaseAccept
-  };
+  export { Accept as Accept, BaseAccept as BaseAccept };
 }

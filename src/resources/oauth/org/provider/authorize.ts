@@ -6,19 +6,26 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseAuthorize extends APIResource {
-  static override readonly _key: readonly ['oauth', 'org', 'provider', 'authorize'] = Object.freeze(['oauth', 'org', 'provider', 'authorize'] as const)
+  static override readonly _key: readonly ['oauth', 'org', 'provider', 'authorize'] = Object.freeze([
+    'oauth',
+    'org',
+    'provider',
+    'authorize',
+  ] as const);
 
   /**
    * Generate OAuth authorization URL
    */
-  getAuthorize(provider: string, params: AuthorizeGetAuthorizeParams, options?: RequestOptions): APIPromise<AuthorizeGetAuthorizeResponse> {
-    const { orgId } = params
+  getAuthorize(
+    provider: string,
+    params: AuthorizeGetAuthorizeParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthorizeGetAuthorizeResponse> {
+    const { orgId } = params;
     return this._client.get(path`/oauth/org/${orgId}/provider/${provider}/authorize`, options);
   }
 }
-export class Authorize extends BaseAuthorize {
-
-}
+export class Authorize extends BaseAuthorize {}
 
 export interface AuthorizeGetAuthorizeResponse {
   authorizationUrl: string;
@@ -35,6 +42,6 @@ export interface AuthorizeGetAuthorizeParams {
 export declare namespace Authorize {
   export {
     type AuthorizeGetAuthorizeResponse as AuthorizeGetAuthorizeResponse,
-    type AuthorizeGetAuthorizeParams as AuthorizeGetAuthorizeParams
+    type AuthorizeGetAuthorizeParams as AuthorizeGetAuthorizeParams,
   };
 }

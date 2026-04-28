@@ -9,27 +9,40 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['database', 'wrappers', 'project'] = Object.freeze(['database', 'wrappers', 'project'] as const)
+  static override readonly _key: readonly ['database', 'wrappers', 'project'] = Object.freeze([
+    'database',
+    'wrappers',
+    'project',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/database/wrappers/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/database/wrappers/project/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   update(wrapperID: string, params: ProjectUpdateParams, options?: RequestOptions): APIPromise<unknown> {
-    const { projectId, ...body } = params
-    return this._client.patch(path`/database/wrappers/project/${projectId}/${wrapperID}`, { body, ...options });
+    const { projectId, ...body } = params;
+    return this._client.patch(path`/database/wrappers/project/${projectId}/${wrapperID}`, {
+      body,
+      ...options,
+    });
   }
 
   delete(wrapperID: string, params: ProjectDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.delete(path`/database/wrappers/project/${projectId}/${wrapperID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.delete(path`/database/wrappers/project/${projectId}/${wrapperID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Project extends BaseProject {
   install: InstallAPI.Install = new InstallAPI.Install(this._client);
 }
 
-export type ProjectUpdateResponse = unknown
+export type ProjectUpdateResponse = unknown;
 
 export interface ProjectUpdateParams {
   /**
@@ -59,13 +72,13 @@ export declare namespace Project {
   export {
     type ProjectUpdateResponse as ProjectUpdateResponse,
     type ProjectUpdateParams as ProjectUpdateParams,
-    type ProjectDeleteParams as ProjectDeleteParams
+    type ProjectDeleteParams as ProjectDeleteParams,
   };
 
   export {
     Install as Install,
     BaseInstall as BaseInstall,
     type InstallInstallResponse as InstallInstallResponse,
-    type InstallInstallParams as InstallInstallParams
+    type InstallInstallParams as InstallInstallParams,
   };
 }

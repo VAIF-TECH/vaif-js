@@ -7,8 +7,10 @@ import * as NextAPI from './next';
 import { BaseNext, Next, NextNextParams } from './next';
 
 export class BaseCursor extends APIResource {
-  static override readonly _key: readonly ['mongoDB', 'cursor'] = Object.freeze(['mongoDB', 'cursor'] as const)
-
+  static override readonly _key: readonly ['mongoDB', 'cursor'] = Object.freeze([
+    'mongoDB',
+    'cursor',
+  ] as const);
 }
 export class Cursor extends BaseCursor {
   close: CloseAPI.Close = new CloseAPI.Close(this._client);
@@ -21,15 +23,7 @@ Cursor.Next = Next;
 Cursor.BaseNext = BaseNext;
 
 export declare namespace Cursor {
-  export {
-    Close as Close,
-    BaseClose as BaseClose,
-    type CloseCloseParams as CloseCloseParams
-  };
+  export { Close as Close, BaseClose as BaseClose, type CloseCloseParams as CloseCloseParams };
 
-  export {
-    Next as Next,
-    BaseNext as BaseNext,
-    type NextNextParams as NextNextParams
-  };
+  export { Next as Next, BaseNext as BaseNext, type NextNextParams as NextNextParams };
 }

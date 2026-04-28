@@ -6,7 +6,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['plans', 'org'] = Object.freeze(['plans', 'org'] as const)
+  static override readonly _key: readonly ['plans', 'org'] = Object.freeze(['plans', 'org'] as const);
 
   /**
    * List saved plans for an organization
@@ -15,9 +15,7 @@ export class BaseOrg extends APIResource {
     return this._client.get(path`/plans/org/${orgID}`, options);
   }
 }
-export class Org extends BaseOrg {
-
-}
+export class Org extends BaseOrg {}
 
 export interface OrgRetrieveResponse {
   plans: Array<OrgRetrieveResponse.Plan>;
@@ -43,12 +41,10 @@ export namespace OrgRetrieveResponse {
 
     updatedAt?: string | (string & {}) | null;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
 export declare namespace Org {
-  export {
-    type OrgRetrieveResponse as OrgRetrieveResponse
-  };
+  export { type OrgRetrieveResponse as OrgRetrieveResponse };
 }

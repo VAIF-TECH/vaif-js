@@ -5,8 +5,10 @@ import * as InquiryAPI from './inquiry';
 import { BaseInquiry, Inquiry, InquiryCreateParams, InquiryCreateResponse } from './inquiry';
 
 export class BaseEnterprise extends APIResource {
-  static override readonly _key: readonly ['billing', 'enterprise'] = Object.freeze(['billing', 'enterprise'] as const)
-
+  static override readonly _key: readonly ['billing', 'enterprise'] = Object.freeze([
+    'billing',
+    'enterprise',
+  ] as const);
 }
 export class Enterprise extends BaseEnterprise {
   inquiry: InquiryAPI.Inquiry = new InquiryAPI.Inquiry(this._client);
@@ -20,6 +22,6 @@ export declare namespace Enterprise {
     Inquiry as Inquiry,
     BaseInquiry as BaseInquiry,
     type InquiryCreateResponse as InquiryCreateResponse,
-    type InquiryCreateParams as InquiryCreateParams
+    type InquiryCreateParams as InquiryCreateParams,
   };
 }

@@ -6,15 +6,17 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseAIAnswer extends APIResource {
-  static override readonly _key: readonly ['docs', 'aiAnswer'] = Object.freeze(['docs', 'aiAnswer'] as const)
+  static override readonly _key: readonly ['docs', 'aiAnswer'] = Object.freeze(['docs', 'aiAnswer'] as const);
 
   create(body: AIAnswerCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/docs/ai-answer', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/docs/ai-answer', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class AIAnswer extends BaseAIAnswer {
-
-}
+export class AIAnswer extends BaseAIAnswer {}
 
 export interface AIAnswerCreateParams {
   context: string;
@@ -33,7 +35,5 @@ export namespace AIAnswerCreateParams {
 }
 
 export declare namespace AIAnswer {
-  export {
-    type AIAnswerCreateParams as AIAnswerCreateParams
-  };
+  export { type AIAnswerCreateParams as AIAnswerCreateParams };
 }

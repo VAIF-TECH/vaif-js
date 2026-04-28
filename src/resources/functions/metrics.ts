@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseMetrics extends APIResource {
-  static override readonly _key: readonly ['functions', 'metrics'] = Object.freeze(['functions', 'metrics'] as const)
+  static override readonly _key: readonly ['functions', 'metrics'] = Object.freeze([
+    'functions',
+    'metrics',
+  ] as const);
 
   getMetrics(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/${functionID}/metrics`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/functions/${functionID}/metrics`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Metrics extends BaseMetrics {
-
-}
+export class Metrics extends BaseMetrics {}

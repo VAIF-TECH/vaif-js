@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseUsageOrg extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'usageOrg'] = Object.freeze(['ai', 'copilot', 'usageOrg'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'usageOrg'] = Object.freeze([
+    'ai',
+    'copilot',
+    'usageOrg',
+  ] as const);
 
   retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/usage-org/${orgID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/usage-org/${orgID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class UsageOrg extends BaseUsageOrg {
-
-}
+export class UsageOrg extends BaseUsageOrg {}

@@ -5,17 +5,23 @@ import { BaseProjects } from '@vaif/client/resources/projects/projects';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseProjects],
 });
 
 const runTests = (client: PartialVaif<{ projects: BaseProjects }>) => {
   test('create: only required params', async () => {
-    const responsePromise = client.projects.create({ name: 'x', orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.projects.create({
+      name: 'x',
+      orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -27,21 +33,21 @@ const runTests = (client: PartialVaif<{ projects: BaseProjects }>) => {
 
   test('create: required and optional params', async () => {
     const response = await client.projects.create({
-    name: 'x',
-    orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    features: {
-    ai: true,
-    analytics: true,
-    auth: true,
-    database: true,
-    functions: true,
-    realtime: true,
-    scheduling: true,
-    storage: true,
-  },
-    regionKey: 'x',
-    slug: 'x',
-  });
+      name: 'x',
+      orgId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      features: {
+        ai: true,
+        analytics: true,
+        auth: true,
+        database: true,
+        functions: true,
+        realtime: true,
+        scheduling: true,
+        storage: true,
+      },
+      regionKey: 'x',
+      slug: 'x',
+    });
   });
 
   test('retrieve', async () => {

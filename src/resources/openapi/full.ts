@@ -6,12 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseFull extends APIResource {
-  static override readonly _key: readonly ['openAPI', 'full'] = Object.freeze(['openAPI', 'full'] as const)
+  static override readonly _key: readonly ['openAPI', 'full'] = Object.freeze(['openAPI', 'full'] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/openapi/full', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/openapi/full', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Full extends BaseFull {
-
-}
+export class Full extends BaseFull {}

@@ -7,8 +7,7 @@ import * as SizesAPI from './sizes';
 import { BaseSizes, Sizes } from './sizes';
 
 export class BaseInfrastructure extends APIResource {
-  static override readonly _key: readonly ['infrastructure'] = Object.freeze(['infrastructure'] as const)
-
+  static override readonly _key: readonly ['infrastructure'] = Object.freeze(['infrastructure'] as const);
 }
 export class Infrastructure extends BaseInfrastructure {
   pollStatus: PollStatusAPI.PollStatus = new PollStatusAPI.PollStatus(this._client);
@@ -21,13 +20,7 @@ Infrastructure.Sizes = Sizes;
 Infrastructure.BaseSizes = BaseSizes;
 
 export declare namespace Infrastructure {
-  export {
-    PollStatus as PollStatus,
-    BasePollStatus as BasePollStatus
-  };
+  export { PollStatus as PollStatus, BasePollStatus as BasePollStatus };
 
-  export {
-    Sizes as Sizes,
-    BaseSizes as BaseSizes
-  };
+  export { Sizes as Sizes, BaseSizes as BaseSizes };
 }

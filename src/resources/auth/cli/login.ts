@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseLogin extends APIResource {
-  static override readonly _key: readonly ['auth', 'cli', 'login'] = Object.freeze(['auth', 'cli', 'login'] as const)
+  static override readonly _key: readonly ['auth', 'cli', 'login'] = Object.freeze([
+    'auth',
+    'cli',
+    'login',
+  ] as const);
 
   /**
    * Authenticate CLI with email and password (fallback flow)
@@ -14,9 +18,7 @@ export class BaseLogin extends APIResource {
     return this._client.post('/auth/cli/login', { body, ...options });
   }
 }
-export class Login extends BaseLogin {
-
-}
+export class Login extends BaseLogin {}
 
 export interface LoginCreateResponse {
   accessToken: string;
@@ -47,8 +49,5 @@ export interface LoginCreateParams {
 }
 
 export declare namespace Login {
-  export {
-    type LoginCreateResponse as LoginCreateResponse,
-    type LoginCreateParams as LoginCreateParams
-  };
+  export { type LoginCreateResponse as LoginCreateResponse, type LoginCreateParams as LoginCreateParams };
 }

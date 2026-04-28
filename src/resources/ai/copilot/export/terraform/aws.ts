@@ -6,12 +6,19 @@ import { buildHeaders } from '../../../../../internal/headers';
 import { RequestOptions } from '../../../../../internal/request-options';
 
 export class BaseAws extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform', 'aws'] = Object.freeze(['ai', 'copilot', 'export', 'terraform', 'aws'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform', 'aws'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+    'terraform',
+    'aws',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/export/terraform/aws', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/export/terraform/aws', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Aws extends BaseAws {
-
-}
+export class Aws extends BaseAws {}

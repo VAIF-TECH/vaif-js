@@ -6,7 +6,10 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseIntrospect extends APIResource {
-  static override readonly _key: readonly ['schemaEngine', 'introspect'] = Object.freeze(['schemaEngine', 'introspect'] as const)
+  static override readonly _key: readonly ['schemaEngine', 'introspect'] = Object.freeze([
+    'schemaEngine',
+    'introspect',
+  ] as const);
 
   /**
    * Introspect current database schema for a project
@@ -15,9 +18,7 @@ export class BaseIntrospect extends APIResource {
     return this._client.get(path`/schema-engine/introspect/${projectID}`, options);
   }
 }
-export class Introspect extends BaseIntrospect {
-
-}
+export class Introspect extends BaseIntrospect {}
 
 export interface IntrospectRetrieveResponse {
   ok: true;
@@ -28,11 +29,9 @@ export interface IntrospectRetrieveResponse {
 
   schemaName?: string;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export declare namespace Introspect {
-  export {
-    type IntrospectRetrieveResponse as IntrospectRetrieveResponse
-  };
+  export { type IntrospectRetrieveResponse as IntrospectRetrieveResponse };
 }

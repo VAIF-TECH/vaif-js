@@ -6,17 +6,20 @@ import { Projects } from '@vaif/client/resources/projects/projects';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseDatabase],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Projects],
 });
 
@@ -34,13 +37,13 @@ const runTests = (client: PartialVaif<{ projects: { database: BaseDatabase } }>)
 
   test('dedicated: required and optional params', async () => {
     const response = await client.projects.database.dedicated('projectId', {
-    tier: 'micro',
-    customRamGb: 0.6,
-    customStorageGb: 10,
-    customVcpus: 1,
-    postgresVersion: 'postgresVersion',
-    region: 'region',
-  });
+      tier: 'micro',
+      customRamGb: 0.6,
+      customStorageGb: 10,
+      customVcpus: 1,
+      postgresVersion: 'postgresVersion',
+      region: 'region',
+    });
   });
 
   test('dedicated2', async () => {

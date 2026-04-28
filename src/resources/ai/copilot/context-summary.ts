@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseContextSummary extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'contextSummary'] = Object.freeze(['ai', 'copilot', 'contextSummary'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'contextSummary'] = Object.freeze([
+    'ai',
+    'copilot',
+    'contextSummary',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/context-summary/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/context-summary/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class ContextSummary extends BaseContextSummary {
-
-}
+export class ContextSummary extends BaseContextSummary {}

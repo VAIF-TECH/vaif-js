@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseLinkedAccounts extends APIResource {
-  static override readonly _key: readonly ['auth', 'me', 'linkedAccounts'] = Object.freeze(['auth', 'me', 'linkedAccounts'] as const)
+  static override readonly _key: readonly ['auth', 'me', 'linkedAccounts'] = Object.freeze([
+    'auth',
+    'me',
+    'linkedAccounts',
+  ] as const);
 
   /**
    * List OAuth accounts linked to the current user
@@ -22,9 +26,7 @@ export class BaseLinkedAccounts extends APIResource {
     return this._client.delete(path`/auth/me/linked-accounts/${provider}`, options);
   }
 }
-export class LinkedAccounts extends BaseLinkedAccounts {
-
-}
+export class LinkedAccounts extends BaseLinkedAccounts {}
 
 export interface LinkedAccountListResponse {
   accounts: Array<LinkedAccountListResponse.Account>;
@@ -53,6 +55,6 @@ export interface LinkedAccountDeleteResponse {
 export declare namespace LinkedAccounts {
   export {
     type LinkedAccountListResponse as LinkedAccountListResponse,
-    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse
+    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse,
   };
 }

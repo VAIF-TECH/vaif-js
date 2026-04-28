@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['schemaEngine', 'migrations', 'project'] = Object.freeze(['schemaEngine', 'migrations', 'project'] as const)
+  static override readonly _key: readonly ['schemaEngine', 'migrations', 'project'] = Object.freeze([
+    'schemaEngine',
+    'migrations',
+    'project',
+  ] as const);
 
   /**
    * List migrations for a project
@@ -15,9 +19,7 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/schema-engine/migrations/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}
 
 export interface ProjectRetrieveResponse {
   migrations: Array<unknown>;
@@ -26,7 +28,5 @@ export interface ProjectRetrieveResponse {
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

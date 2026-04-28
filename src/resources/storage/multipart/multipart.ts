@@ -11,8 +11,10 @@ import * as PartURLAPI from './part-url';
 import { BasePartURL, PartURL, PartURLPartURLParams, PartURLPartURLResponse } from './part-url';
 
 export class BaseMultipart extends APIResource {
-  static override readonly _key: readonly ['storage', 'multipart'] = Object.freeze(['storage', 'multipart'] as const)
-
+  static override readonly _key: readonly ['storage', 'multipart'] = Object.freeze([
+    'storage',
+    'multipart',
+  ] as const);
 }
 export class Multipart extends BaseMultipart {
   abort: AbortAPI.Abort = new AbortAPI.Abort(this._client);
@@ -35,27 +37,27 @@ export declare namespace Multipart {
     Abort as Abort,
     BaseAbort as BaseAbort,
     type AbortAbortResponse as AbortAbortResponse,
-    type AbortAbortParams as AbortAbortParams
+    type AbortAbortParams as AbortAbortParams,
   };
 
   export {
     Complete as Complete,
     BaseComplete as BaseComplete,
     type CompleteCompleteResponse as CompleteCompleteResponse,
-    type CompleteCompleteParams as CompleteCompleteParams
+    type CompleteCompleteParams as CompleteCompleteParams,
   };
 
   export {
     Create as Create,
     BaseCreate as BaseCreate,
     type CreateCreateResponse as CreateCreateResponse,
-    type CreateCreateParams as CreateCreateParams
+    type CreateCreateParams as CreateCreateParams,
   };
 
   export {
     PartURL as PartURL,
     BasePartURL as BasePartURL,
     type PartURLPartURLResponse as PartURLPartURLResponse,
-    type PartURLPartURLParams as PartURLPartURLParams
+    type PartURLPartURLParams as PartURLPartURLParams,
   };
 }

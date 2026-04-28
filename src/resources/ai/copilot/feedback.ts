@@ -5,15 +5,17 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseFeedback extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'feedback'] = Object.freeze(['ai', 'copilot', 'feedback'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'feedback'] = Object.freeze([
+    'ai',
+    'copilot',
+    'feedback',
+  ] as const);
 
   create(body: FeedbackCreateParams, options?: RequestOptions): APIPromise<FeedbackCreateResponse> {
     return this._client.post('/ai/copilot/feedback', { body, ...options });
   }
 }
-export class Feedback extends BaseFeedback {
-
-}
+export class Feedback extends BaseFeedback {}
 
 export interface FeedbackCreateResponse {
   ok: true;
@@ -34,6 +36,6 @@ export interface FeedbackCreateParams {
 export declare namespace Feedback {
   export {
     type FeedbackCreateResponse as FeedbackCreateResponse,
-    type FeedbackCreateParams as FeedbackCreateParams
+    type FeedbackCreateParams as FeedbackCreateParams,
   };
 }

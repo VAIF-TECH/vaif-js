@@ -9,15 +9,25 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['database', 'extensions', 'project'] = Object.freeze(['database', 'extensions', 'project'] as const)
+  static override readonly _key: readonly ['database', 'extensions', 'project'] = Object.freeze([
+    'database',
+    'extensions',
+    'project',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/database/extensions/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/database/extensions/project/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   delete(extensionID: string, params: ProjectDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.delete(path`/database/extensions/project/${projectId}/${extensionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.delete(path`/database/extensions/project/${projectId}/${extensionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Project extends BaseProject {
@@ -32,14 +42,12 @@ Project.Install = Install;
 Project.BaseInstall = BaseInstall;
 
 export declare namespace Project {
-  export {
-    type ProjectDeleteParams as ProjectDeleteParams
-  };
+  export { type ProjectDeleteParams as ProjectDeleteParams };
 
   export {
     Install as Install,
     BaseInstall as BaseInstall,
     type InstallInstallResponse as InstallInstallResponse,
-    type InstallInstallParams as InstallInstallParams
+    type InstallInstallParams as InstallInstallParams,
   };
 }

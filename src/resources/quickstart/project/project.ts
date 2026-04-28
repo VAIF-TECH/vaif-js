@@ -8,12 +8,19 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['quickstart', 'project'] = Object.freeze(['quickstart', 'project'] as const)
+  static override readonly _key: readonly ['quickstart', 'project'] = Object.freeze([
+    'quickstart',
+    'project',
+  ] as const);
 
   /**
    * Get quickstart guide for a project
    */
-  retrieve(projectID: string, query: ProjectRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<string> {
+  retrieve(
+    projectID: string,
+    query: ProjectRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<string> {
     return this._client.get(path`/quickstart/project/${projectID}`, { query, ...options });
   }
 }
@@ -21,7 +28,7 @@ export class Project extends BaseProject {
   json: JsonAPI.Json = new JsonAPI.Json(this._client);
 }
 
-export type ProjectRetrieveResponse = string
+export type ProjectRetrieveResponse = string;
 
 export interface ProjectRetrieveParams {
   env?: string;
@@ -35,12 +42,8 @@ Project.BaseJson = BaseJson;
 export declare namespace Project {
   export {
     type ProjectRetrieveResponse as ProjectRetrieveResponse,
-    type ProjectRetrieveParams as ProjectRetrieveParams
+    type ProjectRetrieveParams as ProjectRetrieveParams,
   };
 
-  export {
-    Json as Json,
-    BaseJson as BaseJson,
-    type JsonGetJsonResponse as JsonGetJsonResponse
-  };
+  export { Json as Json, BaseJson as BaseJson, type JsonGetJsonResponse as JsonGetJsonResponse };
 }

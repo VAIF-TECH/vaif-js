@@ -20,13 +20,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseStatus extends APIResource {
-  static override readonly _key: readonly ['status'] = Object.freeze(['status'] as const)
+  static override readonly _key: readonly ['status'] = Object.freeze(['status'] as const);
 
   /**
    * Get platform status
    */
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/status', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/status', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Status extends BaseStatus {
@@ -55,42 +58,30 @@ Status.Uptime = Uptime;
 Status.BaseUptime = BaseUptime;
 
 export declare namespace Status {
-  export {
-    Atom as Atom,
-    BaseAtom as BaseAtom
-  };
+  export { Atom as Atom, BaseAtom as BaseAtom };
 
-  export {
-    Incidents as Incidents,
-    BaseIncidents as BaseIncidents
-  };
+  export { Incidents as Incidents, BaseIncidents as BaseIncidents };
 
-  export {
-    Rss as Rss,
-    BaseRss as BaseRss
-  };
+  export { Rss as Rss, BaseRss as BaseRss };
 
   export {
     Subscribe as Subscribe,
     BaseSubscribe as BaseSubscribe,
     type SubscribeCreateResponse as SubscribeCreateResponse,
-    type SubscribeCreateParams as SubscribeCreateParams
+    type SubscribeCreateParams as SubscribeCreateParams,
   };
 
-  export {
-    Subscribers as Subscribers,
-    BaseSubscribers as BaseSubscribers
-  };
+  export { Subscribers as Subscribers, BaseSubscribers as BaseSubscribers };
 
   export {
     Unsubscribe as Unsubscribe,
     BaseUnsubscribe as BaseUnsubscribe,
-    type UnsubscribeRetrieveResponse as UnsubscribeRetrieveResponse
+    type UnsubscribeRetrieveResponse as UnsubscribeRetrieveResponse,
   };
 
   export {
     Uptime as Uptime,
     BaseUptime as BaseUptime,
-    type UptimeRetrieveResponse as UptimeRetrieveResponse
+    type UptimeRetrieveResponse as UptimeRetrieveResponse,
   };
 }

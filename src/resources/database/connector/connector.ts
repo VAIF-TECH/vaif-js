@@ -9,8 +9,10 @@ import * as TestAPI from './test';
 import { BaseTest, Test } from './test';
 
 export class BaseConnector extends APIResource {
-  static override readonly _key: readonly ['database', 'connector'] = Object.freeze(['database', 'connector'] as const)
-
+  static override readonly _key: readonly ['database', 'connector'] = Object.freeze([
+    'database',
+    'connector',
+  ] as const);
 }
 export class Connector extends BaseConnector {
   query: QueryAPI.Query = new QueryAPI.Query(this._client);
@@ -30,16 +32,10 @@ export declare namespace Connector {
     Query as Query,
     BaseQuery as BaseQuery,
     type QueryQueryResponse as QueryQueryResponse,
-    type QueryQueryParams as QueryQueryParams
+    type QueryQueryParams as QueryQueryParams,
   };
 
-  export {
-    Tables as Tables,
-    BaseTables as BaseTables
-  };
+  export { Tables as Tables, BaseTables as BaseTables };
 
-  export {
-    Test as Test,
-    BaseTest as BaseTest
-  };
+  export { Test as Test, BaseTest as BaseTest };
 }

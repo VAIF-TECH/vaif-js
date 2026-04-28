@@ -13,22 +13,34 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseRegions extends APIResource {
-  static override readonly _key: readonly ['regions'] = Object.freeze(['regions'] as const)
+  static override readonly _key: readonly ['regions'] = Object.freeze(['regions'] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/regions/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/regions/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retrieve(key: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/regions/${key}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/regions/${key}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   update(key: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/regions/${key}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.patch(path`/regions/${key}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/regions/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/regions/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Regions extends BaseRegions {
@@ -45,18 +57,9 @@ Regions.Metrics = Metrics;
 Regions.BaseMetrics = BaseMetrics;
 
 export declare namespace Regions {
-  export {
-    All as All,
-    BaseAll as BaseAll
-  };
+  export { All as All, BaseAll as BaseAll };
 
-  export {
-    Health as Health,
-    BaseHealth as BaseHealth
-  };
+  export { Health as Health, BaseHealth as BaseHealth };
 
-  export {
-    Metrics as Metrics,
-    BaseMetrics as BaseMetrics
-  };
+  export { Metrics as Metrics, BaseMetrics as BaseMetrics };
 }

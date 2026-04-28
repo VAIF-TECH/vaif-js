@@ -6,12 +6,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseCheckName extends APIResource {
-  static override readonly _key: readonly ['orgs', 'checkName'] = Object.freeze(['orgs', 'checkName'] as const)
+  static override readonly _key: readonly ['orgs', 'checkName'] = Object.freeze([
+    'orgs',
+    'checkName',
+  ] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/orgs/check-name', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/orgs/check-name', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class CheckName extends BaseCheckName {
-
-}
+export class CheckName extends BaseCheckName {}

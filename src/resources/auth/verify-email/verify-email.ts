@@ -7,8 +7,10 @@ import * as SendAPI from './send';
 import { BaseSend, Send, SendCreateResponse } from './send';
 
 export class BaseVerifyEmail extends APIResource {
-  static override readonly _key: readonly ['auth', 'verifyEmail'] = Object.freeze(['auth', 'verifyEmail'] as const)
-
+  static override readonly _key: readonly ['auth', 'verifyEmail'] = Object.freeze([
+    'auth',
+    'verifyEmail',
+  ] as const);
 }
 export class VerifyEmail extends BaseVerifyEmail {
   confirm: ConfirmAPI.Confirm = new ConfirmAPI.Confirm(this._client);
@@ -25,12 +27,8 @@ export declare namespace VerifyEmail {
     Confirm as Confirm,
     BaseConfirm as BaseConfirm,
     type ConfirmCreateResponse as ConfirmCreateResponse,
-    type ConfirmCreateParams as ConfirmCreateParams
+    type ConfirmCreateParams as ConfirmCreateParams,
   };
 
-  export {
-    Send as Send,
-    BaseSend as BaseSend,
-    type SendCreateResponse as SendCreateResponse
-  };
+  export { Send as Send, BaseSend as BaseSend, type SendCreateResponse as SendCreateResponse };
 }

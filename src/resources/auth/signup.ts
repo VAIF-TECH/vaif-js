@@ -5,7 +5,7 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseSignup extends APIResource {
-  static override readonly _key: readonly ['auth', 'signup'] = Object.freeze(['auth', 'signup'] as const)
+  static override readonly _key: readonly ['auth', 'signup'] = Object.freeze(['auth', 'signup'] as const);
 
   /**
    * Register a new user account
@@ -14,9 +14,7 @@ export class BaseSignup extends APIResource {
     return this._client.post('/auth/signup', { body, ...options });
   }
 }
-export class Signup extends BaseSignup {
-
-}
+export class Signup extends BaseSignup {}
 
 export interface SignupCreateResponse {
   accessToken: string;
@@ -55,8 +53,5 @@ export interface SignupCreateParams {
 }
 
 export declare namespace Signup {
-  export {
-    type SignupCreateResponse as SignupCreateResponse,
-    type SignupCreateParams as SignupCreateParams
-  };
+  export { type SignupCreateResponse as SignupCreateResponse, type SignupCreateParams as SignupCreateParams };
 }

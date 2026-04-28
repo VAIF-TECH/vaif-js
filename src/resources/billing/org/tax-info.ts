@@ -7,19 +7,28 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseTaxInfo extends APIResource {
-  static override readonly _key: readonly ['billing', 'org', 'taxInfo'] = Object.freeze(['billing', 'org', 'taxInfo'] as const)
+  static override readonly _key: readonly ['billing', 'org', 'taxInfo'] = Object.freeze([
+    'billing',
+    'org',
+    'taxInfo',
+  ] as const);
 
   getTaxInfo(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/tax-info`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/tax-info`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  taxInfo(orgID: string, body: TaxInfoTaxInfoParams, options?: RequestOptions): APIPromise<TaxInfoTaxInfoResponse> {
+  taxInfo(
+    orgID: string,
+    body: TaxInfoTaxInfoParams,
+    options?: RequestOptions,
+  ): APIPromise<TaxInfoTaxInfoResponse> {
     return this._client.put(path`/billing/org/${orgID}/tax-info`, { body, ...options });
   }
 }
-export class TaxInfo extends BaseTaxInfo {
-
-}
+export class TaxInfo extends BaseTaxInfo {}
 
 export interface TaxInfoTaxInfoResponse {
   ok: true;
@@ -54,6 +63,6 @@ export namespace TaxInfoTaxInfoParams {
 export declare namespace TaxInfo {
   export {
     type TaxInfoTaxInfoResponse as TaxInfoTaxInfoResponse,
-    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams
+    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams,
   };
 }

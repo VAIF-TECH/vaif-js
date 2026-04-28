@@ -9,8 +9,10 @@ import * as SubscriptionAPI from './subscription';
 import { BaseSubscription, Subscription, SubscriptionRetrieveResponse } from './subscription';
 
 export class BaseDeliveries extends APIResource {
-  static override readonly _key: readonly ['integrations', 'deliveries'] = Object.freeze(['integrations', 'deliveries'] as const)
-
+  static override readonly _key: readonly ['integrations', 'deliveries'] = Object.freeze([
+    'integrations',
+    'deliveries',
+  ] as const);
 }
 export class Deliveries extends BaseDeliveries {
   event: EventAPI.Event = new EventAPI.Event(this._client);
@@ -26,21 +28,13 @@ Deliveries.Subscription = Subscription;
 Deliveries.BaseSubscription = BaseSubscription;
 
 export declare namespace Deliveries {
-  export {
-    Event as Event,
-    BaseEvent as BaseEvent,
-    type EventRetrieveResponse as EventRetrieveResponse
-  };
+  export { Event as Event, BaseEvent as BaseEvent, type EventRetrieveResponse as EventRetrieveResponse };
 
-  export {
-    Retry as Retry,
-    BaseRetry as BaseRetry,
-    type RetryRetryResponse as RetryRetryResponse
-  };
+  export { Retry as Retry, BaseRetry as BaseRetry, type RetryRetryResponse as RetryRetryResponse };
 
   export {
     Subscription as Subscription,
     BaseSubscription as BaseSubscription,
-    type SubscriptionRetrieveResponse as SubscriptionRetrieveResponse
+    type SubscriptionRetrieveResponse as SubscriptionRetrieveResponse,
   };
 }

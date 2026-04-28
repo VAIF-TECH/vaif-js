@@ -11,8 +11,7 @@ import * as TokenAPI from './token';
 import { BaseToken, Token, TokenCreateParams, TokenCreateResponse } from './token';
 
 export class BaseCli extends APIResource {
-  static override readonly _key: readonly ['auth', 'cli'] = Object.freeze(['auth', 'cli'] as const)
-
+  static override readonly _key: readonly ['auth', 'cli'] = Object.freeze(['auth', 'cli'] as const);
 }
 export class Cli extends BaseCli {
   authorize: AuthorizeAPI.Authorize = new AuthorizeAPI.Authorize(this._client);
@@ -34,27 +33,27 @@ export declare namespace Cli {
   export {
     Authorize as Authorize,
     BaseAuthorize as BaseAuthorize,
-    type AuthorizeCreateResponse as AuthorizeCreateResponse
+    type AuthorizeCreateResponse as AuthorizeCreateResponse,
   };
 
   export {
     Callback as Callback,
     BaseCallback as BaseCallback,
     type CallbackCreateResponse as CallbackCreateResponse,
-    type CallbackCreateParams as CallbackCreateParams
+    type CallbackCreateParams as CallbackCreateParams,
   };
 
   export {
     Login as Login,
     BaseLogin as BaseLogin,
     type LoginCreateResponse as LoginCreateResponse,
-    type LoginCreateParams as LoginCreateParams
+    type LoginCreateParams as LoginCreateParams,
   };
 
   export {
     Token as Token,
     BaseToken as BaseToken,
     type TokenCreateResponse as TokenCreateResponse,
-    type TokenCreateParams as TokenCreateParams
+    type TokenCreateParams as TokenCreateParams,
   };
 }

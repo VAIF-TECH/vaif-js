@@ -7,8 +7,11 @@ import * as StatsAPI from './stats';
 import { BaseStats, Stats } from './stats';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['integrations', 'analytics', 'project'] = Object.freeze(['integrations', 'analytics', 'project'] as const)
-
+  static override readonly _key: readonly ['integrations', 'analytics', 'project'] = Object.freeze([
+    'integrations',
+    'analytics',
+    'project',
+  ] as const);
 }
 export class Project extends BaseProject {
   events: EventsAPI.Events = new EventsAPI.Events(this._client);
@@ -21,13 +24,7 @@ Project.Stats = Stats;
 Project.BaseStats = BaseStats;
 
 export declare namespace Project {
-  export {
-    Events as Events,
-    BaseEvents as BaseEvents
-  };
+  export { Events as Events, BaseEvents as BaseEvents };
 
-  export {
-    Stats as Stats,
-    BaseStats as BaseStats
-  };
+  export { Stats as Stats, BaseStats as BaseStats };
 }

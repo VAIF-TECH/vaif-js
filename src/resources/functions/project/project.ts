@@ -9,10 +9,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['functions', 'project'] = Object.freeze(['functions', 'project'] as const)
+  static override readonly _key: readonly ['functions', 'project'] = Object.freeze([
+    'functions',
+    'project',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/functions/project/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Project extends BaseProject {
@@ -23,9 +29,5 @@ Project.Name = Name;
 Project.BaseName = BaseName;
 
 export declare namespace Project {
-  export {
-    Name as Name,
-    BaseName as BaseName,
-    type NameRetrieveParams as NameRetrieveParams
-  };
+  export { Name as Name, BaseName as BaseName, type NameRetrieveParams as NameRetrieveParams };
 }

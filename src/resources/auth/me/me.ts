@@ -6,12 +6,17 @@ import { Admin, AdminListResponse, BaseAdmin } from './admin';
 import * as ContextAPI from './context';
 import { BaseContext, Context, ContextListResponse } from './context';
 import * as LinkedAccountsAPI from './linked-accounts';
-import { BaseLinkedAccounts, LinkedAccountDeleteResponse, LinkedAccountListResponse, LinkedAccounts } from './linked-accounts';
+import {
+  BaseLinkedAccounts,
+  LinkedAccountDeleteResponse,
+  LinkedAccountListResponse,
+  LinkedAccounts,
+} from './linked-accounts';
 import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseMe extends APIResource {
-  static override readonly _key: readonly ['auth', 'me'] = Object.freeze(['auth', 'me'] as const)
+  static override readonly _key: readonly ['auth', 'me'] = Object.freeze(['auth', 'me'] as const);
 
   /**
    * Update the current authenticated user's profile
@@ -110,25 +115,17 @@ export declare namespace Me {
   export {
     type MeUpdateResponse as MeUpdateResponse,
     type MeListResponse as MeListResponse,
-    type MeUpdateParams as MeUpdateParams
+    type MeUpdateParams as MeUpdateParams,
   };
 
-  export {
-    Admin as Admin,
-    BaseAdmin as BaseAdmin,
-    type AdminListResponse as AdminListResponse
-  };
+  export { Admin as Admin, BaseAdmin as BaseAdmin, type AdminListResponse as AdminListResponse };
 
-  export {
-    Context as Context,
-    BaseContext as BaseContext,
-    type ContextListResponse as ContextListResponse
-  };
+  export { Context as Context, BaseContext as BaseContext, type ContextListResponse as ContextListResponse };
 
   export {
     LinkedAccounts as LinkedAccounts,
     BaseLinkedAccounts as BaseLinkedAccounts,
     type LinkedAccountListResponse as LinkedAccountListResponse,
-    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse
+    type LinkedAccountDeleteResponse as LinkedAccountDeleteResponse,
   };
 }

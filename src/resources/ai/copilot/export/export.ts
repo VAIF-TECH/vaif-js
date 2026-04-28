@@ -15,10 +15,17 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseExport extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export'] = Object.freeze(['ai', 'copilot', 'export'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'export'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+  ] as const);
 
   create(versionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/ai/copilot/export/${versionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/ai/copilot/export/${versionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Export extends BaseExport {
@@ -38,23 +45,11 @@ Export.Zip = Zip;
 Export.BaseZip = BaseZip;
 
 export declare namespace Export {
-  export {
-    Docker as Docker,
-    BaseDocker as BaseDocker
-  };
+  export { Docker as Docker, BaseDocker as BaseDocker };
 
-  export {
-    GitHub as GitHub,
-    BaseGitHub as BaseGitHub
-  };
+  export { GitHub as GitHub, BaseGitHub as BaseGitHub };
 
-  export {
-    Terraform as Terraform,
-    BaseTerraform as BaseTerraform
-  };
+  export { Terraform as Terraform, BaseTerraform as BaseTerraform };
 
-  export {
-    Zip as Zip,
-    BaseZip as BaseZip
-  };
+  export { Zip as Zip, BaseZip as BaseZip };
 }

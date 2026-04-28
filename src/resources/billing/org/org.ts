@@ -6,9 +6,20 @@ import { AddonDeleteParams, AddonUpdateParams, Addons, BaseAddons } from './addo
 import * as CancelAPI from './cancel';
 import { BaseCancel, Cancel, CancelCancelParams, CancelCancelResponse } from './cancel';
 import * as ChangePlanAPI from './change-plan';
-import { BaseChangePlan, ChangePlan, ChangePlanChangePlanParams, ChangePlanChangePlanResponse } from './change-plan';
+import {
+  BaseChangePlan,
+  ChangePlan,
+  ChangePlanChangePlanParams,
+  ChangePlanChangePlanResponse,
+} from './change-plan';
 import * as ContactsAPI from './contacts';
-import { BaseContacts, ContactContactsParams, ContactContactsResponse, ContactDeleteParams, Contacts } from './contacts';
+import {
+  BaseContacts,
+  ContactContactsParams,
+  ContactContactsResponse,
+  ContactDeleteParams,
+  Contacts,
+} from './contacts';
 import * as CostBreakdownAPI from './cost-breakdown';
 import { BaseCostBreakdown, CostBreakdown } from './cost-breakdown';
 import * as CreditsAPI from './credits';
@@ -30,13 +41,20 @@ import { BaseTaxInfo, TaxInfo, TaxInfoTaxInfoParams, TaxInfoTaxInfoResponse } fr
 import * as UsageAPI from './usage';
 import { BaseUsage, Usage } from './usage';
 import * as UsageAlertsAPI from './usage-alerts';
-import { BaseUsageAlerts, UsageAlertDeleteParams, UsageAlertUpdateParams, UsageAlertUpdateResponse, UsageAlertUsageAlertsParams, UsageAlertUsageAlertsResponse, UsageAlerts } from './usage-alerts';
+import {
+  BaseUsageAlerts,
+  UsageAlertDeleteParams,
+  UsageAlertUpdateParams,
+  UsageAlertUpdateResponse,
+  UsageAlertUsageAlertsParams,
+  UsageAlertUsageAlertsResponse,
+  UsageAlerts,
+} from './usage-alerts';
 import * as InvoicesAPI from './invoices/invoices';
 import { BaseInvoices, Invoices } from './invoices/invoices';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['billing', 'org'] = Object.freeze(['billing', 'org'] as const)
-
+  static override readonly _key: readonly ['billing', 'org'] = Object.freeze(['billing', 'org'] as const);
 }
 export class Org extends BaseOrg {
   addons: AddonsAPI.Addons = new AddonsAPI.Addons(this._client);
@@ -95,21 +113,21 @@ export declare namespace Org {
     Addons as Addons,
     BaseAddons as BaseAddons,
     type AddonUpdateParams as AddonUpdateParams,
-    type AddonDeleteParams as AddonDeleteParams
+    type AddonDeleteParams as AddonDeleteParams,
   };
 
   export {
     Cancel as Cancel,
     BaseCancel as BaseCancel,
     type CancelCancelResponse as CancelCancelResponse,
-    type CancelCancelParams as CancelCancelParams
+    type CancelCancelParams as CancelCancelParams,
   };
 
   export {
     ChangePlan as ChangePlan,
     BaseChangePlan as BaseChangePlan,
     type ChangePlanChangePlanResponse as ChangePlanChangePlanResponse,
-    type ChangePlanChangePlanParams as ChangePlanChangePlanParams
+    type ChangePlanChangePlanParams as ChangePlanChangePlanParams,
   };
 
   export {
@@ -117,67 +135,40 @@ export declare namespace Org {
     BaseContacts as BaseContacts,
     type ContactContactsResponse as ContactContactsResponse,
     type ContactDeleteParams as ContactDeleteParams,
-    type ContactContactsParams as ContactContactsParams
+    type ContactContactsParams as ContactContactsParams,
   };
 
-  export {
-    CostBreakdown as CostBreakdown,
-    BaseCostBreakdown as BaseCostBreakdown
-  };
+  export { CostBreakdown as CostBreakdown, BaseCostBreakdown as BaseCostBreakdown };
 
   export {
     Credits as Credits,
     BaseCredits as BaseCredits,
     type CreditPurchaseResponse as CreditPurchaseResponse,
-    type CreditPurchaseParams as CreditPurchaseParams
+    type CreditPurchaseParams as CreditPurchaseParams,
   };
 
-  export {
-    Invoices as Invoices,
-    BaseInvoices as BaseInvoices
-  };
+  export { Invoices as Invoices, BaseInvoices as BaseInvoices };
 
-  export {
-    Overages as Overages,
-    BaseOverages as BaseOverages
-  };
+  export { Overages as Overages, BaseOverages as BaseOverages };
 
-  export {
-    Pause as Pause,
-    BasePause as BasePause
-  };
+  export { Pause as Pause, BasePause as BasePause };
 
-  export {
-    Portal as Portal,
-    BasePortal as BasePortal
-  };
+  export { Portal as Portal, BasePortal as BasePortal };
 
-  export {
-    Reactivate as Reactivate,
-    BaseReactivate as BaseReactivate
-  };
+  export { Reactivate as Reactivate, BaseReactivate as BaseReactivate };
 
-  export {
-    Resume as Resume,
-    BaseResume as BaseResume
-  };
+  export { Resume as Resume, BaseResume as BaseResume };
 
-  export {
-    Summary as Summary,
-    BaseSummary as BaseSummary
-  };
+  export { Summary as Summary, BaseSummary as BaseSummary };
 
   export {
     TaxInfo as TaxInfo,
     BaseTaxInfo as BaseTaxInfo,
     type TaxInfoTaxInfoResponse as TaxInfoTaxInfoResponse,
-    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams
+    type TaxInfoTaxInfoParams as TaxInfoTaxInfoParams,
   };
 
-  export {
-    Usage as Usage,
-    BaseUsage as BaseUsage
-  };
+  export { Usage as Usage, BaseUsage as BaseUsage };
 
   export {
     UsageAlerts as UsageAlerts,
@@ -186,6 +177,6 @@ export declare namespace Org {
     type UsageAlertUsageAlertsResponse as UsageAlertUsageAlertsResponse,
     type UsageAlertUpdateParams as UsageAlertUpdateParams,
     type UsageAlertDeleteParams as UsageAlertDeleteParams,
-    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams
+    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams,
   };
 }

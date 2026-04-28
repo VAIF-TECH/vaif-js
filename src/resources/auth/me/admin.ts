@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseAdmin extends APIResource {
-  static override readonly _key: readonly ['auth', 'me', 'admin'] = Object.freeze(['auth', 'me', 'admin'] as const)
+  static override readonly _key: readonly ['auth', 'me', 'admin'] = Object.freeze([
+    'auth',
+    'me',
+    'admin',
+  ] as const);
 
   /**
    * Check whether the current user has admin access
@@ -14,9 +18,7 @@ export class BaseAdmin extends APIResource {
     return this._client.get('/auth/me/admin', options);
   }
 }
-export class Admin extends BaseAdmin {
-
-}
+export class Admin extends BaseAdmin {}
 
 export interface AdminListResponse {
   isAdmin: boolean;
@@ -29,7 +31,5 @@ export interface AdminListResponse {
 }
 
 export declare namespace Admin {
-  export {
-    type AdminListResponse as AdminListResponse
-  };
+  export { type AdminListResponse as AdminListResponse };
 }

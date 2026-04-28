@@ -11,13 +11,21 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOAuth extends APIResource {
-  static override readonly _key: readonly ['auth', 'oauth'] = Object.freeze(['auth', 'oauth'] as const)
+  static override readonly _key: readonly ['auth', 'oauth'] = Object.freeze(['auth', 'oauth'] as const);
 
   /**
    * Initiate OAuth login or account-linking flow — redirects to provider
    */
-  retrieve(provider: 'google' | 'github' | 'microsoft' | 'apple', query: OAuthRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/auth/oauth/${provider}`, { query, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  retrieve(
+    provider: 'google' | 'github' | 'microsoft' | 'apple',
+    query: OAuthRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    return this._client.get(path`/auth/oauth/${provider}`, {
+      query,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class OAuth extends BaseOAuth {
@@ -37,19 +45,17 @@ OAuth.Providers = Providers;
 OAuth.BaseProviders = BaseProviders;
 
 export declare namespace OAuth {
-  export {
-    type OAuthRetrieveParams as OAuthRetrieveParams
-  };
+  export { type OAuthRetrieveParams as OAuthRetrieveParams };
 
   export {
     Callback as Callback,
     BaseCallback as BaseCallback,
-    type CallbackGetCallbackParams as CallbackGetCallbackParams
+    type CallbackGetCallbackParams as CallbackGetCallbackParams,
   };
 
   export {
     Providers as Providers,
     BaseProviders as BaseProviders,
-    type ProviderListResponse as ProviderListResponse
+    type ProviderListResponse as ProviderListResponse,
   };
 }

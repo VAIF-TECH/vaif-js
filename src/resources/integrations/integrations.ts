@@ -8,11 +8,17 @@ import { BaseDeliveries, Deliveries } from './deliveries/deliveries';
 import * as DlqAPI from './dlq/dlq';
 import { BaseDlq, Dlq } from './dlq/dlq';
 import * as SubscriptionsAPI from './subscriptions/subscriptions';
-import { BaseSubscriptions, SubscriptionCreateParams, SubscriptionCreateResponse, SubscriptionDeleteResponse, SubscriptionUpdateResponse, Subscriptions } from './subscriptions/subscriptions';
+import {
+  BaseSubscriptions,
+  SubscriptionCreateParams,
+  SubscriptionCreateResponse,
+  SubscriptionDeleteResponse,
+  SubscriptionUpdateResponse,
+  Subscriptions,
+} from './subscriptions/subscriptions';
 
 export class BaseIntegrations extends APIResource {
-  static override readonly _key: readonly ['integrations'] = Object.freeze(['integrations'] as const)
-
+  static override readonly _key: readonly ['integrations'] = Object.freeze(['integrations'] as const);
 }
 export class Integrations extends BaseIntegrations {
   analytics: AnalyticsAPI.Analytics = new AnalyticsAPI.Analytics(this._client);
@@ -31,20 +37,11 @@ Integrations.Subscriptions = Subscriptions;
 Integrations.BaseSubscriptions = BaseSubscriptions;
 
 export declare namespace Integrations {
-  export {
-    Analytics as Analytics,
-    BaseAnalytics as BaseAnalytics
-  };
+  export { Analytics as Analytics, BaseAnalytics as BaseAnalytics };
 
-  export {
-    Deliveries as Deliveries,
-    BaseDeliveries as BaseDeliveries
-  };
+  export { Deliveries as Deliveries, BaseDeliveries as BaseDeliveries };
 
-  export {
-    Dlq as Dlq,
-    BaseDlq as BaseDlq
-  };
+  export { Dlq as Dlq, BaseDlq as BaseDlq };
 
   export {
     Subscriptions as Subscriptions,
@@ -52,6 +49,6 @@ export declare namespace Integrations {
     type SubscriptionCreateResponse as SubscriptionCreateResponse,
     type SubscriptionUpdateResponse as SubscriptionUpdateResponse,
     type SubscriptionDeleteResponse as SubscriptionDeleteResponse,
-    type SubscriptionCreateParams as SubscriptionCreateParams
+    type SubscriptionCreateParams as SubscriptionCreateParams,
   };
 }

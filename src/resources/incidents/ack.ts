@@ -6,7 +6,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseAck extends APIResource {
-  static override readonly _key: readonly ['incidents', 'ack'] = Object.freeze(['incidents', 'ack'] as const)
+  static override readonly _key: readonly ['incidents', 'ack'] = Object.freeze(['incidents', 'ack'] as const);
 
   /**
    * Acknowledge an incident
@@ -15,16 +15,12 @@ export class BaseAck extends APIResource {
     return this._client.post(path`/incidents/${incidentID}/ack`, options);
   }
 }
-export class Ack extends BaseAck {
-
-}
+export class Ack extends BaseAck {}
 
 export interface AckAckResponse {
   ok: true;
 }
 
 export declare namespace Ack {
-  export {
-    type AckAckResponse as AckAckResponse
-  };
+  export { type AckAckResponse as AckAckResponse };
 }

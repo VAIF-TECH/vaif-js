@@ -11,13 +11,21 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseDeploy extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'deploy'] = Object.freeze(['ai', 'copilot', 'deploy'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'deploy'] = Object.freeze([
+    'ai',
+    'copilot',
+    'deploy',
+  ] as const);
 
   /**
    * Deploy Copilot-generated resources (SSE stream)
    */
   create(body: DeployCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/deploy', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/deploy', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -32,7 +40,7 @@ export class Deploy extends BaseDeploy {
   rollback: RollbackAPI.Rollback = new RollbackAPI.Rollback(this._client);
 }
 
-export type DeployRetrieveResponse = unknown
+export type DeployRetrieveResponse = unknown;
 
 export interface DeployCreateParams {
   projectId: string;
@@ -66,18 +74,15 @@ Deploy.BaseRollback = BaseRollback;
 export declare namespace Deploy {
   export {
     type DeployRetrieveResponse as DeployRetrieveResponse,
-    type DeployCreateParams as DeployCreateParams
+    type DeployCreateParams as DeployCreateParams,
   };
 
   export {
     History as History,
     BaseHistory as BaseHistory,
     type HistoryRetrieveResponse as HistoryRetrieveResponse,
-    type HistoryRetrieveParams as HistoryRetrieveParams
+    type HistoryRetrieveParams as HistoryRetrieveParams,
   };
 
-  export {
-    Rollback as Rollback,
-    BaseRollback as BaseRollback
-  };
+  export { Rollback as Rollback, BaseRollback as BaseRollback };
 }

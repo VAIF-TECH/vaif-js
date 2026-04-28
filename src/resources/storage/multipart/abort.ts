@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseAbort extends APIResource {
-  static override readonly _key: readonly ['storage', 'multipart', 'abort'] = Object.freeze(['storage', 'multipart', 'abort'] as const)
+  static override readonly _key: readonly ['storage', 'multipart', 'abort'] = Object.freeze([
+    'storage',
+    'multipart',
+    'abort',
+  ] as const);
 
   /**
    * Abort a multipart upload
@@ -15,9 +19,7 @@ export class BaseAbort extends APIResource {
     return this._client.post(path`/storage/multipart/${uploadID}/abort`, { body, ...options });
   }
 }
-export class Abort extends BaseAbort {
-
-}
+export class Abort extends BaseAbort {}
 
 export interface AbortAbortResponse {
   ok: true;
@@ -30,8 +32,5 @@ export interface AbortAbortParams {
 }
 
 export declare namespace Abort {
-  export {
-    type AbortAbortResponse as AbortAbortResponse,
-    type AbortAbortParams as AbortAbortParams
-  };
+  export { type AbortAbortResponse as AbortAbortResponse, type AbortAbortParams as AbortAbortParams };
 }

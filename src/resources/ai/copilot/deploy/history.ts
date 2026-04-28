@@ -6,18 +6,25 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseHistory extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'deploy', 'history'] = Object.freeze(['ai', 'copilot', 'deploy', 'history'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'deploy', 'history'] = Object.freeze([
+    'ai',
+    'copilot',
+    'deploy',
+    'history',
+  ] as const);
 
   /**
    * List deploy history for a project
    */
-  retrieve(projectID: string, query: HistoryRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<HistoryRetrieveResponse> {
+  retrieve(
+    projectID: string,
+    query: HistoryRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<HistoryRetrieveResponse> {
     return this._client.get(path`/ai/copilot/deploy/history/${projectID}`, { query, ...options });
   }
 }
-export class History extends BaseHistory {
-
-}
+export class History extends BaseHistory {}
 
 export interface HistoryRetrieveResponse {
   deploys: Array<unknown>;
@@ -46,6 +53,6 @@ export interface HistoryRetrieveParams {
 export declare namespace History {
   export {
     type HistoryRetrieveResponse as HistoryRetrieveResponse,
-    type HistoryRetrieveParams as HistoryRetrieveParams
+    type HistoryRetrieveParams as HistoryRetrieveParams,
   };
 }

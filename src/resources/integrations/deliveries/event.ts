@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseEvent extends APIResource {
-  static override readonly _key: readonly ['integrations', 'deliveries', 'event'] = Object.freeze(['integrations', 'deliveries', 'event'] as const)
+  static override readonly _key: readonly ['integrations', 'deliveries', 'event'] = Object.freeze([
+    'integrations',
+    'deliveries',
+    'event',
+  ] as const);
 
   /**
    * List deliveries for an event
@@ -15,16 +19,12 @@ export class BaseEvent extends APIResource {
     return this._client.get(path`/integrations/deliveries/event/${eventID}`, options);
   }
 }
-export class Event extends BaseEvent {
-
-}
+export class Event extends BaseEvent {}
 
 export interface EventRetrieveResponse {
   deliveries: Array<unknown>;
 }
 
 export declare namespace Event {
-  export {
-    type EventRetrieveResponse as EventRetrieveResponse
-  };
+  export { type EventRetrieveResponse as EventRetrieveResponse };
 }

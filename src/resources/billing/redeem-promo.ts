@@ -5,15 +5,16 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseRedeemPromo extends APIResource {
-  static override readonly _key: readonly ['billing', 'redeemPromo'] = Object.freeze(['billing', 'redeemPromo'] as const)
+  static override readonly _key: readonly ['billing', 'redeemPromo'] = Object.freeze([
+    'billing',
+    'redeemPromo',
+  ] as const);
 
   create(body: RedeemPromoCreateParams, options?: RequestOptions): APIPromise<RedeemPromoCreateResponse> {
     return this._client.post('/billing/redeem-promo', { body, ...options });
   }
 }
-export class RedeemPromo extends BaseRedeemPromo {
-
-}
+export class RedeemPromo extends BaseRedeemPromo {}
 
 export interface RedeemPromoCreateResponse {
   code: string;
@@ -32,6 +33,6 @@ export interface RedeemPromoCreateParams {
 export declare namespace RedeemPromo {
   export {
     type RedeemPromoCreateResponse as RedeemPromoCreateResponse,
-    type RedeemPromoCreateParams as RedeemPromoCreateParams
+    type RedeemPromoCreateParams as RedeemPromoCreateParams,
   };
 }

@@ -6,7 +6,12 @@ import { BasePlans, Plans } from './plans';
 import * as PortalAPI from './portal';
 import { BasePortal, Portal, PortalCreateParams, PortalCreateResponse } from './portal';
 import * as RedeemPromoAPI from './redeem-promo';
-import { BaseRedeemPromo, RedeemPromo, RedeemPromoCreateParams, RedeemPromoCreateResponse } from './redeem-promo';
+import {
+  BaseRedeemPromo,
+  RedeemPromo,
+  RedeemPromoCreateParams,
+  RedeemPromoCreateResponse,
+} from './redeem-promo';
 import * as WebhookAPI from './webhook';
 import { BaseWebhook, Webhook } from './webhook';
 import * as AddonsAPI from './addons/addons';
@@ -23,8 +28,7 @@ import * as PromoCodesAPI from './promo-codes/promo-codes';
 import { BasePromoCodes, PromoCodes } from './promo-codes/promo-codes';
 
 export class BaseBilling extends APIResource {
-  static override readonly _key: readonly ['billing'] = Object.freeze(['billing'] as const)
-
+  static override readonly _key: readonly ['billing'] = Object.freeze(['billing'] as const);
 }
 export class Billing extends BaseBilling {
   addons: AddonsAPI.Addons = new AddonsAPI.Addons(this._client);
@@ -61,59 +65,38 @@ Billing.Webhook = Webhook;
 Billing.BaseWebhook = BaseWebhook;
 
 export declare namespace Billing {
-  export {
-    Addons as Addons,
-    BaseAddons as BaseAddons
-  };
+  export { Addons as Addons, BaseAddons as BaseAddons };
 
   export {
     Checkout as Checkout,
     BaseCheckout as BaseCheckout,
     type CheckoutCreateResponse as CheckoutCreateResponse,
-    type CheckoutCreateParams as CheckoutCreateParams
+    type CheckoutCreateParams as CheckoutCreateParams,
   };
 
-  export {
-    Credits as Credits,
-    BaseCredits as BaseCredits
-  };
+  export { Credits as Credits, BaseCredits as BaseCredits };
 
-  export {
-    Enterprise as Enterprise,
-    BaseEnterprise as BaseEnterprise
-  };
+  export { Enterprise as Enterprise, BaseEnterprise as BaseEnterprise };
 
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg
-  };
+  export { Org as Org, BaseOrg as BaseOrg };
 
-  export {
-    Plans as Plans,
-    BasePlans as BasePlans
-  };
+  export { Plans as Plans, BasePlans as BasePlans };
 
   export {
     Portal as Portal,
     BasePortal as BasePortal,
     type PortalCreateResponse as PortalCreateResponse,
-    type PortalCreateParams as PortalCreateParams
+    type PortalCreateParams as PortalCreateParams,
   };
 
-  export {
-    PromoCodes as PromoCodes,
-    BasePromoCodes as BasePromoCodes
-  };
+  export { PromoCodes as PromoCodes, BasePromoCodes as BasePromoCodes };
 
   export {
     RedeemPromo as RedeemPromo,
     BaseRedeemPromo as BaseRedeemPromo,
     type RedeemPromoCreateResponse as RedeemPromoCreateResponse,
-    type RedeemPromoCreateParams as RedeemPromoCreateParams
+    type RedeemPromoCreateParams as RedeemPromoCreateParams,
   };
 
-  export {
-    Webhook as Webhook,
-    BaseWebhook as BaseWebhook
-  };
+  export { Webhook as Webhook, BaseWebhook as BaseWebhook };
 }

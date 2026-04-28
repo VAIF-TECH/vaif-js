@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['realtime', 'connections', 'project'] = Object.freeze(['realtime', 'connections', 'project'] as const)
+  static override readonly _key: readonly ['realtime', 'connections', 'project'] = Object.freeze([
+    'realtime',
+    'connections',
+    'project',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/realtime/connections/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/realtime/connections/project/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}

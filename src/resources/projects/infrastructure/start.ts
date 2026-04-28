@@ -7,23 +7,26 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseStart extends APIResource {
-  static override readonly _key: readonly ['projects', 'infrastructure', 'start'] = Object.freeze(['projects', 'infrastructure', 'start'] as const)
+  static override readonly _key: readonly ['projects', 'infrastructure', 'start'] = Object.freeze([
+    'projects',
+    'infrastructure',
+    'start',
+  ] as const);
 
   start(instanceID: string, params: StartStartParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/start`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/start`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Start extends BaseStart {
-
-}
+export class Start extends BaseStart {}
 
 export interface StartStartParams {
   projectId: string;
 }
 
 export declare namespace Start {
-  export {
-    type StartStartParams as StartStartParams
-  };
+  export { type StartStartParams as StartStartParams };
 }

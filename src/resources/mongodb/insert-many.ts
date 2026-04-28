@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseInsertMany extends APIResource {
-  static override readonly _key: readonly ['mongoDB', 'insertMany'] = Object.freeze(['mongoDB', 'insertMany'] as const)
+  static override readonly _key: readonly ['mongoDB', 'insertMany'] = Object.freeze([
+    'mongoDB',
+    'insertMany',
+  ] as const);
 
   insertMany(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/insertMany`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/mongodb/${collection}/insertMany`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class InsertMany extends BaseInsertMany {
-
-}
+export class InsertMany extends BaseInsertMany {}

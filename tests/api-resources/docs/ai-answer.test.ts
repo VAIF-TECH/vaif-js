@@ -6,17 +6,20 @@ import { Docs } from '@vaif/client/resources/docs/docs';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseAIAnswer],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Docs],
 });
 
@@ -34,10 +37,10 @@ const runTests = (client: PartialVaif<{ docs: { aiAnswer: BaseAIAnswer } }>) => 
 
   test('create: required and optional params', async () => {
     const response = await client.docs.aiAnswer.create({
-    context: 'context',
-    question: 'xxx',
-    conversationHistory: [{ content: 'content', role: 'user' }],
-  });
+      context: 'context',
+      question: 'xxx',
+      conversationHistory: [{ content: 'content', role: 'user' }],
+    });
   });
 };
 describe('resource aiAnswer', () => runTests(client));

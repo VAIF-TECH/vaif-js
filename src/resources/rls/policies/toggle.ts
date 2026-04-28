@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseToggle extends APIResource {
-  static override readonly _key: readonly ['rls', 'policies', 'toggle'] = Object.freeze(['rls', 'policies', 'toggle'] as const)
+  static override readonly _key: readonly ['rls', 'policies', 'toggle'] = Object.freeze([
+    'rls',
+    'policies',
+    'toggle',
+  ] as const);
 
   toggle(policyID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/rls/policies/${policyID}/toggle`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/rls/policies/${policyID}/toggle`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Toggle extends BaseToggle {
-
-}
+export class Toggle extends BaseToggle {}

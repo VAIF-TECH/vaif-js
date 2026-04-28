@@ -9,8 +9,10 @@ import * as RollbackAPI from './rollback';
 import { BaseRollback, Rollback } from './rollback';
 
 export class BaseInstall extends APIResource {
-  static override readonly _key: readonly ['templates', 'install'] = Object.freeze(['templates', 'install'] as const)
-
+  static override readonly _key: readonly ['templates', 'install'] = Object.freeze([
+    'templates',
+    'install',
+  ] as const);
 }
 export class Install extends BaseInstall {
   apply: ApplyAPI.Apply = new ApplyAPI.Apply(this._client);
@@ -26,18 +28,9 @@ Install.Rollback = Rollback;
 Install.BaseRollback = BaseRollback;
 
 export declare namespace Install {
-  export {
-    Apply as Apply,
-    BaseApply as BaseApply
-  };
+  export { Apply as Apply, BaseApply as BaseApply };
 
-  export {
-    Preview as Preview,
-    BasePreview as BasePreview
-  };
+  export { Preview as Preview, BasePreview as BasePreview };
 
-  export {
-    Rollback as Rollback,
-    BaseRollback as BaseRollback
-  };
+  export { Rollback as Rollback, BaseRollback as BaseRollback };
 }

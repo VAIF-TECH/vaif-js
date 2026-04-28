@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseCreate extends APIResource {
-  static override readonly _key: readonly ['storage', 'multipart', 'create'] = Object.freeze(['storage', 'multipart', 'create'] as const)
+  static override readonly _key: readonly ['storage', 'multipart', 'create'] = Object.freeze([
+    'storage',
+    'multipart',
+    'create',
+  ] as const);
 
   /**
    * Initiate a multipart upload
@@ -14,9 +18,7 @@ export class BaseCreate extends APIResource {
     return this._client.post('/storage/multipart/create', { body, ...options });
   }
 }
-export class Create extends BaseCreate {
-
-}
+export class Create extends BaseCreate {}
 
 export interface CreateCreateResponse {
   key: string;
@@ -35,8 +37,5 @@ export interface CreateCreateParams {
 }
 
 export declare namespace Create {
-  export {
-    type CreateCreateResponse as CreateCreateResponse,
-    type CreateCreateParams as CreateCreateParams
-  };
+  export { type CreateCreateResponse as CreateCreateResponse, type CreateCreateParams as CreateCreateParams };
 }

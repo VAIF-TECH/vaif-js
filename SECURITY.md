@@ -20,7 +20,7 @@ or products provided by Vaif, please follow the respective company's security re
 
 ### Vaif Terms and Policies
 
-Please contact support@vaif.tech for any questions or concerns regarding the security of our services.
+Please contact support@vaif.studio for any questions or concerns regarding the security of our services.
 
 ---
 

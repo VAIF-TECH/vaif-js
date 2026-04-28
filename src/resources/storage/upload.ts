@@ -6,12 +6,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseUpload extends APIResource {
-  static override readonly _key: readonly ['storage', 'upload'] = Object.freeze(['storage', 'upload'] as const)
+  static override readonly _key: readonly ['storage', 'upload'] = Object.freeze([
+    'storage',
+    'upload',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/storage/upload', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/storage/upload', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Upload extends BaseUpload {
-
-}
+export class Upload extends BaseUpload {}

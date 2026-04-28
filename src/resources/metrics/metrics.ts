@@ -7,8 +7,7 @@ import * as ProjectAPI from './project/project';
 import { BaseProject, Project } from './project/project';
 
 export class BaseMetrics extends APIResource {
-  static override readonly _key: readonly ['metrics'] = Object.freeze(['metrics'] as const)
-
+  static override readonly _key: readonly ['metrics'] = Object.freeze(['metrics'] as const);
 }
 export class Metrics extends BaseMetrics {
   org: OrgAPI.Org = new OrgAPI.Org(this._client);
@@ -21,13 +20,7 @@ Metrics.Project = Project;
 Metrics.BaseProject = BaseProject;
 
 export declare namespace Metrics {
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg
-  };
+  export { Org as Org, BaseOrg as BaseOrg };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 }

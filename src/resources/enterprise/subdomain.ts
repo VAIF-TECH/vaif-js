@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseSubdomain extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'subdomain'] = Object.freeze(['enterprise', 'subdomain'] as const)
+  static override readonly _key: readonly ['enterprise', 'subdomain'] = Object.freeze([
+    'enterprise',
+    'subdomain',
+  ] as const);
 
   retrieve(subdomain: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/subdomain/${subdomain}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/enterprise/subdomain/${subdomain}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Subdomain extends BaseSubdomain {
-
-}
+export class Subdomain extends BaseSubdomain {}

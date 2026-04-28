@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseToken extends APIResource {
-  static override readonly _key: readonly ['auth', 'cli', 'token'] = Object.freeze(['auth', 'cli', 'token'] as const)
+  static override readonly _key: readonly ['auth', 'cli', 'token'] = Object.freeze([
+    'auth',
+    'cli',
+    'token',
+  ] as const);
 
   /**
    * Poll for CLI auth token after browser approval
@@ -14,11 +18,9 @@ export class BaseToken extends APIResource {
     return this._client.post('/auth/cli/token', { body, ...options });
   }
 }
-export class Token extends BaseToken {
+export class Token extends BaseToken {}
 
-}
-
-export type TokenCreateResponse = TokenCreateResponse.UnionMember0 | TokenCreateResponse.UnionMember1
+export type TokenCreateResponse = TokenCreateResponse.UnionMember0 | TokenCreateResponse.UnionMember1;
 
 export namespace TokenCreateResponse {
   export interface UnionMember0 {
@@ -53,8 +55,5 @@ export interface TokenCreateParams {
 }
 
 export declare namespace Token {
-  export {
-    type TokenCreateResponse as TokenCreateResponse,
-    type TokenCreateParams as TokenCreateParams
-  };
+  export { type TokenCreateResponse as TokenCreateResponse, type TokenCreateParams as TokenCreateParams };
 }

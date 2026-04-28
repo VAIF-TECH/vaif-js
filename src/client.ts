@@ -25,7 +25,13 @@ import { Bootstrap } from './resources/bootstrap';
 import { Contact, ContactCreateParams, ContactCreateResponse } from './resources/contact';
 import { Maintenance } from './resources/maintenance';
 import { readEnv } from './internal/utils/env';
-import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
+import {
+  type LogLevel,
+  type Logger,
+  formatRequestDetails,
+  loggerFor,
+  parseLogLevel,
+} from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 import { Activation } from './resources/activation/activation';
 import { AIUsage } from './resources/ai-usage/ai-usage';
@@ -42,8 +48,19 @@ import { Deployments } from './resources/deployments/deployments';
 import { Docs } from './resources/docs/docs';
 import { Enterprise } from './resources/enterprise/enterprise';
 import { Entitlements } from './resources/entitlements/entitlements';
-import { FunctionCreateParams, FunctionCreateResponse, FunctionUpdateParams, FunctionUpdateResponse, Functions } from './resources/functions/functions';
-import { Generated, GeneratedDeleteParams, GeneratedRetrieve2Params, GeneratedUpdateParams } from './resources/generated/generated';
+import {
+  FunctionCreateParams,
+  FunctionCreateResponse,
+  FunctionUpdateParams,
+  FunctionUpdateResponse,
+  Functions,
+} from './resources/functions/functions';
+import {
+  Generated,
+  GeneratedDeleteParams,
+  GeneratedRetrieve2Params,
+  GeneratedUpdateParams,
+} from './resources/generated/generated';
 import { GitHub } from './resources/github/github';
 import { Incidents } from './resources/incidents/incidents';
 import { Infrastructure } from './resources/infrastructure/infrastructure';
@@ -58,7 +75,13 @@ import { OpenAPI } from './resources/openapi/openapi';
 import { Orgs } from './resources/orgs/orgs';
 import { PlanRetrieveResponse, Plans } from './resources/plans/plans';
 import { Pricing } from './resources/pricing/pricing';
-import { ProjectCreateParams, ProjectCreateResponse, ProjectUpdateParams, ProjectUpdateResponse, Projects } from './resources/projects/projects';
+import {
+  ProjectCreateParams,
+  ProjectCreateResponse,
+  ProjectUpdateParams,
+  ProjectUpdateResponse,
+  Projects,
+} from './resources/projects/projects';
 import { Quickstart } from './resources/quickstart/quickstart';
 import { Realtime } from './resources/realtime/realtime';
 import { Refunds } from './resources/refunds/refunds';
@@ -187,7 +210,6 @@ export class BaseVaif {
     bearerToken = null,
     ...opts
   }: ClientOptions = {}) {
-
     const options: ClientOptions = {
       apiKey,
       bearerToken,
@@ -201,11 +223,26 @@ export class BaseVaif {
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('VAIF_LOG'), 'process.env[\'VAIF_LOG\']', this) ?? defaultLogLevel;
+    this.logLevel =
+      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
+      parseLogLevel(readEnv('VAIF_LOG'), "process.env['VAIF_LOG']", this) ??
+      defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
     this.#encoder = Opts.FallbackEncoder;
+
+    const customHeadersEnv = readEnv('VAIF_CUSTOM_HEADERS');
+    if (customHeadersEnv) {
+      const parsed: Record<string, string> = {};
+      for (const line of customHeadersEnv.split('\n')) {
+        const colon = line.indexOf(':');
+        if (colon >= 0) {
+          parsed[line.substring(0, colon).trim()] = line.substring(colon + 1).trim();
+        }
+      }
+      options.defaultHeaders = { ...parsed, ...options.defaultHeaders };
+    }
 
     this._options = options;
 
@@ -228,7 +265,7 @@ export class BaseVaif {
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       bearerToken: this.bearerToken,
-      ...options
+      ...options,
     });
     return client;
   }
@@ -241,7 +278,7 @@ export class BaseVaif {
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery
+    return this._options.defaultQuery;
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
@@ -259,7 +296,9 @@ export class BaseVaif {
       return;
     }
 
-    throw new Error('Could not resolve authentication method. Expected either apiKey or bearerToken to be set. Or for one of the "x-vaif-key" or "Authorization" headers to be explicitly omitted')
+    throw new Error(
+      'Could not resolve authentication method. Expected either apiKey or bearerToken to be set. Or for one of the "x-vaif-key" or "Authorization" headers to be explicitly omitted',
+    );
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
@@ -304,7 +343,11 @@ export class BaseVaif {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
+  buildURL(
+    path: string,
+    query: Record<string, unknown> | null | undefined,
+    defaultBaseURL?: string | undefined,
+  ): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -392,7 +435,9 @@ export class BaseVaif {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
+    const { req, url, timeout } = await this.buildRequest(options, {
+      retryCount: maxRetries - retriesRemaining,
+    });
 
     await this.prepareRequest(req, { url, options });
 
@@ -401,7 +446,16 @@ export class BaseVaif {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
+    loggerFor(this).debug(
+      `[${requestLogID}] sending request`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        method: options.method,
+        url,
+        options,
+        headers: req.headers,
+      }),
+    );
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -420,21 +474,45 @@ export class BaseVaif {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
+      const isTimeout =
+        isAbortError(response) ||
+        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
       if (retriesRemaining) {
-        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
-        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
+        loggerFor(this).info(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
+        );
+        loggerFor(this).debug(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url,
+            durationMs: headersTime - startTime,
+            message: response.message,
+          }),
+        );
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
-      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
+      loggerFor(this).info(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
+      );
+      loggerFor(this).debug(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url,
+          durationMs: headersTime - startTime,
+          message: response.message,
+        }),
+      );
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
+      response.ok ? 'succeeded' : 'failed'
+    } with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -443,27 +521,60 @@ export class BaseVaif {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
-        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
-        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+        loggerFor(this).debug(
+          `[${requestLogID}] response error (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url: response.url,
+            status: response.status,
+            headers: response.headers,
+            durationMs: headersTime - startTime,
+          }),
+        );
+        return this.retryRequest(
+          options,
+          retriesRemaining,
+          retryOfRequestLogID ?? requestLogID,
+          response.headers,
+        );
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
+      loggerFor(this).debug(
+        `[${requestLogID}] response error (${retryMessage})`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url: response.url,
+          status: response.status,
+          headers: response.headers,
+          message: errMessage,
+          durationMs: Date.now() - startTime,
+        }),
+      );
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo)
-    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+    loggerFor(this).info(responseInfo);
+    loggerFor(this).debug(
+      `[${requestLogID}] response start`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        url: response.url,
+        status: response.status,
+        headers: response.headers,
+        durationMs: headersTime - startTime,
+      }),
+    );
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -480,7 +591,9 @@ export class BaseVaif {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody =
+      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
+      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -495,7 +608,6 @@ export class BaseVaif {
     }
 
     try {
-
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -596,11 +708,12 @@ export class BaseVaif {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal}),
-      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
+      ...(options.signal && { signal: options.signal }),
+      ...((globalThis as any).ReadableStream &&
+        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
       ...(body && { body }),
-      ...(this.fetchOptions as any ?? {}),
-      ...(options.fetchOptions as any ?? {}),
+      ...((this.fetchOptions as any) ?? {}),
+      ...((options.fetchOptions as any) ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -625,15 +738,17 @@ export class BaseVaif {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {Accept: 'application/json',
-      'User-Agent': this.getUserAgent(),
-      'X-Stainless-Retry-Count': String(retryCount),
-      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-      ...getPlatformHeaders()},
+      {
+        Accept: 'application/json',
+        'User-Agent': this.getUserAgent(),
+        'X-Stainless-Retry-Count': String(retryCount),
+        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+        ...getPlatformHeaders(),
+      },
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers
+      options.headers,
     ]);
 
     this.validateHeaders(headers);
@@ -660,11 +775,9 @@ export class BaseVaif {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (
-        typeof body === 'string' &&
+      (typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')
-      ) ||
+        headers.values.has('content-type')) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -694,11 +807,11 @@ export class BaseVaif {
     }
   }
 
-  static DEFAULT_TIMEOUT = 60000 // 1 minute
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 }
 
 /**
- * API Client for interfacing with the Vaif API. 
+ * API Client for interfacing with the Vaif API.
  */
 export class Vaif extends BaseVaif {
   static Vaif = this;
@@ -825,227 +938,136 @@ Vaif.Users = Users;
 Vaif.V1 = V1;
 
 export declare namespace Vaif {
-      export type RequestOptions = Opts.RequestOptions;
+  export type RequestOptions = Opts.RequestOptions;
 
-      export {
-  Activation as Activation
-};
+  export { Activation as Activation };
 
-export {
-  AI as AI
-};
+  export { AI as AI };
 
-export {
-  AIUsage as AIUsage
-};
+  export { AIUsage as AIUsage };
 
-export {
-  AlertRules as AlertRules
-};
+  export { AlertRules as AlertRules };
 
-export {
-  Announcements as Announcements
-};
+  export { Announcements as Announcements };
 
-export {
-  Audit as Audit
-};
+  export { Audit as Audit };
 
-export {
-  Auth as Auth
-};
+  export { Auth as Auth };
 
-export {
-  Billing as Billing
-};
+  export { Billing as Billing };
 
-export {
-  Bootstrap as Bootstrap
-};
+  export { Bootstrap as Bootstrap };
 
-export {
-  Buckets as Buckets,
-  type BucketUpdateResponse as BucketUpdateResponse,
-  type BucketUpdateParams as BucketUpdateParams
-};
+  export {
+    Buckets as Buckets,
+    type BucketUpdateResponse as BucketUpdateResponse,
+    type BucketUpdateParams as BucketUpdateParams,
+  };
 
-export {
-  Cms as Cms
-};
+  export { Cms as Cms };
 
-export {
-  Contact as Contact,
-  type ContactCreateResponse as ContactCreateResponse,
-  type ContactCreateParams as ContactCreateParams
-};
+  export {
+    Contact as Contact,
+    type ContactCreateResponse as ContactCreateResponse,
+    type ContactCreateParams as ContactCreateParams,
+  };
 
-export {
-  Credits as Credits
-};
+  export { Credits as Credits };
 
-export {
-  Database as Database
-};
+  export { Database as Database };
 
-export {
-  Deployments as Deployments
-};
+  export { Deployments as Deployments };
 
-export {
-  Docs as Docs
-};
+  export { Docs as Docs };
 
-export {
-  Enterprise as Enterprise
-};
+  export { Enterprise as Enterprise };
 
-export {
-  Entitlements as Entitlements
-};
+  export { Entitlements as Entitlements };
 
-export {
-  Functions as Functions,
-  type FunctionCreateResponse as FunctionCreateResponse,
-  type FunctionUpdateResponse as FunctionUpdateResponse,
-  type FunctionCreateParams as FunctionCreateParams,
-  type FunctionUpdateParams as FunctionUpdateParams
-};
+  export {
+    Functions as Functions,
+    type FunctionCreateResponse as FunctionCreateResponse,
+    type FunctionUpdateResponse as FunctionUpdateResponse,
+    type FunctionCreateParams as FunctionCreateParams,
+    type FunctionUpdateParams as FunctionUpdateParams,
+  };
 
-export {
-  Generated as Generated,
-  type GeneratedUpdateParams as GeneratedUpdateParams,
-  type GeneratedDeleteParams as GeneratedDeleteParams,
-  type GeneratedRetrieve2Params as GeneratedRetrieve2Params
-};
+  export {
+    Generated as Generated,
+    type GeneratedUpdateParams as GeneratedUpdateParams,
+    type GeneratedDeleteParams as GeneratedDeleteParams,
+    type GeneratedRetrieve2Params as GeneratedRetrieve2Params,
+  };
 
-export {
-  GitHub as GitHub
-};
+  export { GitHub as GitHub };
 
-export {
-  Incidents as Incidents
-};
+  export { Incidents as Incidents };
 
-export {
-  Infrastructure as Infrastructure
-};
+  export { Infrastructure as Infrastructure };
 
-export {
-  Integrations as Integrations
-};
+  export { Integrations as Integrations };
 
-export {
-  Jobs as Jobs
-};
+  export { Jobs as Jobs };
 
-export {
-  Logs as Logs
-};
+  export { Logs as Logs };
 
-export {
-  Maintenance as Maintenance
-};
+  export { Maintenance as Maintenance };
 
-export {
-  Metrics as Metrics
-};
+  export { Metrics as Metrics };
 
-export {
-  MongoDB as MongoDB
-};
+  export { MongoDB as MongoDB };
 
-export {
-  OAuth as OAuth
-};
+  export { OAuth as OAuth };
 
-export {
-  Onboarding as Onboarding
-};
+  export { Onboarding as Onboarding };
 
-export {
-  OpenAPI as OpenAPI
-};
+  export { OpenAPI as OpenAPI };
 
-export {
-  Orgs as Orgs
-};
+  export { Orgs as Orgs };
 
-export {
-  Plans as Plans,
-  type PlanRetrieveResponse as PlanRetrieveResponse
-};
+  export { Plans as Plans, type PlanRetrieveResponse as PlanRetrieveResponse };
 
-export {
-  Pricing as Pricing
-};
+  export { Pricing as Pricing };
 
-export {
-  Projects as Projects,
-  type ProjectCreateResponse as ProjectCreateResponse,
-  type ProjectUpdateResponse as ProjectUpdateResponse,
-  type ProjectCreateParams as ProjectCreateParams,
-  type ProjectUpdateParams as ProjectUpdateParams
-};
+  export {
+    Projects as Projects,
+    type ProjectCreateResponse as ProjectCreateResponse,
+    type ProjectUpdateResponse as ProjectUpdateResponse,
+    type ProjectCreateParams as ProjectCreateParams,
+    type ProjectUpdateParams as ProjectUpdateParams,
+  };
 
-export {
-  Quickstart as Quickstart
-};
+  export { Quickstart as Quickstart };
 
-export {
-  Realtime as Realtime
-};
+  export { Realtime as Realtime };
 
-export {
-  Refunds as Refunds
-};
+  export { Refunds as Refunds };
 
-export {
-  Regions as Regions
-};
+  export { Regions as Regions };
 
-export {
-  Rls as Rls
-};
+  export { Rls as Rls };
 
-export {
-  SchemaEngine as SchemaEngine
-};
+  export { SchemaEngine as SchemaEngine };
 
-export {
-  Schemas as Schemas,
-  type SchemaCreateResponse as SchemaCreateResponse,
-  type SchemaCreateParams as SchemaCreateParams
-};
+  export {
+    Schemas as Schemas,
+    type SchemaCreateResponse as SchemaCreateResponse,
+    type SchemaCreateParams as SchemaCreateParams,
+  };
 
-export {
-  SDK as SDK
-};
+  export { SDK as SDK };
 
-export {
-  Security as Security
-};
+  export { Security as Security };
 
-export {
-  SSO as SSO
-};
+  export { SSO as SSO };
 
-export {
-  Status as Status
-};
+  export { Status as Status };
 
-export {
-  Storage as Storage
-};
+  export { Storage as Storage };
 
-export {
-  Templates as Templates
-};
+  export { Templates as Templates };
 
-export {
-  Users as Users
-};
+  export { Users as Users };
 
-export {
-  V1 as V1
-};
-    }
+  export { V1 as V1 };
+}

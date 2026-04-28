@@ -6,17 +6,19 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseQuery extends APIResource {
-  static override readonly _key: readonly ['database', 'connector', 'query'] = Object.freeze(['database', 'connector', 'query'] as const)
+  static override readonly _key: readonly ['database', 'connector', 'query'] = Object.freeze([
+    'database',
+    'connector',
+    'query',
+  ] as const);
 
   query(projectID: string, body: QueryQueryParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post(path`/database/connector/${projectID}/query`, { body, ...options });
   }
 }
-export class Query extends BaseQuery {
+export class Query extends BaseQuery {}
 
-}
-
-export type QueryQueryResponse = unknown
+export type QueryQueryResponse = unknown;
 
 export interface QueryQueryParams {
   table: string;
@@ -31,8 +33,5 @@ export interface QueryQueryParams {
 }
 
 export declare namespace Query {
-  export {
-    type QueryQueryResponse as QueryQueryResponse,
-    type QueryQueryParams as QueryQueryParams
-  };
+  export { type QueryQueryResponse as QueryQueryResponse, type QueryQueryParams as QueryQueryParams };
 }

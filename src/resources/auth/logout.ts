@@ -5,7 +5,7 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseLogout extends APIResource {
-  static override readonly _key: readonly ['auth', 'logout'] = Object.freeze(['auth', 'logout'] as const)
+  static override readonly _key: readonly ['auth', 'logout'] = Object.freeze(['auth', 'logout'] as const);
 
   /**
    * Invalidate the current session and clear the refresh token cookie
@@ -14,16 +14,12 @@ export class BaseLogout extends APIResource {
     return this._client.post('/auth/logout', options);
   }
 }
-export class Logout extends BaseLogout {
-
-}
+export class Logout extends BaseLogout {}
 
 export interface LogoutCreateResponse {
   ok: true;
 }
 
 export declare namespace Logout {
-  export {
-    type LogoutCreateResponse as LogoutCreateResponse
-  };
+  export { type LogoutCreateResponse as LogoutCreateResponse };
 }

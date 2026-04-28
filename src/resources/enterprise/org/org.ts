@@ -6,13 +6,20 @@ import { BaseContract, Contract } from './contract';
 import * as InvoicesAPI from './invoices';
 import { BaseInvoices, Invoices } from './invoices';
 import * as OnboardingAPI from './onboarding';
-import { BaseOnboarding, Onboarding, OnboardingOnboardingParams, OnboardingOnboardingResponse } from './onboarding';
+import {
+  BaseOnboarding,
+  Onboarding,
+  OnboardingOnboardingParams,
+  OnboardingOnboardingResponse,
+} from './onboarding';
 import * as UsageAPI from './usage';
 import { BaseUsage, Usage } from './usage';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'org'] = Object.freeze(['enterprise', 'org'] as const)
-
+  static override readonly _key: readonly ['enterprise', 'org'] = Object.freeze([
+    'enterprise',
+    'org',
+  ] as const);
 }
 export class Org extends BaseOrg {
   contract: ContractAPI.Contract = new ContractAPI.Contract(this._client);
@@ -31,25 +38,16 @@ Org.Usage = Usage;
 Org.BaseUsage = BaseUsage;
 
 export declare namespace Org {
-  export {
-    Contract as Contract,
-    BaseContract as BaseContract
-  };
+  export { Contract as Contract, BaseContract as BaseContract };
 
-  export {
-    Invoices as Invoices,
-    BaseInvoices as BaseInvoices
-  };
+  export { Invoices as Invoices, BaseInvoices as BaseInvoices };
 
   export {
     Onboarding as Onboarding,
     BaseOnboarding as BaseOnboarding,
     type OnboardingOnboardingResponse as OnboardingOnboardingResponse,
-    type OnboardingOnboardingParams as OnboardingOnboardingParams
+    type OnboardingOnboardingParams as OnboardingOnboardingParams,
   };
 
-  export {
-    Usage as Usage,
-    BaseUsage as BaseUsage
-  };
+  export { Usage as Usage, BaseUsage as BaseUsage };
 }

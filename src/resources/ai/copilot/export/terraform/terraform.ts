@@ -7,8 +7,12 @@ import * as GcpAPI from './gcp';
 import { BaseGcp, Gcp } from './gcp';
 
 export class BaseTerraform extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform'] = Object.freeze(['ai', 'copilot', 'export', 'terraform'] as const)
-
+  static override readonly _key: readonly ['ai', 'copilot', 'export', 'terraform'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+    'terraform',
+  ] as const);
 }
 export class Terraform extends BaseTerraform {
   aws: AwsAPI.Aws = new AwsAPI.Aws(this._client);
@@ -21,13 +25,7 @@ Terraform.Gcp = Gcp;
 Terraform.BaseGcp = BaseGcp;
 
 export declare namespace Terraform {
-  export {
-    Aws as Aws,
-    BaseAws as BaseAws
-  };
+  export { Aws as Aws, BaseAws as BaseAws };
 
-  export {
-    Gcp as Gcp,
-    BaseGcp as BaseGcp
-  };
+  export { Gcp as Gcp, BaseGcp as BaseGcp };
 }

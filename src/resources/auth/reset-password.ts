@@ -5,7 +5,10 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseResetPassword extends APIResource {
-  static override readonly _key: readonly ['auth', 'resetPassword'] = Object.freeze(['auth', 'resetPassword'] as const)
+  static override readonly _key: readonly ['auth', 'resetPassword'] = Object.freeze([
+    'auth',
+    'resetPassword',
+  ] as const);
 
   /**
    * Submit a new password using a reset token
@@ -14,9 +17,7 @@ export class BaseResetPassword extends APIResource {
     return this._client.post('/auth/reset-password', { body, ...options });
   }
 }
-export class ResetPassword extends BaseResetPassword {
-
-}
+export class ResetPassword extends BaseResetPassword {}
 
 export interface ResetPasswordCreateResponse {
   message: string;
@@ -33,6 +34,6 @@ export interface ResetPasswordCreateParams {
 export declare namespace ResetPassword {
   export {
     type ResetPasswordCreateResponse as ResetPasswordCreateResponse,
-    type ResetPasswordCreateParams as ResetPasswordCreateParams
+    type ResetPasswordCreateParams as ResetPasswordCreateParams,
   };
 }

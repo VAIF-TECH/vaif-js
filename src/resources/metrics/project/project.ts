@@ -9,10 +9,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['metrics', 'project'] = Object.freeze(['metrics', 'project'] as const)
+  static override readonly _key: readonly ['metrics', 'project'] = Object.freeze([
+    'metrics',
+    'project',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/metrics/project/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/metrics/project/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Project extends BaseProject {
@@ -23,8 +29,5 @@ Project.Overview = Overview;
 Project.BaseOverview = BaseOverview;
 
 export declare namespace Project {
-  export {
-    Overview as Overview,
-    BaseOverview as BaseOverview
-  };
+  export { Overview as Overview, BaseOverview as BaseOverview };
 }

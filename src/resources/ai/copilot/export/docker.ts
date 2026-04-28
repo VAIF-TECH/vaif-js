@@ -6,12 +6,18 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
 export class BaseDocker extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export', 'docker'] = Object.freeze(['ai', 'copilot', 'export', 'docker'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'export', 'docker'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+    'docker',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/export/docker', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/export/docker', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Docker extends BaseDocker {
-
-}
+export class Docker extends BaseDocker {}

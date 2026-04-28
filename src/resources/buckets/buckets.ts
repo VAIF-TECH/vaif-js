@@ -17,18 +17,28 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseBuckets extends APIResource {
-  static override readonly _key: readonly ['buckets'] = Object.freeze(['buckets'] as const)
+  static override readonly _key: readonly ['buckets'] = Object.freeze(['buckets'] as const);
 
   retrieve(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/buckets/${bucketID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/buckets/${bucketID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  update(bucketID: string, body: BucketUpdateParams, options?: RequestOptions): APIPromise<BucketUpdateResponse> {
+  update(
+    bucketID: string,
+    body: BucketUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<BucketUpdateResponse> {
     return this._client.put(path`/buckets/${bucketID}`, { body, ...options });
   }
 
   delete(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/buckets/${bucketID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/buckets/${bucketID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Buckets extends BaseBuckets {
@@ -44,7 +54,7 @@ export interface BucketUpdateResponse {
 
   bucket?: unknown;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface BucketUpdateParams {
@@ -69,33 +79,15 @@ Buckets.UploadURL = UploadURL;
 Buckets.BaseUploadURL = BaseUploadURL;
 
 export declare namespace Buckets {
-  export {
-    type BucketUpdateResponse as BucketUpdateResponse,
-    type BucketUpdateParams as BucketUpdateParams
-  };
+  export { type BucketUpdateResponse as BucketUpdateResponse, type BucketUpdateParams as BucketUpdateParams };
 
-  export {
-    Files as Files,
-    BaseFiles as BaseFiles
-  };
+  export { Files as Files, BaseFiles as BaseFiles };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 
-  export {
-    SignedURL as SignedURL,
-    BaseSignedURL as BaseSignedURL
-  };
+  export { SignedURL as SignedURL, BaseSignedURL as BaseSignedURL };
 
-  export {
-    Upload as Upload,
-    BaseUpload as BaseUpload
-  };
+  export { Upload as Upload, BaseUpload as BaseUpload };
 
-  export {
-    UploadURL as UploadURL,
-    BaseUploadURL as BaseUploadURL
-  };
+  export { UploadURL as UploadURL, BaseUploadURL as BaseUploadURL };
 }

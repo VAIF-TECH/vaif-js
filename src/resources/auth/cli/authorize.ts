@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseAuthorize extends APIResource {
-  static override readonly _key: readonly ['auth', 'cli', 'authorize'] = Object.freeze(['auth', 'cli', 'authorize'] as const)
+  static override readonly _key: readonly ['auth', 'cli', 'authorize'] = Object.freeze([
+    'auth',
+    'cli',
+    'authorize',
+  ] as const);
 
   /**
    * Request a CLI auth session code — returns a code and browser URL for approval
@@ -14,9 +18,7 @@ export class BaseAuthorize extends APIResource {
     return this._client.post('/auth/cli/authorize', options);
   }
 }
-export class Authorize extends BaseAuthorize {
-
-}
+export class Authorize extends BaseAuthorize {}
 
 export interface AuthorizeCreateResponse {
   code: string;
@@ -25,7 +27,5 @@ export interface AuthorizeCreateResponse {
 }
 
 export declare namespace Authorize {
-  export {
-    type AuthorizeCreateResponse as AuthorizeCreateResponse
-  };
+  export { type AuthorizeCreateResponse as AuthorizeCreateResponse };
 }

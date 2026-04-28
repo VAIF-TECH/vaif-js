@@ -5,7 +5,10 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseSubscribe extends APIResource {
-  static override readonly _key: readonly ['status', 'subscribe'] = Object.freeze(['status', 'subscribe'] as const)
+  static override readonly _key: readonly ['status', 'subscribe'] = Object.freeze([
+    'status',
+    'subscribe',
+  ] as const);
 
   /**
    * Subscribe to status updates
@@ -14,9 +17,7 @@ export class BaseSubscribe extends APIResource {
     return this._client.post('/status/subscribe', { body, ...options });
   }
 }
-export class Subscribe extends BaseSubscribe {
-
-}
+export class Subscribe extends BaseSubscribe {}
 
 export interface SubscribeCreateResponse {
   message: string;
@@ -31,6 +32,6 @@ export interface SubscribeCreateParams {
 export declare namespace Subscribe {
   export {
     type SubscribeCreateResponse as SubscribeCreateResponse,
-    type SubscribeCreateParams as SubscribeCreateParams
+    type SubscribeCreateParams as SubscribeCreateParams,
   };
 }

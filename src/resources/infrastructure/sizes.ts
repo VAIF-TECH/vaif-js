@@ -6,12 +6,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseSizes extends APIResource {
-  static override readonly _key: readonly ['infrastructure', 'sizes'] = Object.freeze(['infrastructure', 'sizes'] as const)
+  static override readonly _key: readonly ['infrastructure', 'sizes'] = Object.freeze([
+    'infrastructure',
+    'sizes',
+  ] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/infrastructure/sizes', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/infrastructure/sizes', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Sizes extends BaseSizes {
-
-}
+export class Sizes extends BaseSizes {}

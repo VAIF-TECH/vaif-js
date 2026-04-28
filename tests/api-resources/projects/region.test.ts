@@ -6,17 +6,20 @@ import { BaseRegion } from '@vaif/client/resources/projects/region';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseRegion],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Projects],
 });
 
@@ -33,7 +36,10 @@ const runTests = (client: PartialVaif<{ projects: { region: BaseRegion } }>) => 
   });
 
   test('region: only required params', async () => {
-    const responsePromise = client.projects.region.region('projectId', { regionKey: 'x', tenancyType: 'shared' });
+    const responsePromise = client.projects.region.region('projectId', {
+      regionKey: 'x',
+      tenancyType: 'shared',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -44,7 +50,10 @@ const runTests = (client: PartialVaif<{ projects: { region: BaseRegion } }>) => 
   });
 
   test('region: required and optional params', async () => {
-    const response = await client.projects.region.region('projectId', { regionKey: 'x', tenancyType: 'shared' });
+    const response = await client.projects.region.region('projectId', {
+      regionKey: 'x',
+      tenancyType: 'shared',
+    });
   });
 };
 describe('resource region', () => runTests(client));

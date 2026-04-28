@@ -7,12 +7,18 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseFiles extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'git', 'files'] = Object.freeze(['ai', 'copilot', 'git', 'files'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'git', 'files'] = Object.freeze([
+    'ai',
+    'copilot',
+    'git',
+    'files',
+  ] as const);
 
   retrieve(sessionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/git/files/${sessionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/git/files/${sessionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Files extends BaseFiles {
-
-}
+export class Files extends BaseFiles {}

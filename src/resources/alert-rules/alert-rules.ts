@@ -9,14 +9,20 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseAlertRules extends APIResource {
-  static override readonly _key: readonly ['alertRules'] = Object.freeze(['alertRules'] as const)
+  static override readonly _key: readonly ['alertRules'] = Object.freeze(['alertRules'] as const);
 
   update(ruleID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.put(path`/alert-rules/${ruleID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.put(path`/alert-rules/${ruleID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   delete(ruleID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/alert-rules/${ruleID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/alert-rules/${ruleID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class AlertRules extends BaseAlertRules {
@@ -27,8 +33,5 @@ AlertRules.Project = Project;
 AlertRules.BaseProject = BaseProject;
 
 export declare namespace AlertRules {
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 }

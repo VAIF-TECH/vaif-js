@@ -6,15 +6,22 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseResume extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'executions', 'resume'] = Object.freeze(['ai', 'copilot', 'executions', 'resume'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'executions', 'resume'] = Object.freeze([
+    'ai',
+    'copilot',
+    'executions',
+    'resume',
+  ] as const);
 
-  resume(executionID: string, body: ResumeResumeParams, options?: RequestOptions): APIPromise<ResumeResumeResponse> {
+  resume(
+    executionID: string,
+    body: ResumeResumeParams,
+    options?: RequestOptions,
+  ): APIPromise<ResumeResumeResponse> {
     return this._client.post(path`/ai/copilot/execution/${executionID}/resume`, { body, ...options });
   }
 }
-export class Resume extends BaseResume {
-
-}
+export class Resume extends BaseResume {}
 
 export interface ResumeResumeResponse {
   executionId: string;
@@ -31,8 +38,5 @@ export interface ResumeResumeParams {
 }
 
 export declare namespace Resume {
-  export {
-    type ResumeResumeResponse as ResumeResumeResponse,
-    type ResumeResumeParams as ResumeResumeParams
-  };
+  export { type ResumeResumeResponse as ResumeResumeResponse, type ResumeResumeParams as ResumeResumeParams };
 }

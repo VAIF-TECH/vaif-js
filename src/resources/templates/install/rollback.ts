@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseRollback extends APIResource {
-  static override readonly _key: readonly ['templates', 'install', 'rollback'] = Object.freeze(['templates', 'install', 'rollback'] as const)
+  static override readonly _key: readonly ['templates', 'install', 'rollback'] = Object.freeze([
+    'templates',
+    'install',
+    'rollback',
+  ] as const);
 
   rollback(installID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/templates/install/${installID}/rollback`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/templates/install/${installID}/rollback`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Rollback extends BaseRollback {
-
-}
+export class Rollback extends BaseRollback {}

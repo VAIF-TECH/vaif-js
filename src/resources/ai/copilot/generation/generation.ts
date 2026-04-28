@@ -7,8 +7,11 @@ import * as ResumeAPI from './resume';
 import { BaseResume, Resume } from './resume';
 
 export class BaseGeneration extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'generation'] = Object.freeze(['ai', 'copilot', 'generation'] as const)
-
+  static override readonly _key: readonly ['ai', 'copilot', 'generation'] = Object.freeze([
+    'ai',
+    'copilot',
+    'generation',
+  ] as const);
 }
 export class Generation extends BaseGeneration {
   cancel: CancelAPI.Cancel = new CancelAPI.Cancel(this._client);
@@ -21,13 +24,7 @@ Generation.Resume = Resume;
 Generation.BaseResume = BaseResume;
 
 export declare namespace Generation {
-  export {
-    Cancel as Cancel,
-    BaseCancel as BaseCancel
-  };
+  export { Cancel as Cancel, BaseCancel as BaseCancel };
 
-  export {
-    Resume as Resume,
-    BaseResume as BaseResume
-  };
+  export { Resume as Resume, BaseResume as BaseResume };
 }

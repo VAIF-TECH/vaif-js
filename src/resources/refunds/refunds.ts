@@ -9,10 +9,13 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseRefunds extends APIResource {
-  static override readonly _key: readonly ['refunds'] = Object.freeze(['refunds'] as const)
+  static override readonly _key: readonly ['refunds'] = Object.freeze(['refunds'] as const);
 
   retrieve(id: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/refunds/${id}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/refunds/${id}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Refunds extends BaseRefunds {
@@ -23,8 +26,5 @@ Refunds.Org = Org;
 Refunds.BaseOrg = BaseOrg;
 
 export declare namespace Refunds {
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg
-  };
+  export { Org as Org, BaseOrg as BaseOrg };
 }

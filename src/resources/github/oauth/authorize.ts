@@ -6,12 +6,17 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseAuthorize extends APIResource {
-  static override readonly _key: readonly ['github', 'oauth', 'authorize'] = Object.freeze(['github', 'oauth', 'authorize'] as const)
+  static override readonly _key: readonly ['github', 'oauth', 'authorize'] = Object.freeze([
+    'github',
+    'oauth',
+    'authorize',
+  ] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/github/oauth/authorize', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/github/oauth/authorize', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Authorize extends BaseAuthorize {
-
-}
+export class Authorize extends BaseAuthorize {}

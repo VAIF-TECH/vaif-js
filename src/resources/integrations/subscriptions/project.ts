@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['integrations', 'subscriptions', 'project'] = Object.freeze(['integrations', 'subscriptions', 'project'] as const)
+  static override readonly _key: readonly ['integrations', 'subscriptions', 'project'] = Object.freeze([
+    'integrations',
+    'subscriptions',
+    'project',
+  ] as const);
 
   /**
    * List integration subscriptions for a project
@@ -15,9 +19,7 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/integrations/subscriptions/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
-
-}
+export class Project extends BaseProject {}
 
 export interface ProjectRetrieveResponse {
   subscriptions: Array<ProjectRetrieveResponse.Subscription>;
@@ -43,12 +45,10 @@ export namespace ProjectRetrieveResponse {
 
     updatedAt?: string | (string & {});
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

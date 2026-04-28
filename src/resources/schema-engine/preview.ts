@@ -5,7 +5,10 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BasePreview extends APIResource {
-  static override readonly _key: readonly ['schemaEngine', 'preview'] = Object.freeze(['schemaEngine', 'preview'] as const)
+  static override readonly _key: readonly ['schemaEngine', 'preview'] = Object.freeze([
+    'schemaEngine',
+    'preview',
+  ] as const);
 
   /**
    * Preview schema migration changes
@@ -14,9 +17,7 @@ export class BasePreview extends APIResource {
     return this._client.post('/schema-engine/preview', { body, ...options });
   }
 }
-export class Preview extends BasePreview {
-
-}
+export class Preview extends BasePreview {}
 
 export interface PreviewCreateResponse {
   ok: true;
@@ -31,7 +32,7 @@ export interface PreviewCreateResponse {
 
   warnings?: Array<unknown>;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface PreviewCreateParams {
@@ -66,7 +67,27 @@ export namespace PreviewCreateParams {
       export interface Column {
         name: string;
 
-        type: 'uuid' | 'text' | 'varchar' | 'string' | 'int' | 'integer' | 'bigint' | 'boolean' | 'bool' | 'jsonb' | 'json' | 'timestamptz' | 'timestamp' | 'date' | 'numeric' | 'decimal' | 'float' | 'double' | 'text[]' | 'integer[]';
+        type:
+          | 'uuid'
+          | 'text'
+          | 'varchar'
+          | 'string'
+          | 'int'
+          | 'integer'
+          | 'bigint'
+          | 'boolean'
+          | 'bool'
+          | 'jsonb'
+          | 'json'
+          | 'timestamptz'
+          | 'timestamp'
+          | 'date'
+          | 'numeric'
+          | 'decimal'
+          | 'float'
+          | 'double'
+          | 'text[]'
+          | 'integer[]';
 
         default?: string | number | boolean;
 
@@ -111,6 +132,6 @@ export namespace PreviewCreateParams {
 export declare namespace Preview {
   export {
     type PreviewCreateResponse as PreviewCreateResponse,
-    type PreviewCreateParams as PreviewCreateParams
+    type PreviewCreateParams as PreviewCreateParams,
   };
 }

@@ -6,7 +6,10 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseUnsubscribe extends APIResource {
-  static override readonly _key: readonly ['status', 'unsubscribe'] = Object.freeze(['status', 'unsubscribe'] as const)
+  static override readonly _key: readonly ['status', 'unsubscribe'] = Object.freeze([
+    'status',
+    'unsubscribe',
+  ] as const);
 
   /**
    * Unsubscribe from status updates
@@ -15,9 +18,7 @@ export class BaseUnsubscribe extends APIResource {
     return this._client.get(path`/status/unsubscribe/${token}`, options);
   }
 }
-export class Unsubscribe extends BaseUnsubscribe {
-
-}
+export class Unsubscribe extends BaseUnsubscribe {}
 
 export interface UnsubscribeRetrieveResponse {
   message: string;
@@ -26,7 +27,5 @@ export interface UnsubscribeRetrieveResponse {
 }
 
 export declare namespace Unsubscribe {
-  export {
-    type UnsubscribeRetrieveResponse as UnsubscribeRetrieveResponse
-  };
+  export { type UnsubscribeRetrieveResponse as UnsubscribeRetrieveResponse };
 }

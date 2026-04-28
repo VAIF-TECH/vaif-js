@@ -6,28 +6,31 @@ import { BaseUploadBase64 } from '@vaif/client/resources/storage/upload-base64';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseUploadBase64],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Storage],
 });
 
 const runTests = (client: PartialVaif<{ storage: { uploadBase64: BaseUploadBase64 } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.storage.uploadBase64.create({
-    bucket: 'x',
-    data: 'x',
-    path: 'x',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      bucket: 'x',
+      data: 'x',
+      path: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -39,12 +42,12 @@ const runTests = (client: PartialVaif<{ storage: { uploadBase64: BaseUploadBase6
 
   test('create: required and optional params', async () => {
     const response = await client.storage.uploadBase64.create({
-    bucket: 'x',
-    data: 'x',
-    path: 'x',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    contentType: 'contentType',
-  });
+      bucket: 'x',
+      data: 'x',
+      path: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      contentType: 'contentType',
+    });
   });
 };
 describe('resource uploadBase64', () => runTests(client));

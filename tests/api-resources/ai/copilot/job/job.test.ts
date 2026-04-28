@@ -6,23 +6,29 @@ import { BaseJob } from '@vaif/client/resources/ai/copilot/job/job';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseJob],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Copilot],
 });
 
 const runTests = (client: PartialVaif<{ ai: { copilot: { job: BaseJob } } }>) => {
   test('create: only required params', async () => {
-    const responsePromise = client.ai.copilot.job.create({ message: 'x', projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.ai.copilot.job.create({
+      message: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,49 +40,51 @@ const runTests = (client: PartialVaif<{ ai: { copilot: { job: BaseJob } } }>) =>
 
   test('create: required and optional params', async () => {
     const response = await client.ai.copilot.job.create({
-    message: 'x',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    attachments: [{
-    content: 'content',
-    type: 'schema',
-    name: 'name',
-  }],
-    generationOptions: {
-    apiStyle: 'rest',
-    architecture: 'mvc',
-    auditLogs: true,
-    authMethod: 'vaif',
-    containerization: 'docker',
-    database: 'vaif',
-    dbMigrations: true,
-    deployTarget: 'railway',
-    emailVerification: true,
-    featureFlags: true,
-    framework: 'framework',
-    gitHooks: true,
-    healthChecks: true,
-    includeApiCollection: true,
-    includeSampleData: true,
-    includeSdkClient: true,
-    language: 'typescript',
-    mfa: true,
-    mode: 'opinionated',
-    multiTenant: 'single',
-    outputDepth: 'minimal',
-    rateLimiting: true,
-    rbac: 'off',
-    realtime: 'websockets',
-    scope: 'schema-only',
-    securityHeaders: true,
-    storage: 'vaif',
-    tests: ['unit'],
-  },
-    generationTypes: ['schema'],
-    modelId: 'modelId',
-    resumeFromCheckpoint: 'resumeFromCheckpoint',
-    resumeFromExecution: 'resumeFromExecution',
-    sessionId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      message: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      attachments: [
+        {
+          content: 'content',
+          type: 'schema',
+          name: 'name',
+        },
+      ],
+      generationOptions: {
+        apiStyle: 'rest',
+        architecture: 'mvc',
+        auditLogs: true,
+        authMethod: 'vaif',
+        containerization: 'docker',
+        database: 'vaif',
+        dbMigrations: true,
+        deployTarget: 'railway',
+        emailVerification: true,
+        featureFlags: true,
+        framework: 'framework',
+        gitHooks: true,
+        healthChecks: true,
+        includeApiCollection: true,
+        includeSampleData: true,
+        includeSdkClient: true,
+        language: 'typescript',
+        mfa: true,
+        mode: 'opinionated',
+        multiTenant: 'single',
+        outputDepth: 'minimal',
+        rateLimiting: true,
+        rbac: 'off',
+        realtime: 'websockets',
+        scope: 'schema-only',
+        securityHeaders: true,
+        storage: 'vaif',
+        tests: ['unit'],
+      },
+      generationTypes: ['schema'],
+      modelId: 'modelId',
+      resumeFromCheckpoint: 'resumeFromCheckpoint',
+      resumeFromExecution: 'resumeFromExecution',
+      sessionId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
   });
 
   test('retrieve', async () => {

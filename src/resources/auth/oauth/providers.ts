@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseProviders extends APIResource {
-  static override readonly _key: readonly ['auth', 'oauth', 'providers'] = Object.freeze(['auth', 'oauth', 'providers'] as const)
+  static override readonly _key: readonly ['auth', 'oauth', 'providers'] = Object.freeze([
+    'auth',
+    'oauth',
+    'providers',
+  ] as const);
 
   /**
    * List enabled OAuth providers available for login or account linking
@@ -14,9 +18,7 @@ export class BaseProviders extends APIResource {
     return this._client.get('/auth/oauth/providers', options);
   }
 }
-export class Providers extends BaseProviders {
-
-}
+export class Providers extends BaseProviders {}
 
 export interface ProviderListResponse {
   providers: Array<ProviderListResponse.Provider>;
@@ -35,7 +37,5 @@ export namespace ProviderListResponse {
 }
 
 export declare namespace Providers {
-  export {
-    type ProviderListResponse as ProviderListResponse
-  };
+  export { type ProviderListResponse as ProviderListResponse };
 }

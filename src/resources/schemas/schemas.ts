@@ -7,7 +7,7 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseSchemas extends APIResource {
-  static override readonly _key: readonly ['schemas'] = Object.freeze(['schemas'] as const)
+  static override readonly _key: readonly ['schemas'] = Object.freeze(['schemas'] as const);
 
   /**
    * Save a project schema
@@ -33,7 +33,7 @@ export interface SchemaCreateResponse {
 
   schema?: unknown;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface SchemaCreateParams {
@@ -50,14 +50,11 @@ Schemas.Project = Project;
 Schemas.BaseProject = BaseProject;
 
 export declare namespace Schemas {
-  export {
-    type SchemaCreateResponse as SchemaCreateResponse,
-    type SchemaCreateParams as SchemaCreateParams
-  };
+  export { type SchemaCreateResponse as SchemaCreateResponse, type SchemaCreateParams as SchemaCreateParams };
 
   export {
     Project as Project,
     BaseProject as BaseProject,
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
+    type ProjectRetrieveResponse as ProjectRetrieveResponse,
   };
 }

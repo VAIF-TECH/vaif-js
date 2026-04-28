@@ -13,14 +13,24 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseExecutions extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'executions'] = Object.freeze(['ai', 'copilot', 'executions'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'executions'] = Object.freeze([
+    'ai',
+    'copilot',
+    'executions',
+  ] as const);
 
   retrieve(executionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/execution/${executionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/execution/${executionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retrieve2(sessionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/executions/${sessionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/executions/${sessionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Executions extends BaseExecutions {
@@ -37,22 +47,19 @@ Executions.Rollback = Rollback;
 Executions.BaseRollback = BaseRollback;
 
 export declare namespace Executions {
-  export {
-    Pause as Pause,
-    BasePause as BasePause
-  };
+  export { Pause as Pause, BasePause as BasePause };
 
   export {
     Resume as Resume,
     BaseResume as BaseResume,
     type ResumeResumeResponse as ResumeResumeResponse,
-    type ResumeResumeParams as ResumeResumeParams
+    type ResumeResumeParams as ResumeResumeParams,
   };
 
   export {
     Rollback as Rollback,
     BaseRollback as BaseRollback,
     type RollbackRollbackResponse as RollbackRollbackResponse,
-    type RollbackRollbackParams as RollbackRollbackParams
+    type RollbackRollbackParams as RollbackRollbackParams,
   };
 }

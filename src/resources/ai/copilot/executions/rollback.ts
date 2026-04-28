@@ -6,15 +6,22 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseRollback extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'executions', 'rollback'] = Object.freeze(['ai', 'copilot', 'executions', 'rollback'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'executions', 'rollback'] = Object.freeze([
+    'ai',
+    'copilot',
+    'executions',
+    'rollback',
+  ] as const);
 
-  rollback(executionID: string, body: RollbackRollbackParams, options?: RequestOptions): APIPromise<RollbackRollbackResponse> {
+  rollback(
+    executionID: string,
+    body: RollbackRollbackParams,
+    options?: RequestOptions,
+  ): APIPromise<RollbackRollbackResponse> {
     return this._client.post(path`/ai/copilot/execution/${executionID}/rollback`, { body, ...options });
   }
 }
-export class Rollback extends BaseRollback {
-
-}
+export class Rollback extends BaseRollback {}
 
 export interface RollbackRollbackResponse {
   checkpoint: RollbackRollbackResponse.Checkpoint;
@@ -32,7 +39,7 @@ export namespace RollbackRollbackResponse {
 
     stepIndex: number;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -43,6 +50,6 @@ export interface RollbackRollbackParams {
 export declare namespace Rollback {
   export {
     type RollbackRollbackResponse as RollbackRollbackResponse,
-    type RollbackRollbackParams as RollbackRollbackParams
+    type RollbackRollbackParams as RollbackRollbackParams,
   };
 }

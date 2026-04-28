@@ -5,22 +5,23 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseDownloadURL extends APIResource {
-  static override readonly _key: readonly ['storage', 'downloadURL'] = Object.freeze(['storage', 'downloadURL'] as const)
+  static override readonly _key: readonly ['storage', 'downloadURL'] = Object.freeze([
+    'storage',
+    'downloadURL',
+  ] as const);
 
   create(body: DownloadURLCreateParams, options?: RequestOptions): APIPromise<DownloadURLCreateResponse> {
     return this._client.post('/storage/download-url', { body, ...options });
   }
 }
-export class DownloadURL extends BaseDownloadURL {
-
-}
+export class DownloadURL extends BaseDownloadURL {}
 
 export interface DownloadURLCreateResponse {
   ok: true;
 
   url: string;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface DownloadURLCreateParams {
@@ -32,6 +33,6 @@ export interface DownloadURLCreateParams {
 export declare namespace DownloadURL {
   export {
     type DownloadURLCreateResponse as DownloadURLCreateResponse,
-    type DownloadURLCreateParams as DownloadURLCreateParams
+    type DownloadURLCreateParams as DownloadURLCreateParams,
   };
 }

@@ -4,11 +4,21 @@ import { APIResource } from '../../core/resource';
 import * as DownloadAPI from './download';
 import { BaseDownload, Download } from './download';
 import * as DownloadURLAPI from './download-url';
-import { BaseDownloadURL, DownloadURL, DownloadURLCreateParams, DownloadURLCreateResponse } from './download-url';
+import {
+  BaseDownloadURL,
+  DownloadURL,
+  DownloadURLCreateParams,
+  DownloadURLCreateResponse,
+} from './download-url';
 import * as UploadAPI from './upload';
 import { BaseUpload, Upload } from './upload';
 import * as UploadBase64API from './upload-base64';
-import { BaseUploadBase64, UploadBase64, UploadBase64CreateParams, UploadBase64CreateResponse } from './upload-base64';
+import {
+  BaseUploadBase64,
+  UploadBase64,
+  UploadBase64CreateParams,
+  UploadBase64CreateResponse,
+} from './upload-base64';
 import * as UploadFromURLAPI from './upload-from-url';
 import { BaseUploadFromURL, UploadFromURL } from './upload-from-url';
 import * as UploadURLAPI from './upload-url';
@@ -21,8 +31,7 @@ import * as MultipartAPI from './multipart/multipart';
 import { BaseMultipart, Multipart } from './multipart/multipart';
 
 export class BaseStorage extends APIResource {
-  static override readonly _key: readonly ['storage'] = Object.freeze(['storage'] as const)
-
+  static override readonly _key: readonly ['storage'] = Object.freeze(['storage'] as const);
 }
 export class Storage extends BaseStorage {
   buckets: BucketsAPI.Buckets = new BucketsAPI.Buckets(this._client);
@@ -60,52 +69,37 @@ export declare namespace Storage {
     Buckets as Buckets,
     BaseBuckets as BaseBuckets,
     type BucketCreateResponse as BucketCreateResponse,
-    type BucketCreateParams as BucketCreateParams
+    type BucketCreateParams as BucketCreateParams,
   };
 
-  export {
-    Download as Download,
-    BaseDownload as BaseDownload
-  };
+  export { Download as Download, BaseDownload as BaseDownload };
 
   export {
     DownloadURL as DownloadURL,
     BaseDownloadURL as BaseDownloadURL,
     type DownloadURLCreateResponse as DownloadURLCreateResponse,
-    type DownloadURLCreateParams as DownloadURLCreateParams
+    type DownloadURLCreateParams as DownloadURLCreateParams,
   };
 
-  export {
-    Files as Files,
-    BaseFiles as BaseFiles
-  };
+  export { Files as Files, BaseFiles as BaseFiles };
 
-  export {
-    Multipart as Multipart,
-    BaseMultipart as BaseMultipart
-  };
+  export { Multipart as Multipart, BaseMultipart as BaseMultipart };
 
-  export {
-    Upload as Upload,
-    BaseUpload as BaseUpload
-  };
+  export { Upload as Upload, BaseUpload as BaseUpload };
 
   export {
     UploadBase64 as UploadBase64,
     BaseUploadBase64 as BaseUploadBase64,
     type UploadBase64CreateResponse as UploadBase64CreateResponse,
-    type UploadBase64CreateParams as UploadBase64CreateParams
+    type UploadBase64CreateParams as UploadBase64CreateParams,
   };
 
-  export {
-    UploadFromURL as UploadFromURL,
-    BaseUploadFromURL as BaseUploadFromURL
-  };
+  export { UploadFromURL as UploadFromURL, BaseUploadFromURL as BaseUploadFromURL };
 
   export {
     UploadURL as UploadURL,
     BaseUploadURL as BaseUploadURL,
     type UploadURLCreateResponse as UploadURLCreateResponse,
-    type UploadURLCreateParams as UploadURLCreateParams
+    type UploadURLCreateParams as UploadURLCreateParams,
   };
 }

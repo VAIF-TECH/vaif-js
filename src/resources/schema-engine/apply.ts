@@ -5,7 +5,10 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseApply extends APIResource {
-  static override readonly _key: readonly ['schemaEngine', 'apply'] = Object.freeze(['schemaEngine', 'apply'] as const)
+  static override readonly _key: readonly ['schemaEngine', 'apply'] = Object.freeze([
+    'schemaEngine',
+    'apply',
+  ] as const);
 
   /**
    * Apply schema migration
@@ -14,9 +17,7 @@ export class BaseApply extends APIResource {
     return this._client.post('/schema-engine/apply', { body, ...options });
   }
 }
-export class Apply extends BaseApply {
-
-}
+export class Apply extends BaseApply {}
 
 export interface ApplyCreateResponse {
   appliedSteps: number;
@@ -27,7 +28,7 @@ export interface ApplyCreateResponse {
 
   projectSchema: string;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export namespace ApplyCreateResponse {
@@ -40,7 +41,7 @@ export namespace ApplyCreateResponse {
 
     status: string;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -80,7 +81,27 @@ export namespace ApplyCreateParams {
       export interface Column {
         name: string;
 
-        type: 'uuid' | 'text' | 'varchar' | 'string' | 'int' | 'integer' | 'bigint' | 'boolean' | 'bool' | 'jsonb' | 'json' | 'timestamptz' | 'timestamp' | 'date' | 'numeric' | 'decimal' | 'float' | 'double' | 'text[]' | 'integer[]';
+        type:
+          | 'uuid'
+          | 'text'
+          | 'varchar'
+          | 'string'
+          | 'int'
+          | 'integer'
+          | 'bigint'
+          | 'boolean'
+          | 'bool'
+          | 'jsonb'
+          | 'json'
+          | 'timestamptz'
+          | 'timestamp'
+          | 'date'
+          | 'numeric'
+          | 'decimal'
+          | 'float'
+          | 'double'
+          | 'text[]'
+          | 'integer[]';
 
         default?: string | number | boolean;
 
@@ -123,8 +144,5 @@ export namespace ApplyCreateParams {
 }
 
 export declare namespace Apply {
-  export {
-    type ApplyCreateResponse as ApplyCreateResponse,
-    type ApplyCreateParams as ApplyCreateParams
-  };
+  export { type ApplyCreateResponse as ApplyCreateResponse, type ApplyCreateParams as ApplyCreateParams };
 }

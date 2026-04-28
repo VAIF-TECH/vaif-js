@@ -19,10 +19,13 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseDeployments extends APIResource {
-  static override readonly _key: readonly ['deployments'] = Object.freeze(['deployments'] as const)
+  static override readonly _key: readonly ['deployments'] = Object.freeze(['deployments'] as const);
 
   retrieve(deploymentID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/deployments/${deploymentID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/deployments/${deploymentID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Deployments extends BaseDeployments {
@@ -48,35 +51,20 @@ Deployments.Trigger = Trigger;
 Deployments.BaseTrigger = BaseTrigger;
 
 export declare namespace Deployments {
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 
-  export {
-    Promote as Promote,
-    BasePromote as BasePromote
-  };
+  export { Promote as Promote, BasePromote as BasePromote };
 
-  export {
-    Rollback as Rollback,
-    BaseRollback as BaseRollback
-  };
+  export { Rollback as Rollback, BaseRollback as BaseRollback };
 
-  export {
-    Steps as Steps,
-    BaseSteps as BaseSteps
-  };
+  export { Steps as Steps, BaseSteps as BaseSteps };
 
   export {
     Tokens as Tokens,
     BaseTokens as BaseTokens,
     type TokenCreateResponse as TokenCreateResponse,
-    type TokenCreateParams as TokenCreateParams
+    type TokenCreateParams as TokenCreateParams,
   };
 
-  export {
-    Trigger as Trigger,
-    BaseTrigger as BaseTrigger
-  };
+  export { Trigger as Trigger, BaseTrigger as BaseTrigger };
 }

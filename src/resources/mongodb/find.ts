@@ -7,16 +7,20 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseFind extends APIResource {
-  static override readonly _key: readonly ['mongoDB', 'find'] = Object.freeze(['mongoDB', 'find'] as const)
+  static override readonly _key: readonly ['mongoDB', 'find'] = Object.freeze(['mongoDB', 'find'] as const);
 
   cursor(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/find/cursor`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/mongodb/${collection}/find/cursor`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   find(collection: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/mongodb/${collection}/find`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/mongodb/${collection}/find`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Find extends BaseFind {
-
-}
+export class Find extends BaseFind {}

@@ -6,17 +6,20 @@ import { BaseAPIKeys } from '@vaif/client/resources/projects/api-keys/api-keys';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseAPIKeys],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Projects],
 });
 
@@ -34,11 +37,11 @@ const runTests = (client: PartialVaif<{ projects: { apiKeys: BaseAPIKeys } }>) =
 
   test('update: required and optional params', async () => {
     const response = await client.projects.apiKeys.update('keyId', {
-    projectId: 'projectId',
-    expiresAt: '2019-12-27T18:11:19.117Z',
-    name: 'name',
-    scopes: ['crud'],
-  });
+      projectId: 'projectId',
+      expiresAt: '2019-12-27T18:11:19.117Z',
+      name: 'name',
+      scopes: ['crud'],
+    });
   });
 
   test('apiKeys', async () => {

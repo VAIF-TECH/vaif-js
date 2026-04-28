@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseSteps extends APIResource {
-  static override readonly _key: readonly ['deployments', 'steps'] = Object.freeze(['deployments', 'steps'] as const)
+  static override readonly _key: readonly ['deployments', 'steps'] = Object.freeze([
+    'deployments',
+    'steps',
+  ] as const);
 
   getSteps(deploymentID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/deployments/${deploymentID}/steps`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/deployments/${deploymentID}/steps`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Steps extends BaseSteps {
-
-}
+export class Steps extends BaseSteps {}

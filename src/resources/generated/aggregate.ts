@@ -7,12 +7,16 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseAggregate extends APIResource {
-  static override readonly _key: readonly ['generated', 'aggregate'] = Object.freeze(['generated', 'aggregate'] as const)
+  static override readonly _key: readonly ['generated', 'aggregate'] = Object.freeze([
+    'generated',
+    'aggregate',
+  ] as const);
 
   getAggregate(table: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/generated/${table}/aggregate`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/generated/${table}/aggregate`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Aggregate extends BaseAggregate {
-
-}
+export class Aggregate extends BaseAggregate {}

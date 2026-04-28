@@ -11,19 +11,33 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseAPIKeys extends APIResource {
-  static override readonly _key: readonly ['projects', 'apiKeys'] = Object.freeze(['projects', 'apiKeys'] as const)
+  static override readonly _key: readonly ['projects', 'apiKeys'] = Object.freeze([
+    'projects',
+    'apiKeys',
+  ] as const);
 
-  update(keyID: string, params: APIKeyUpdateParams, options?: RequestOptions): APIPromise<APIKeyUpdateResponse> {
-    const { projectId, ...body } = params
+  update(
+    keyID: string,
+    params: APIKeyUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<APIKeyUpdateResponse> {
+    const { projectId, ...body } = params;
     return this._client.patch(path`/projects/${projectId}/api-keys/${keyID}`, { body, ...options });
   }
 
-  apiKeys(projectID: string, body: APIKeyAPIKeysParams, options?: RequestOptions): APIPromise<APIKeyAPIKeysResponse> {
+  apiKeys(
+    projectID: string,
+    body: APIKeyAPIKeysParams,
+    options?: RequestOptions,
+  ): APIPromise<APIKeyAPIKeysResponse> {
     return this._client.post(path`/projects/${projectID}/api-keys`, { body, ...options });
   }
 
   getAPIKeys(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/api-keys`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/api-keys`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class APIKeys extends BaseAPIKeys {
@@ -51,7 +65,7 @@ export namespace APIKeyUpdateResponse {
 
     scopes?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -103,18 +117,10 @@ export declare namespace APIKeys {
     type APIKeyUpdateResponse as APIKeyUpdateResponse,
     type APIKeyAPIKeysResponse as APIKeyAPIKeysResponse,
     type APIKeyUpdateParams as APIKeyUpdateParams,
-    type APIKeyAPIKeysParams as APIKeyAPIKeysParams
+    type APIKeyAPIKeysParams as APIKeyAPIKeysParams,
   };
 
-  export {
-    Revoke as Revoke,
-    BaseRevoke as BaseRevoke,
-    type RevokeRevokeParams as RevokeRevokeParams
-  };
+  export { Revoke as Revoke, BaseRevoke as BaseRevoke, type RevokeRevokeParams as RevokeRevokeParams };
 
-  export {
-    Rotate as Rotate,
-    BaseRotate as BaseRotate,
-    type RotateRotateParams as RotateRotateParams
-  };
+  export { Rotate as Rotate, BaseRotate as BaseRotate, type RotateRotateParams as RotateRotateParams };
 }

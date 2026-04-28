@@ -7,7 +7,10 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseCheckout extends APIResource {
-  static override readonly _key: readonly ['billing', 'checkout'] = Object.freeze(['billing', 'checkout'] as const)
+  static override readonly _key: readonly ['billing', 'checkout'] = Object.freeze([
+    'billing',
+    'checkout',
+  ] as const);
 
   create(body: CheckoutCreateParams, options?: RequestOptions): APIPromise<CheckoutCreateResponse> {
     return this._client.post('/billing/checkout', { body, ...options });
@@ -41,11 +44,8 @@ Checkout.BaseVerify = BaseVerify;
 export declare namespace Checkout {
   export {
     type CheckoutCreateResponse as CheckoutCreateResponse,
-    type CheckoutCreateParams as CheckoutCreateParams
+    type CheckoutCreateParams as CheckoutCreateParams,
   };
 
-  export {
-    Verify as Verify,
-    BaseVerify as BaseVerify
-  };
+  export { Verify as Verify, BaseVerify as BaseVerify };
 }

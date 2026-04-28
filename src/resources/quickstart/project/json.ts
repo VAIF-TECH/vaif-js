@@ -6,7 +6,11 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseJson extends APIResource {
-  static override readonly _key: readonly ['quickstart', 'project', 'json'] = Object.freeze(['quickstart', 'project', 'json'] as const)
+  static override readonly _key: readonly ['quickstart', 'project', 'json'] = Object.freeze([
+    'quickstart',
+    'project',
+    'json',
+  ] as const);
 
   /**
    * Get quickstart JSON data for a project
@@ -15,9 +19,7 @@ export class BaseJson extends APIResource {
     return this._client.get(path`/quickstart/project/${projectID}/json`, options);
   }
 }
-export class Json extends BaseJson {
-
-}
+export class Json extends BaseJson {}
 
 export interface JsonGetJsonResponse {
   ok: true;
@@ -26,7 +28,5 @@ export interface JsonGetJsonResponse {
 }
 
 export declare namespace Json {
-  export {
-    type JsonGetJsonResponse as JsonGetJsonResponse
-  };
+  export { type JsonGetJsonResponse as JsonGetJsonResponse };
 }

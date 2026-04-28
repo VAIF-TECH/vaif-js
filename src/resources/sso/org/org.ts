@@ -9,10 +9,13 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['sso', 'org'] = Object.freeze(['sso', 'org'] as const)
+  static override readonly _key: readonly ['sso', 'org'] = Object.freeze(['sso', 'org'] as const);
 
   retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/sso/org/${orgID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/sso/org/${orgID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Org extends BaseOrg {
@@ -23,8 +26,5 @@ Org.Configure = Configure;
 Org.BaseConfigure = BaseConfigure;
 
 export declare namespace Org {
-  export {
-    Configure as Configure,
-    BaseConfigure as BaseConfigure
-  };
+  export { Configure as Configure, BaseConfigure as BaseConfigure };
 }

@@ -6,26 +6,29 @@ import { Project } from '@vaif/client/resources/database/wrappers/project/projec
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseInstall],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Project],
 });
 
 const runTests = (client: PartialVaif<{ database: { wrappers: { project: { install: BaseInstall } } } }>) => {
   test('install: only required params', async () => {
     const responsePromise = client.database.wrappers.project.install.install('projectId', {
-    config: { foo: 'bar' },
-    wrapperId: 'x',
-  });
+      config: { foo: 'bar' },
+      wrapperId: 'x',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -37,11 +40,11 @@ const runTests = (client: PartialVaif<{ database: { wrappers: { project: { insta
 
   test('install: required and optional params', async () => {
     const response = await client.database.wrappers.project.install.install('projectId', {
-    config: { foo: 'bar' },
-    wrapperId: 'x',
-    enabledTables: ['string'],
-    envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      config: { foo: 'bar' },
+      wrapperId: 'x',
+      enabledTables: ['string'],
+      envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
   });
 };
 describe('resource install', () => runTests(client));

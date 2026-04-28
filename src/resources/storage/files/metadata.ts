@@ -7,16 +7,24 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseMetadata extends APIResource {
-  static override readonly _key: readonly ['storage', 'files', 'metadata'] = Object.freeze(['storage', 'files', 'metadata'] as const)
+  static override readonly _key: readonly ['storage', 'files', 'metadata'] = Object.freeze([
+    'storage',
+    'files',
+    'metadata',
+  ] as const);
 
   getMetadata(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/storage/files/${bucketID}/metadata`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/storage/files/${bucketID}/metadata`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   metadata(bucketID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.patch(path`/storage/files/${bucketID}/metadata`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.patch(path`/storage/files/${bucketID}/metadata`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Metadata extends BaseMetadata {
-
-}
+export class Metadata extends BaseMetadata {}

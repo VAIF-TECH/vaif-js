@@ -6,23 +6,30 @@ import { BaseProvisionSsl } from '@vaif/client/resources/projects/environments/p
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseProvisionSsl],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Environments],
 });
 
-const runTests = (client: PartialVaif<{ projects: { environments: { provisionSsl: BaseProvisionSsl } } }>) => {
+const runTests = (
+  client: PartialVaif<{ projects: { environments: { provisionSsl: BaseProvisionSsl } } }>,
+) => {
   test('provisionSsl: only required params', async () => {
-    const responsePromise = client.projects.environments.provisionSsl.provisionSsl('envId', { projectId: 'projectId' });
+    const responsePromise = client.projects.environments.provisionSsl.provisionSsl('envId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,7 +40,9 @@ const runTests = (client: PartialVaif<{ projects: { environments: { provisionSsl
   });
 
   test('provisionSsl: required and optional params', async () => {
-    const response = await client.projects.environments.provisionSsl.provisionSsl('envId', { projectId: 'projectId' });
+    const response = await client.projects.environments.provisionSsl.provisionSsl('envId', {
+      projectId: 'projectId',
+    });
   });
 };
 describe('resource provisionSsl', () => runTests(client));

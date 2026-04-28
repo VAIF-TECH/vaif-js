@@ -2,7 +2,15 @@
 
 import { APIResource } from '../../core/resource';
 import * as BillingContactsAPI from './billing-contacts';
-import { BaseBillingContacts, BillingContactBillingContactsParams, BillingContactBillingContactsResponse, BillingContactDeleteParams, BillingContactDeleteResponse, BillingContactGetBillingContactsResponse, BillingContacts } from './billing-contacts';
+import {
+  BaseBillingContacts,
+  BillingContactBillingContactsParams,
+  BillingContactBillingContactsResponse,
+  BillingContactDeleteParams,
+  BillingContactDeleteResponse,
+  BillingContactGetBillingContactsResponse,
+  BillingContacts,
+} from './billing-contacts';
 import * as CheckNameAPI from './check-name';
 import { BaseCheckName, CheckName } from './check-name';
 import * as MembersAPI from './members';
@@ -18,14 +26,20 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseOrgs extends APIResource {
-  static override readonly _key: readonly ['orgs'] = Object.freeze(['orgs'] as const)
+  static override readonly _key: readonly ['orgs'] = Object.freeze(['orgs'] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/orgs/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/orgs/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/orgs/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/orgs/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Orgs extends BaseOrgs {
@@ -58,32 +72,16 @@ export declare namespace Orgs {
     type BillingContactBillingContactsResponse as BillingContactBillingContactsResponse,
     type BillingContactGetBillingContactsResponse as BillingContactGetBillingContactsResponse,
     type BillingContactDeleteParams as BillingContactDeleteParams,
-    type BillingContactBillingContactsParams as BillingContactBillingContactsParams
+    type BillingContactBillingContactsParams as BillingContactBillingContactsParams,
   };
 
-  export {
-    CheckName as CheckName,
-    BaseCheckName as BaseCheckName
-  };
+  export { CheckName as CheckName, BaseCheckName as BaseCheckName };
 
-  export {
-    Invites as Invites,
-    BaseInvites as BaseInvites,
-    type InviteDeleteParams as InviteDeleteParams
-  };
+  export { Invites as Invites, BaseInvites as BaseInvites, type InviteDeleteParams as InviteDeleteParams };
 
-  export {
-    Members as Members,
-    BaseMembers as BaseMembers
-  };
+  export { Members as Members, BaseMembers as BaseMembers };
 
-  export {
-    Membership as Membership,
-    BaseMembership as BaseMembership
-  };
+  export { Membership as Membership, BaseMembership as BaseMembership };
 
-  export {
-    Profile as Profile,
-    BaseProfile as BaseProfile
-  };
+  export { Profile as Profile, BaseProfile as BaseProfile };
 }

@@ -2,7 +2,12 @@
 
 import { APIResource } from '../../core/resource';
 import * as ForgotPasswordAPI from './forgot-password';
-import { BaseForgotPassword, ForgotPassword, ForgotPasswordCreateParams, ForgotPasswordCreateResponse } from './forgot-password';
+import {
+  BaseForgotPassword,
+  ForgotPassword,
+  ForgotPasswordCreateParams,
+  ForgotPasswordCreateResponse,
+} from './forgot-password';
 import * as LoginAPI from './login';
 import { BaseLogin, Login, LoginCreateParams, LoginCreateResponse } from './login';
 import * as LogoutAPI from './logout';
@@ -10,7 +15,12 @@ import { BaseLogout, Logout, LogoutCreateResponse } from './logout';
 import * as RefreshAPI from './refresh';
 import { BaseRefresh, Refresh, RefreshCreateResponse } from './refresh';
 import * as ResetPasswordAPI from './reset-password';
-import { BaseResetPassword, ResetPassword, ResetPasswordCreateParams, ResetPasswordCreateResponse } from './reset-password';
+import {
+  BaseResetPassword,
+  ResetPassword,
+  ResetPasswordCreateParams,
+  ResetPasswordCreateResponse,
+} from './reset-password';
 import * as SignupAPI from './signup';
 import { BaseSignup, Signup, SignupCreateParams, SignupCreateResponse } from './signup';
 import * as CliAPI from './cli/cli';
@@ -23,8 +33,7 @@ import * as VerifyEmailAPI from './verify-email/verify-email';
 import { BaseVerifyEmail, VerifyEmail } from './verify-email/verify-email';
 
 export class BaseAuth extends APIResource {
-  static override readonly _key: readonly ['auth'] = Object.freeze(['auth'] as const)
-
+  static override readonly _key: readonly ['auth'] = Object.freeze(['auth'] as const);
 }
 export class Auth extends BaseAuth {
   cli: CliAPI.Cli = new CliAPI.Cli(this._client);
@@ -61,67 +70,53 @@ Auth.VerifyEmail = VerifyEmail;
 Auth.BaseVerifyEmail = BaseVerifyEmail;
 
 export declare namespace Auth {
-  export {
-    Cli as Cli,
-    BaseCli as BaseCli
-  };
+  export { Cli as Cli, BaseCli as BaseCli };
 
   export {
     ForgotPassword as ForgotPassword,
     BaseForgotPassword as BaseForgotPassword,
     type ForgotPasswordCreateResponse as ForgotPasswordCreateResponse,
-    type ForgotPasswordCreateParams as ForgotPasswordCreateParams
+    type ForgotPasswordCreateParams as ForgotPasswordCreateParams,
   };
 
   export {
     Login as Login,
     BaseLogin as BaseLogin,
     type LoginCreateResponse as LoginCreateResponse,
-    type LoginCreateParams as LoginCreateParams
+    type LoginCreateParams as LoginCreateParams,
   };
 
-  export {
-    Logout as Logout,
-    BaseLogout as BaseLogout,
-    type LogoutCreateResponse as LogoutCreateResponse
-  };
+  export { Logout as Logout, BaseLogout as BaseLogout, type LogoutCreateResponse as LogoutCreateResponse };
 
   export {
     Me as Me,
     BaseMe as BaseMe,
     type MeUpdateResponse as MeUpdateResponse,
     type MeListResponse as MeListResponse,
-    type MeUpdateParams as MeUpdateParams
+    type MeUpdateParams as MeUpdateParams,
   };
 
-  export {
-    OAuth as OAuth,
-    BaseOAuth as BaseOAuth,
-    type OAuthRetrieveParams as OAuthRetrieveParams
-  };
+  export { OAuth as OAuth, BaseOAuth as BaseOAuth, type OAuthRetrieveParams as OAuthRetrieveParams };
 
   export {
     Refresh as Refresh,
     BaseRefresh as BaseRefresh,
-    type RefreshCreateResponse as RefreshCreateResponse
+    type RefreshCreateResponse as RefreshCreateResponse,
   };
 
   export {
     ResetPassword as ResetPassword,
     BaseResetPassword as BaseResetPassword,
     type ResetPasswordCreateResponse as ResetPasswordCreateResponse,
-    type ResetPasswordCreateParams as ResetPasswordCreateParams
+    type ResetPasswordCreateParams as ResetPasswordCreateParams,
   };
 
   export {
     Signup as Signup,
     BaseSignup as BaseSignup,
     type SignupCreateResponse as SignupCreateResponse,
-    type SignupCreateParams as SignupCreateParams
+    type SignupCreateParams as SignupCreateParams,
   };
 
-  export {
-    VerifyEmail as VerifyEmail,
-    BaseVerifyEmail as BaseVerifyEmail
-  };
+  export { VerifyEmail as VerifyEmail, BaseVerifyEmail as BaseVerifyEmail };
 }

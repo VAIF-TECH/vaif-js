@@ -11,10 +11,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOrg extends APIResource {
-  static override readonly _key: readonly ['onboarding', 'org'] = Object.freeze(['onboarding', 'org'] as const)
+  static override readonly _key: readonly ['onboarding', 'org'] = Object.freeze([
+    'onboarding',
+    'org',
+  ] as const);
 
   retrieve(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/onboarding/org/${orgID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/onboarding/org/${orgID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Org extends BaseOrg {
@@ -28,13 +34,7 @@ Org.CompleteStep = CompleteStep;
 Org.BaseCompleteStep = BaseCompleteStep;
 
 export declare namespace Org {
-  export {
-    AutoSetup as AutoSetup,
-    BaseAutoSetup as BaseAutoSetup
-  };
+  export { AutoSetup as AutoSetup, BaseAutoSetup as BaseAutoSetup };
 
-  export {
-    CompleteStep as CompleteStep,
-    BaseCompleteStep as BaseCompleteStep
-  };
+  export { CompleteStep as CompleteStep, BaseCompleteStep as BaseCompleteStep };
 }

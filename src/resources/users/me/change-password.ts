@@ -6,12 +6,17 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseChangePassword extends APIResource {
-  static override readonly _key: readonly ['users', 'me', 'changePassword'] = Object.freeze(['users', 'me', 'changePassword'] as const)
+  static override readonly _key: readonly ['users', 'me', 'changePassword'] = Object.freeze([
+    'users',
+    'me',
+    'changePassword',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/users/me/change-password', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/users/me/change-password', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class ChangePassword extends BaseChangePassword {
-
-}
+export class ChangePassword extends BaseChangePassword {}

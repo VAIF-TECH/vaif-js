@@ -5,15 +5,16 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseUploadBase64 extends APIResource {
-  static override readonly _key: readonly ['storage', 'uploadBase64'] = Object.freeze(['storage', 'uploadBase64'] as const)
+  static override readonly _key: readonly ['storage', 'uploadBase64'] = Object.freeze([
+    'storage',
+    'uploadBase64',
+  ] as const);
 
   create(body: UploadBase64CreateParams, options?: RequestOptions): APIPromise<UploadBase64CreateResponse> {
     return this._client.post('/storage/upload-base64', { body, ...options });
   }
 }
-export class UploadBase64 extends BaseUploadBase64 {
-
-}
+export class UploadBase64 extends BaseUploadBase64 {}
 
 export interface UploadBase64CreateResponse {
   key: string;
@@ -22,7 +23,7 @@ export interface UploadBase64CreateResponse {
 
   sizeBytes: number;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface UploadBase64CreateParams {
@@ -40,6 +41,6 @@ export interface UploadBase64CreateParams {
 export declare namespace UploadBase64 {
   export {
     type UploadBase64CreateResponse as UploadBase64CreateResponse,
-    type UploadBase64CreateParams as UploadBase64CreateParams
+    type UploadBase64CreateParams as UploadBase64CreateParams,
   };
 }

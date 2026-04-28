@@ -12,7 +12,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BasePlans extends APIResource {
-  static override readonly _key: readonly ['plans'] = Object.freeze(['plans'] as const)
+  static override readonly _key: readonly ['plans'] = Object.freeze(['plans'] as const);
 
   /**
    * Get a saved plan by ID
@@ -51,7 +51,7 @@ export namespace PlanRetrieveResponse {
 
     updatedAt?: string | (string & {}) | null;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -63,27 +63,21 @@ Plans.Save = Save;
 Plans.BaseSave = BaseSave;
 
 export declare namespace Plans {
-  export {
-    type PlanRetrieveResponse as PlanRetrieveResponse
-  };
+  export { type PlanRetrieveResponse as PlanRetrieveResponse };
 
   export {
     Apply as Apply,
     BaseApply as BaseApply,
     type ApplyCreateResponse as ApplyCreateResponse,
-    type ApplyCreateParams as ApplyCreateParams
+    type ApplyCreateParams as ApplyCreateParams,
   };
 
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg,
-    type OrgRetrieveResponse as OrgRetrieveResponse
-  };
+  export { Org as Org, BaseOrg as BaseOrg, type OrgRetrieveResponse as OrgRetrieveResponse };
 
   export {
     Save as Save,
     BaseSave as BaseSave,
     type SaveCreateResponse as SaveCreateResponse,
-    type SaveCreateParams as SaveCreateParams
+    type SaveCreateParams as SaveCreateParams,
   };
 }

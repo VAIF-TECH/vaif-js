@@ -11,8 +11,7 @@ import * as QuotesAPI from './quotes/quotes';
 import { BaseQuotes, Quotes } from './quotes/quotes';
 
 export class BaseEnterprise extends APIResource {
-  static override readonly _key: readonly ['enterprise'] = Object.freeze(['enterprise'] as const)
-
+  static override readonly _key: readonly ['enterprise'] = Object.freeze(['enterprise'] as const);
 }
 export class Enterprise extends BaseEnterprise {
   inquire: InquireAPI.Inquire = new InquireAPI.Inquire(this._client);
@@ -35,21 +34,12 @@ export declare namespace Enterprise {
     Inquire as Inquire,
     BaseInquire as BaseInquire,
     type InquireCreateResponse as InquireCreateResponse,
-    type InquireCreateParams as InquireCreateParams
+    type InquireCreateParams as InquireCreateParams,
   };
 
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg
-  };
+  export { Org as Org, BaseOrg as BaseOrg };
 
-  export {
-    Quotes as Quotes,
-    BaseQuotes as BaseQuotes
-  };
+  export { Quotes as Quotes, BaseQuotes as BaseQuotes };
 
-  export {
-    Subdomain as Subdomain,
-    BaseSubdomain as BaseSubdomain
-  };
+  export { Subdomain as Subdomain, BaseSubdomain as BaseSubdomain };
 }

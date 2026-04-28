@@ -6,15 +6,22 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
 export class BaseChat extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'editor', 'chat'] = Object.freeze(['ai', 'copilot', 'editor', 'chat'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'editor', 'chat'] = Object.freeze([
+    'ai',
+    'copilot',
+    'editor',
+    'chat',
+  ] as const);
 
   create(body: ChatCreateParams, options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/editor/chat', { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/editor/chat', {
+      body,
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Chat extends BaseChat {
-
-}
+export class Chat extends BaseChat {}
 
 export interface ChatCreateParams {
   message: string;
@@ -45,7 +52,5 @@ export namespace ChatCreateParams {
 }
 
 export declare namespace Chat {
-  export {
-    type ChatCreateParams as ChatCreateParams
-  };
+  export { type ChatCreateParams as ChatCreateParams };
 }

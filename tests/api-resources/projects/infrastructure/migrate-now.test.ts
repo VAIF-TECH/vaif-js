@@ -6,23 +6,28 @@ import { BaseMigrateNow } from '@vaif/client/resources/projects/infrastructure/m
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseMigrateNow],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Infrastructure],
 });
 
 const runTests = (client: PartialVaif<{ projects: { infrastructure: { migrateNow: BaseMigrateNow } } }>) => {
   test('migrateNow: only required params', async () => {
-    const responsePromise = client.projects.infrastructure.migrateNow.migrateNow('instanceId', { projectId: 'projectId' });
+    const responsePromise = client.projects.infrastructure.migrateNow.migrateNow('instanceId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,7 +38,9 @@ const runTests = (client: PartialVaif<{ projects: { infrastructure: { migrateNow
   });
 
   test('migrateNow: required and optional params', async () => {
-    const response = await client.projects.infrastructure.migrateNow.migrateNow('instanceId', { projectId: 'projectId' });
+    const response = await client.projects.infrastructure.migrateNow.migrateNow('instanceId', {
+      projectId: 'projectId',
+    });
   });
 };
 describe('resource migrateNow', () => runTests(client));

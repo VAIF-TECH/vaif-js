@@ -7,19 +7,27 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseRegion extends APIResource {
-  static override readonly _key: readonly ['projects', 'region'] = Object.freeze(['projects', 'region'] as const)
+  static override readonly _key: readonly ['projects', 'region'] = Object.freeze([
+    'projects',
+    'region',
+  ] as const);
 
   getRegion(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/region`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/region`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  region(projectID: string, body: RegionRegionParams, options?: RequestOptions): APIPromise<RegionRegionResponse> {
+  region(
+    projectID: string,
+    body: RegionRegionParams,
+    options?: RequestOptions,
+  ): APIPromise<RegionRegionResponse> {
     return this._client.post(path`/projects/${projectID}/region`, { body, ...options });
   }
 }
-export class Region extends BaseRegion {
-
-}
+export class Region extends BaseRegion {}
 
 export interface RegionRegionResponse {
   ok: true;
@@ -30,7 +38,7 @@ export interface RegionRegionResponse {
 
   tenancyType: string;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface RegionRegionParams {
@@ -40,8 +48,5 @@ export interface RegionRegionParams {
 }
 
 export declare namespace Region {
-  export {
-    type RegionRegionResponse as RegionRegionResponse,
-    type RegionRegionParams as RegionRegionParams
-  };
+  export { type RegionRegionResponse as RegionRegionResponse, type RegionRegionParams as RegionRegionParams };
 }

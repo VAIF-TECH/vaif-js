@@ -7,36 +7,60 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseAuth extends APIResource {
-  static override readonly _key: readonly ['projects', 'auth'] = Object.freeze(['projects', 'auth'] as const)
+  static override readonly _key: readonly ['projects', 'auth'] = Object.freeze(['projects', 'auth'] as const);
 
-  update(provider: string, params: AuthUpdateParams, options?: RequestOptions): APIPromise<AuthUpdateResponse> {
-    const { projectId, ...body } = params
+  update(
+    provider: string,
+    params: AuthUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthUpdateResponse> {
+    const { projectId, ...body } = params;
     return this._client.put(path`/projects/${projectId}/auth/oauth-apps/${provider}`, { body, ...options });
   }
 
   delete(provider: string, params: AuthDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.delete(path`/projects/${projectId}/auth/oauth-apps/${provider}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { projectId } = params;
+    return this._client.delete(path`/projects/${projectId}/auth/oauth-apps/${provider}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  confirm(projectID: string, body: AuthConfirmParams, options?: RequestOptions): APIPromise<AuthConfirmResponse> {
+  confirm(
+    projectID: string,
+    body: AuthConfirmParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthConfirmResponse> {
     return this._client.post(path`/projects/${projectID}/auth/verify-email/confirm`, { body, ...options });
   }
 
-  forgotPassword(projectID: string, body: AuthForgotPasswordParams, options?: RequestOptions): APIPromise<AuthForgotPasswordResponse> {
+  forgotPassword(
+    projectID: string,
+    body: AuthForgotPasswordParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthForgotPasswordResponse> {
     return this._client.post(path`/projects/${projectID}/auth/forgot-password`, { body, ...options });
   }
 
   getMe(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/auth/me`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/auth/me`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getOAuthApps(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/auth/oauth-apps`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/auth/oauth-apps`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getSettings(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/projects/${projectID}/auth/settings`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/projects/${projectID}/auth/settings`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   login(projectID: string, body: AuthLoginParams, options?: RequestOptions): APIPromise<AuthLoginResponse> {
@@ -44,36 +68,58 @@ export class BaseAuth extends APIResource {
   }
 
   logout(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/auth/logout`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/auth/logout`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   refresh(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/auth/refresh`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/auth/refresh`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  resetPassword(projectID: string, body: AuthResetPasswordParams, options?: RequestOptions): APIPromise<AuthResetPasswordResponse> {
+  resetPassword(
+    projectID: string,
+    body: AuthResetPasswordParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthResetPasswordResponse> {
     return this._client.post(path`/projects/${projectID}/auth/reset-password`, { body, ...options });
   }
 
   send(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/auth/verify-email/send`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/auth/verify-email/send`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  settings(projectID: string, body: AuthSettingsParams, options?: RequestOptions): APIPromise<AuthSettingsResponse> {
+  settings(
+    projectID: string,
+    body: AuthSettingsParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthSettingsResponse> {
     return this._client.patch(path`/projects/${projectID}/auth/settings`, { body, ...options });
   }
 
-  signup(projectID: string, body: AuthSignupParams, options?: RequestOptions): APIPromise<AuthSignupResponse> {
+  signup(
+    projectID: string,
+    body: AuthSignupParams,
+    options?: RequestOptions,
+  ): APIPromise<AuthSignupResponse> {
     return this._client.post(path`/projects/${projectID}/auth/signup`, { body, ...options });
   }
 
   syncUsers(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/projects/${projectID}/auth/sync-users`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/projects/${projectID}/auth/sync-users`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Auth extends BaseAuth {
-
-}
+export class Auth extends BaseAuth {}
 
 export interface AuthUpdateResponse {
   app: AuthUpdateResponse.App;
@@ -97,7 +143,7 @@ export namespace AuthUpdateResponse {
 
     scopes?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -173,7 +219,7 @@ export namespace AuthSignupResponse {
 
     metadata?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
@@ -299,6 +345,6 @@ export declare namespace Auth {
     type AuthLoginParams as AuthLoginParams,
     type AuthResetPasswordParams as AuthResetPasswordParams,
     type AuthSettingsParams as AuthSettingsParams,
-    type AuthSignupParams as AuthSignupParams
+    type AuthSignupParams as AuthSignupParams,
   };
 }

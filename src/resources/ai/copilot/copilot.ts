@@ -16,7 +16,12 @@ import { BaseRate, Rate, RateCreateParams, RateCreateResponse } from './rate';
 import * as SessionsAPI from './sessions';
 import { BaseSessions, SessionUpdateParams, SessionUpdateResponse, Sessions } from './sessions';
 import * as TrainingConsentAPI from './training-consent';
-import { BaseTrainingConsent, TrainingConsent, TrainingConsentCreateParams, TrainingConsentCreateResponse } from './training-consent';
+import {
+  BaseTrainingConsent,
+  TrainingConsent,
+  TrainingConsentCreateParams,
+  TrainingConsentCreateResponse,
+} from './training-consent';
 import * as UsageAPI from './usage';
 import { BaseUsage, Usage } from './usage';
 import * as UsageOrgAPI from './usage-org';
@@ -47,8 +52,7 @@ import * as VersionsAPI from './versions/versions';
 import { BaseVersions, Versions } from './versions/versions';
 
 export class BaseCopilot extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot'] = Object.freeze(['ai', 'copilot'] as const)
-
+  static override readonly _key: readonly ['ai', 'copilot'] = Object.freeze(['ai', 'copilot'] as const);
 }
 export class Copilot extends BaseCopilot {
   chat: ChatAPI.Chat = new ChatAPI.Chat(this._client);
@@ -125,125 +129,83 @@ export declare namespace Copilot {
     Chat as Chat,
     BaseChat as BaseChat,
     type ChatCreateResponse as ChatCreateResponse,
-    type ChatCreateParams as ChatCreateParams
+    type ChatCreateParams as ChatCreateParams,
   };
 
-  export {
-    ContextSummary as ContextSummary,
-    BaseContextSummary as BaseContextSummary
-  };
+  export { ContextSummary as ContextSummary, BaseContextSummary as BaseContextSummary };
 
-  export {
-    CreditStatus as CreditStatus,
-    BaseCreditStatus as BaseCreditStatus
-  };
+  export { CreditStatus as CreditStatus, BaseCreditStatus as BaseCreditStatus };
 
   export {
     Deploy as Deploy,
     BaseDeploy as BaseDeploy,
     type DeployRetrieveResponse as DeployRetrieveResponse,
-    type DeployCreateParams as DeployCreateParams
+    type DeployCreateParams as DeployCreateParams,
   };
 
-  export {
-    Editor as Editor,
-    BaseEditor as BaseEditor
-  };
+  export { Editor as Editor, BaseEditor as BaseEditor };
 
   export {
     Execute as Execute,
     BaseExecute as BaseExecute,
     type ExecuteCreateResponse as ExecuteCreateResponse,
-    type ExecuteCreateParams as ExecuteCreateParams
+    type ExecuteCreateParams as ExecuteCreateParams,
   };
 
-  export {
-    Executions as Executions,
-    BaseExecutions as BaseExecutions
-  };
+  export { Executions as Executions, BaseExecutions as BaseExecutions };
 
-  export {
-    Export as Export,
-    BaseExport as BaseExport
-  };
+  export { Export as Export, BaseExport as BaseExport };
 
   export {
     Feedback as Feedback,
     BaseFeedback as BaseFeedback,
     type FeedbackCreateResponse as FeedbackCreateResponse,
-    type FeedbackCreateParams as FeedbackCreateParams
+    type FeedbackCreateParams as FeedbackCreateParams,
   };
 
-  export {
-    Generation as Generation,
-    BaseGeneration as BaseGeneration
-  };
+  export { Generation as Generation, BaseGeneration as BaseGeneration };
 
-  export {
-    Git as Git,
-    BaseGit as BaseGit
-  };
+  export { Git as Git, BaseGit as BaseGit };
 
   export {
     Job as Job,
     BaseJob as BaseJob,
     type JobCreateResponse as JobCreateResponse,
-    type JobCreateParams as JobCreateParams
+    type JobCreateParams as JobCreateParams,
   };
 
-  export {
-    Manifest as Manifest,
-    BaseManifest as BaseManifest
-  };
+  export { Manifest as Manifest, BaseManifest as BaseManifest };
 
-  export {
-    Memories as Memories,
-    BaseMemories as BaseMemories
-  };
+  export { Memories as Memories, BaseMemories as BaseMemories };
 
-  export {
-    Metrics as Metrics,
-    BaseMetrics as BaseMetrics
-  };
+  export { Metrics as Metrics, BaseMetrics as BaseMetrics };
 
-  export {
-    Models as Models,
-    BaseModels as BaseModels
-  };
+  export { Models as Models, BaseModels as BaseModels };
 
   export {
     Rate as Rate,
     BaseRate as BaseRate,
     type RateCreateResponse as RateCreateResponse,
-    type RateCreateParams as RateCreateParams
+    type RateCreateParams as RateCreateParams,
   };
 
   export {
     Sessions as Sessions,
     BaseSessions as BaseSessions,
     type SessionUpdateResponse as SessionUpdateResponse,
-    type SessionUpdateParams as SessionUpdateParams
+    type SessionUpdateParams as SessionUpdateParams,
   };
 
   export {
     TrainingConsent as TrainingConsent,
     BaseTrainingConsent as BaseTrainingConsent,
     type TrainingConsentCreateResponse as TrainingConsentCreateResponse,
-    type TrainingConsentCreateParams as TrainingConsentCreateParams
+    type TrainingConsentCreateParams as TrainingConsentCreateParams,
   };
 
-  export {
-    Usage as Usage,
-    BaseUsage as BaseUsage
-  };
+  export { Usage as Usage, BaseUsage as BaseUsage };
 
-  export {
-    UsageOrg as UsageOrg,
-    BaseUsageOrg as BaseUsageOrg
-  };
+  export { UsageOrg as UsageOrg, BaseUsageOrg as BaseUsageOrg };
 
-  export {
-    Versions as Versions,
-    BaseVersions as BaseVersions
-  };
+  export { Versions as Versions, BaseVersions as BaseVersions };
 }

@@ -6,12 +6,13 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BasePartners extends APIResource {
-  static override readonly _key: readonly ['cms', 'partners'] = Object.freeze(['cms', 'partners'] as const)
+  static override readonly _key: readonly ['cms', 'partners'] = Object.freeze(['cms', 'partners'] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/cms/partners', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/cms/partners', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Partners extends BasePartners {
-
-}
+export class Partners extends BasePartners {}

@@ -5,15 +5,17 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseExecute extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'execute'] = Object.freeze(['ai', 'copilot', 'execute'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'execute'] = Object.freeze([
+    'ai',
+    'copilot',
+    'execute',
+  ] as const);
 
   create(body: ExecuteCreateParams, options?: RequestOptions): APIPromise<ExecuteCreateResponse> {
     return this._client.post('/ai/copilot/execute', { body, ...options });
   }
 }
-export class Execute extends BaseExecute {
-
-}
+export class Execute extends BaseExecute {}
 
 export interface ExecuteCreateResponse {
   ok: boolean;
@@ -28,7 +30,7 @@ export interface ExecuteCreateResponse {
 
   results?: Array<unknown>;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface ExecuteCreateParams {
@@ -44,6 +46,6 @@ export interface ExecuteCreateParams {
 export declare namespace Execute {
   export {
     type ExecuteCreateResponse as ExecuteCreateResponse,
-    type ExecuteCreateParams as ExecuteCreateParams
+    type ExecuteCreateParams as ExecuteCreateParams,
   };
 }

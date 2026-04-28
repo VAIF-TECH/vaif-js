@@ -6,12 +6,18 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
 export class BaseGitHub extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'export', 'github'] = Object.freeze(['ai', 'copilot', 'export', 'github'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'export', 'github'] = Object.freeze([
+    'ai',
+    'copilot',
+    'export',
+    'github',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/export/github', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/export/github', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class GitHub extends BaseGitHub {
-
-}
+export class GitHub extends BaseGitHub {}

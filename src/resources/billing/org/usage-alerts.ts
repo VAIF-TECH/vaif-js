@@ -7,37 +7,59 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseUsageAlerts extends APIResource {
-  static override readonly _key: readonly ['billing', 'org', 'usageAlerts'] = Object.freeze(['billing', 'org', 'usageAlerts'] as const)
+  static override readonly _key: readonly ['billing', 'org', 'usageAlerts'] = Object.freeze([
+    'billing',
+    'org',
+    'usageAlerts',
+  ] as const);
 
-  update(alertID: string, params: UsageAlertUpdateParams, options?: RequestOptions): APIPromise<UsageAlertUpdateResponse> {
-    const { orgId, ...body } = params
+  update(
+    alertID: string,
+    params: UsageAlertUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<UsageAlertUpdateResponse> {
+    const { orgId, ...body } = params;
     return this._client.patch(path`/billing/org/${orgId}/usage-alerts/${alertID}`, { body, ...options });
   }
 
   delete(alertID: string, params: UsageAlertDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params
-    return this._client.delete(path`/billing/org/${orgId}/usage-alerts/${alertID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { orgId } = params;
+    return this._client.delete(path`/billing/org/${orgId}/usage-alerts/${alertID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getConfigured(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts/configured`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts/configured`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getHistory(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts/history`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts/history`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getUsageAlerts(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/usage-alerts`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/usage-alerts`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  usageAlerts(orgID: string, body: UsageAlertUsageAlertsParams, options?: RequestOptions): APIPromise<UsageAlertUsageAlertsResponse> {
+  usageAlerts(
+    orgID: string,
+    body: UsageAlertUsageAlertsParams,
+    options?: RequestOptions,
+  ): APIPromise<UsageAlertUsageAlertsResponse> {
     return this._client.post(path`/billing/org/${orgID}/usage-alerts`, { body, ...options });
   }
 }
-export class UsageAlerts extends BaseUsageAlerts {
-
-}
+export class UsageAlerts extends BaseUsageAlerts {}
 
 export interface UsageAlertUpdateResponse {
   ok: true;
@@ -76,7 +98,13 @@ export interface UsageAlertDeleteParams {
 }
 
 export interface UsageAlertUsageAlertsParams {
-  metric: 'ai_credits' | 'api_requests' | 'storage' | 'realtime_connections' | 'function_invocations' | 'bandwidth';
+  metric:
+    | 'ai_credits'
+    | 'api_requests'
+    | 'storage'
+    | 'realtime_connections'
+    | 'function_invocations'
+    | 'bandwidth';
 
   threshold: number;
 
@@ -89,6 +117,6 @@ export declare namespace UsageAlerts {
     type UsageAlertUsageAlertsResponse as UsageAlertUsageAlertsResponse,
     type UsageAlertUpdateParams as UsageAlertUpdateParams,
     type UsageAlertDeleteParams as UsageAlertDeleteParams,
-    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams
+    type UsageAlertUsageAlertsParams as UsageAlertUsageAlertsParams,
   };
 }

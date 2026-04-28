@@ -7,12 +7,17 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseContract extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'org', 'contract'] = Object.freeze(['enterprise', 'org', 'contract'] as const)
+  static override readonly _key: readonly ['enterprise', 'org', 'contract'] = Object.freeze([
+    'enterprise',
+    'org',
+    'contract',
+  ] as const);
 
   getContract(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/org/${orgID}/contract`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/enterprise/org/${orgID}/contract`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Contract extends BaseContract {
-
-}
+export class Contract extends BaseContract {}

@@ -9,14 +9,20 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseSDKs extends APIResource {
-  static override readonly _key: readonly ['docs', 'sdks'] = Object.freeze(['docs', 'sdks'] as const)
+  static override readonly _key: readonly ['docs', 'sdks'] = Object.freeze(['docs', 'sdks'] as const);
 
   retrieve(platform: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/docs/sdks/${platform}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/docs/sdks/${platform}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/docs/sdks', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/docs/sdks', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class SDKs extends BaseSDKs {
@@ -27,8 +33,5 @@ SDKs.Examples = Examples;
 SDKs.BaseExamples = BaseExamples;
 
 export declare namespace SDKs {
-  export {
-    Examples as Examples,
-    BaseExamples as BaseExamples
-  };
+  export { Examples as Examples, BaseExamples as BaseExamples };
 }

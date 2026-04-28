@@ -2,7 +2,12 @@
 
 import { APIResource } from '../../../../core/resource';
 import * as AuthorizeAPI from './authorize';
-import { Authorize, AuthorizeGetAuthorizeParams, AuthorizeGetAuthorizeResponse, BaseAuthorize } from './authorize';
+import {
+  Authorize,
+  AuthorizeGetAuthorizeParams,
+  AuthorizeGetAuthorizeResponse,
+  BaseAuthorize,
+} from './authorize';
 import * as RefreshAPI from './refresh';
 import { BaseRefresh, Refresh, RefreshRefreshParams, RefreshRefreshResponse } from './refresh';
 import { APIPromise } from '../../../../core/api-promise';
@@ -10,21 +15,33 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseProvider extends APIResource {
-  static override readonly _key: readonly ['oauth', 'org', 'provider'] = Object.freeze(['oauth', 'org', 'provider'] as const)
+  static override readonly _key: readonly ['oauth', 'org', 'provider'] = Object.freeze([
+    'oauth',
+    'org',
+    'provider',
+  ] as const);
 
   /**
    * Update OAuth provider configuration
    */
-  update(provider: string, params: ProviderUpdateParams, options?: RequestOptions): APIPromise<ProviderUpdateResponse> {
-    const { orgId, ...body } = params
+  update(
+    provider: string,
+    params: ProviderUpdateParams,
+    options?: RequestOptions,
+  ): APIPromise<ProviderUpdateResponse> {
+    const { orgId, ...body } = params;
     return this._client.patch(path`/oauth/org/${orgId}/provider/${provider}`, { body, ...options });
   }
 
   /**
    * Delete OAuth provider configuration
    */
-  delete(provider: string, params: ProviderDeleteParams, options?: RequestOptions): APIPromise<ProviderDeleteResponse> {
-    const { orgId } = params
+  delete(
+    provider: string,
+    params: ProviderDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<ProviderDeleteResponse> {
+    const { orgId } = params;
     return this._client.delete(path`/oauth/org/${orgId}/provider/${provider}`, options);
   }
 }
@@ -98,20 +115,20 @@ export declare namespace Provider {
     type ProviderUpdateResponse as ProviderUpdateResponse,
     type ProviderDeleteResponse as ProviderDeleteResponse,
     type ProviderUpdateParams as ProviderUpdateParams,
-    type ProviderDeleteParams as ProviderDeleteParams
+    type ProviderDeleteParams as ProviderDeleteParams,
   };
 
   export {
     Authorize as Authorize,
     BaseAuthorize as BaseAuthorize,
     type AuthorizeGetAuthorizeResponse as AuthorizeGetAuthorizeResponse,
-    type AuthorizeGetAuthorizeParams as AuthorizeGetAuthorizeParams
+    type AuthorizeGetAuthorizeParams as AuthorizeGetAuthorizeParams,
   };
 
   export {
     Refresh as Refresh,
     BaseRefresh as BaseRefresh,
     type RefreshRefreshResponse as RefreshRefreshResponse,
-    type RefreshRefreshParams as RefreshRefreshParams
+    type RefreshRefreshParams as RefreshRefreshParams,
   };
 }

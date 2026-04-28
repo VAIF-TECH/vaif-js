@@ -6,12 +6,17 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BasePreview extends APIResource {
-  static override readonly _key: readonly ['templates', 'install', 'preview'] = Object.freeze(['templates', 'install', 'preview'] as const)
+  static override readonly _key: readonly ['templates', 'install', 'preview'] = Object.freeze([
+    'templates',
+    'install',
+    'preview',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/templates/install/preview', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/templates/install/preview', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Preview extends BasePreview {
-
-}
+export class Preview extends BasePreview {}

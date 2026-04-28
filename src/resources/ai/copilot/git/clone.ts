@@ -6,12 +6,18 @@ import { buildHeaders } from '../../../../internal/headers';
 import { RequestOptions } from '../../../../internal/request-options';
 
 export class BaseClone extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'git', 'clone'] = Object.freeze(['ai', 'copilot', 'git', 'clone'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'git', 'clone'] = Object.freeze([
+    'ai',
+    'copilot',
+    'git',
+    'clone',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/ai/copilot/git/clone', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/ai/copilot/git/clone', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Clone extends BaseClone {
-
-}
+export class Clone extends BaseClone {}

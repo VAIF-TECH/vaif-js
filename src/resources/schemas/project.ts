@@ -6,7 +6,10 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseProject extends APIResource {
-  static override readonly _key: readonly ['schemas', 'project'] = Object.freeze(['schemas', 'project'] as const)
+  static override readonly _key: readonly ['schemas', 'project'] = Object.freeze([
+    'schemas',
+    'project',
+  ] as const);
 
   /**
    * List schemas for a project
@@ -15,11 +18,9 @@ export class BaseProject extends APIResource {
     return this._client.get(path`/schemas/project/${projectID}`, options);
   }
 }
-export class Project extends BaseProject {
+export class Project extends BaseProject {}
 
-}
-
-export type ProjectRetrieveResponse = Array<ProjectRetrieveResponse.ProjectRetrieveResponseItem>
+export type ProjectRetrieveResponse = Array<ProjectRetrieveResponse.ProjectRetrieveResponseItem>;
 
 export namespace ProjectRetrieveResponse {
   export interface ProjectRetrieveResponseItem {
@@ -35,12 +36,10 @@ export namespace ProjectRetrieveResponse {
 
     schema?: unknown;
 
-  [k: string]: unknown
+    [k: string]: unknown;
   }
 }
 
 export declare namespace Project {
-  export {
-    type ProjectRetrieveResponse as ProjectRetrieveResponse
-  };
+  export { type ProjectRetrieveResponse as ProjectRetrieveResponse };
 }

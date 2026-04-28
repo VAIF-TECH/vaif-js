@@ -7,8 +7,7 @@ import * as WebhooksAPI from './webhooks/webhooks';
 import { BaseWebhooks, Webhooks } from './webhooks/webhooks';
 
 export class BaseJobs extends APIResource {
-  static override readonly _key: readonly ['jobs'] = Object.freeze(['jobs'] as const)
-
+  static override readonly _key: readonly ['jobs'] = Object.freeze(['jobs'] as const);
 }
 export class Jobs extends BaseJobs {
   dlq: DlqAPI.Dlq = new DlqAPI.Dlq(this._client);
@@ -21,13 +20,7 @@ Jobs.Webhooks = Webhooks;
 Jobs.BaseWebhooks = BaseWebhooks;
 
 export declare namespace Jobs {
-  export {
-    Dlq as Dlq,
-    BaseDlq as BaseDlq
-  };
+  export { Dlq as Dlq, BaseDlq as BaseDlq };
 
-  export {
-    Webhooks as Webhooks,
-    BaseWebhooks as BaseWebhooks
-  };
+  export { Webhooks as Webhooks, BaseWebhooks as BaseWebhooks };
 }

@@ -7,29 +7,43 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseAddons extends APIResource {
-  static override readonly _key: readonly ['billing', 'org', 'addons'] = Object.freeze(['billing', 'org', 'addons'] as const)
+  static override readonly _key: readonly ['billing', 'org', 'addons'] = Object.freeze([
+    'billing',
+    'org',
+    'addons',
+  ] as const);
 
   update(addonID: string, params: AddonUpdateParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params
-    return this._client.patch(path`/billing/org/${orgId}/addons/${addonID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { orgId } = params;
+    return this._client.patch(path`/billing/org/${orgId}/addons/${addonID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   delete(addonID: string, params: AddonDeleteParams, options?: RequestOptions): APIPromise<void> {
-    const { orgId } = params
-    return this._client.delete(path`/billing/org/${orgId}/addons/${addonID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    const { orgId } = params;
+    return this._client.delete(path`/billing/org/${orgId}/addons/${addonID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   addons(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.post(path`/billing/org/${orgID}/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post(path`/billing/org/${orgID}/addons`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   getAddons(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/billing/org/${orgID}/addons`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/billing/org/${orgID}/addons`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Addons extends BaseAddons {
-
-}
+export class Addons extends BaseAddons {}
 
 export interface AddonUpdateParams {
   orgId: string;
@@ -40,8 +54,5 @@ export interface AddonDeleteParams {
 }
 
 export declare namespace Addons {
-  export {
-    type AddonUpdateParams as AddonUpdateParams,
-    type AddonDeleteParams as AddonDeleteParams
-  };
+  export { type AddonUpdateParams as AddonUpdateParams, type AddonDeleteParams as AddonDeleteParams };
 }

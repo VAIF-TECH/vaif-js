@@ -5,15 +5,16 @@ import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseInquire extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'inquire'] = Object.freeze(['enterprise', 'inquire'] as const)
+  static override readonly _key: readonly ['enterprise', 'inquire'] = Object.freeze([
+    'enterprise',
+    'inquire',
+  ] as const);
 
   create(body: InquireCreateParams, options?: RequestOptions): APIPromise<InquireCreateResponse> {
     return this._client.post('/enterprise/inquire', { body, ...options });
   }
 }
-export class Inquire extends BaseInquire {
-
-}
+export class Inquire extends BaseInquire {}
 
 export interface InquireCreateResponse {
   inquiryId: string;
@@ -22,7 +23,7 @@ export interface InquireCreateResponse {
 
   ok: true;
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface InquireCreateParams {
@@ -74,6 +75,6 @@ export namespace InquireCreateParams {
 export declare namespace Inquire {
   export {
     type InquireCreateResponse as InquireCreateResponse,
-    type InquireCreateParams as InquireCreateParams
+    type InquireCreateParams as InquireCreateParams,
   };
 }

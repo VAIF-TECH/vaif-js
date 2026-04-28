@@ -5,7 +5,7 @@ import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
 export class BaseContact extends APIResource {
-  static override readonly _key: readonly ['contact'] = Object.freeze(['contact'] as const)
+  static override readonly _key: readonly ['contact'] = Object.freeze(['contact'] as const);
 
   /**
    * Submit a contact form
@@ -14,9 +14,7 @@ export class BaseContact extends APIResource {
     return this._client.post('/contact', { body, ...options });
   }
 }
-export class Contact extends BaseContact {
-
-}
+export class Contact extends BaseContact {}
 
 export interface ContactCreateResponse {
   success: true;
@@ -39,6 +37,6 @@ export interface ContactCreateParams {
 export declare namespace Contact {
   export {
     type ContactCreateResponse as ContactCreateResponse,
-    type ContactCreateParams as ContactCreateParams
+    type ContactCreateParams as ContactCreateParams,
   };
 }

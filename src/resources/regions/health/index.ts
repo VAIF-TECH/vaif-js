@@ -1,4 +1,4 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Check, BaseCheck } from './check';;
-export { Health, BaseHealth } from './health';;
+export { Check, BaseCheck } from './check';
+export { Health, BaseHealth } from './health';

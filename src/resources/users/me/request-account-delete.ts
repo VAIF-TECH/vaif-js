@@ -6,12 +6,17 @@ import { buildHeaders } from '../../../internal/headers';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseRequestAccountDelete extends APIResource {
-  static override readonly _key: readonly ['users', 'me', 'requestAccountDelete'] = Object.freeze(['users', 'me', 'requestAccountDelete'] as const)
+  static override readonly _key: readonly ['users', 'me', 'requestAccountDelete'] = Object.freeze([
+    'users',
+    'me',
+    'requestAccountDelete',
+  ] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/users/me/request-account-delete', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/users/me/request-account-delete', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class RequestAccountDelete extends BaseRequestAccountDelete {
-
-}
+export class RequestAccountDelete extends BaseRequestAccountDelete {}

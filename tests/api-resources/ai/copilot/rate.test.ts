@@ -6,17 +6,20 @@ import { BaseRate } from '@vaif/client/resources/ai/copilot/rate';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseRate],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Copilot],
 });
 
@@ -34,10 +37,10 @@ const runTests = (client: PartialVaif<{ ai: { copilot: { rate: BaseRate } } }>) 
 
   test('create: required and optional params', async () => {
     const response = await client.ai.copilot.rate.create('messageId', {
-    rating: 1,
-    approved: true,
-    feedback: 'feedback',
-  });
+      rating: 1,
+      approved: true,
+      feedback: 'feedback',
+    });
   });
 };
 describe('resource rate', () => runTests(client));

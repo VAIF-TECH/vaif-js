@@ -7,19 +7,28 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseOnboarding extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'org', 'onboarding'] = Object.freeze(['enterprise', 'org', 'onboarding'] as const)
+  static override readonly _key: readonly ['enterprise', 'org', 'onboarding'] = Object.freeze([
+    'enterprise',
+    'org',
+    'onboarding',
+  ] as const);
 
   getOnboarding(orgID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/org/${orgID}/onboarding`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/enterprise/org/${orgID}/onboarding`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
-  onboarding(orgID: string, body: OnboardingOnboardingParams, options?: RequestOptions): APIPromise<OnboardingOnboardingResponse> {
+  onboarding(
+    orgID: string,
+    body: OnboardingOnboardingParams,
+    options?: RequestOptions,
+  ): APIPromise<OnboardingOnboardingResponse> {
     return this._client.patch(path`/enterprise/org/${orgID}/onboarding`, { body, ...options });
   }
 }
-export class Onboarding extends BaseOnboarding {
-
-}
+export class Onboarding extends BaseOnboarding {}
 
 export interface OnboardingOnboardingResponse {
   completedAt: string | null;
@@ -28,7 +37,7 @@ export interface OnboardingOnboardingResponse {
 
   steps: { [key: string]: boolean };
 
-[k: string]: unknown
+  [k: string]: unknown;
 }
 
 export interface OnboardingOnboardingParams {
@@ -40,6 +49,6 @@ export interface OnboardingOnboardingParams {
 export declare namespace Onboarding {
   export {
     type OnboardingOnboardingResponse as OnboardingOnboardingResponse,
-    type OnboardingOnboardingParams as OnboardingOnboardingParams
+    type OnboardingOnboardingParams as OnboardingOnboardingParams,
   };
 }

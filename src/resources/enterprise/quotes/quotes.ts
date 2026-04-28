@@ -9,10 +9,16 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseQuotes extends APIResource {
-  static override readonly _key: readonly ['enterprise', 'quotes'] = Object.freeze(['enterprise', 'quotes'] as const)
+  static override readonly _key: readonly ['enterprise', 'quotes'] = Object.freeze([
+    'enterprise',
+    'quotes',
+  ] as const);
 
   retrieve(quoteID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/enterprise/quotes/${quoteID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/enterprise/quotes/${quoteID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Quotes extends BaseQuotes {
@@ -23,8 +29,5 @@ Quotes.Accept = Accept;
 Quotes.BaseAccept = BaseAccept;
 
 export declare namespace Quotes {
-  export {
-    Accept as Accept,
-    BaseAccept as BaseAccept
-  };
+  export { Accept as Accept, BaseAccept as BaseAccept };
 }

@@ -20,21 +20,31 @@ import { BaseInvocations, Invocations } from './invocations/invocations';
 import * as ProjectAPI from './project/project';
 import { BaseProject, Project } from './project/project';
 import * as SecretsAPI from './secrets/secrets';
-import { BaseSecrets, SecretCreateParams, SecretCreateResponse, SecretUpdateParams, SecretUpdateResponse, Secrets } from './secrets/secrets';
+import {
+  BaseSecrets,
+  SecretCreateParams,
+  SecretCreateResponse,
+  SecretUpdateParams,
+  SecretUpdateResponse,
+  Secrets,
+} from './secrets/secrets';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseFunctions extends APIResource {
-  static override readonly _key: readonly ['functions'] = Object.freeze(['functions'] as const)
+  static override readonly _key: readonly ['functions'] = Object.freeze(['functions'] as const);
 
   create(body: FunctionCreateParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post('/functions/', { body, ...options });
   }
 
   retrieve(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/functions/${functionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/functions/${functionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   update(functionID: string, body: FunctionUpdateParams, options?: RequestOptions): APIPromise<unknown> {
@@ -42,7 +52,10 @@ export class BaseFunctions extends APIResource {
   }
 
   delete(functionID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/functions/${functionID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/functions/${functionID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Functions extends BaseFunctions {
@@ -58,9 +71,9 @@ export class Functions extends BaseFunctions {
   triggers: TriggersAPI.Triggers = new TriggersAPI.Triggers(this._client);
 }
 
-export type FunctionCreateResponse = unknown
+export type FunctionCreateResponse = unknown;
 
-export type FunctionUpdateResponse = unknown
+export type FunctionUpdateResponse = unknown;
 
 export interface FunctionCreateParams {
   name: string;
@@ -120,44 +133,26 @@ export declare namespace Functions {
     type FunctionCreateResponse as FunctionCreateResponse,
     type FunctionUpdateResponse as FunctionUpdateResponse,
     type FunctionCreateParams as FunctionCreateParams,
-    type FunctionUpdateParams as FunctionUpdateParams
+    type FunctionUpdateParams as FunctionUpdateParams,
   };
 
-  export {
-    DeployStatus as DeployStatus,
-    BaseDeployStatus as BaseDeployStatus
-  };
+  export { DeployStatus as DeployStatus, BaseDeployStatus as BaseDeployStatus };
 
-  export {
-    Invocations as Invocations,
-    BaseInvocations as BaseInvocations
-  };
+  export { Invocations as Invocations, BaseInvocations as BaseInvocations };
 
-  export {
-    Invoke as Invoke,
-    BaseInvoke as BaseInvoke
-  };
+  export { Invoke as Invoke, BaseInvoke as BaseInvoke };
 
-  export {
-    Logs as Logs,
-    BaseLogs as BaseLogs
-  };
+  export { Logs as Logs, BaseLogs as BaseLogs };
 
-  export {
-    Metrics as Metrics,
-    BaseMetrics as BaseMetrics
-  };
+  export { Metrics as Metrics, BaseMetrics as BaseMetrics };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 
   export {
     Schedule as Schedule,
     BaseSchedule as BaseSchedule,
     type ScheduleScheduleResponse as ScheduleScheduleResponse,
-    type ScheduleScheduleParams as ScheduleScheduleParams
+    type ScheduleScheduleParams as ScheduleScheduleParams,
   };
 
   export {
@@ -166,20 +161,20 @@ export declare namespace Functions {
     type SecretCreateResponse as SecretCreateResponse,
     type SecretUpdateResponse as SecretUpdateResponse,
     type SecretCreateParams as SecretCreateParams,
-    type SecretUpdateParams as SecretUpdateParams
+    type SecretUpdateParams as SecretUpdateParams,
   };
 
   export {
     Source as Source,
     BaseSource as BaseSource,
     type SourceSourceResponse as SourceSourceResponse,
-    type SourceSourceParams as SourceSourceParams
+    type SourceSourceParams as SourceSourceParams,
   };
 
   export {
     Triggers as Triggers,
     BaseTriggers as BaseTriggers,
     type TriggerTriggersResponse as TriggerTriggersResponse,
-    type TriggerTriggersParams as TriggerTriggersParams
+    type TriggerTriggersParams as TriggerTriggersParams,
   };
 }

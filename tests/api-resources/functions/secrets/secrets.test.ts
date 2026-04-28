@@ -6,27 +6,30 @@ import { BaseSecrets } from '@vaif/client/resources/functions/secrets/secrets';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseSecrets],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Functions],
 });
 
 const runTests = (client: PartialVaif<{ functions: { secrets: BaseSecrets } }>) => {
   test('create: only required params', async () => {
     const responsePromise = client.functions.secrets.create({
-    key: 'x',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    value: 'x',
-  });
+      key: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      value: 'x',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -38,11 +41,11 @@ const runTests = (client: PartialVaif<{ functions: { secrets: BaseSecrets } }>) 
 
   test('create: required and optional params', async () => {
     const response = await client.functions.secrets.create({
-    key: 'x',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    value: 'x',
-    envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      key: 'x',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      value: 'x',
+      envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
   });
 
   test('update: only required params', async () => {

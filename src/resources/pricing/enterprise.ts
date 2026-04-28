@@ -6,12 +6,16 @@ import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 
 export class BaseEnterprise extends APIResource {
-  static override readonly _key: readonly ['pricing', 'enterprise'] = Object.freeze(['pricing', 'enterprise'] as const)
+  static override readonly _key: readonly ['pricing', 'enterprise'] = Object.freeze([
+    'pricing',
+    'enterprise',
+  ] as const);
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/pricing/enterprise', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/pricing/enterprise', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class Enterprise extends BaseEnterprise {
-
-}
+export class Enterprise extends BaseEnterprise {}

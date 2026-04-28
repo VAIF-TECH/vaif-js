@@ -5,15 +5,17 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseValidate extends APIResource {
-  static override readonly _key: readonly ['billing', 'promoCodes', 'validate'] = Object.freeze(['billing', 'promoCodes', 'validate'] as const)
+  static override readonly _key: readonly ['billing', 'promoCodes', 'validate'] = Object.freeze([
+    'billing',
+    'promoCodes',
+    'validate',
+  ] as const);
 
   create(body: ValidateCreateParams, options?: RequestOptions): APIPromise<ValidateCreateResponse> {
     return this._client.post('/billing/promo-codes/validate', { body, ...options });
   }
 }
-export class Validate extends BaseValidate {
-
-}
+export class Validate extends BaseValidate {}
 
 export interface ValidateCreateResponse {
   applicablePlans: Array<string> | null;
@@ -42,6 +44,6 @@ export interface ValidateCreateParams {
 export declare namespace Validate {
   export {
     type ValidateCreateResponse as ValidateCreateResponse,
-    type ValidateCreateParams as ValidateCreateParams
+    type ValidateCreateParams as ValidateCreateParams,
   };
 }

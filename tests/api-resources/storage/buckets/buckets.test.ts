@@ -6,23 +6,29 @@ import { BaseBuckets } from '@vaif/client/resources/storage/buckets/buckets';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseBuckets],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Storage],
 });
 
 const runTests = (client: PartialVaif<{ storage: { buckets: BaseBuckets } }>) => {
   test('create: only required params', async () => {
-    const responsePromise = client.storage.buckets.create({ name: 'name', projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.storage.buckets.create({
+      name: 'name',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,14 +40,14 @@ const runTests = (client: PartialVaif<{ storage: { buckets: BaseBuckets } }>) =>
 
   test('create: required and optional params', async () => {
     const response = await client.storage.buckets.create({
-    name: 'name',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    allowedMimeTypes: ['string'],
-    corsOrigins: ['string'],
-    envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    fileSizeLimit: 1,
-    public: true,
-  });
+      name: 'name',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      allowedMimeTypes: ['string'],
+      corsOrigins: ['string'],
+      envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      fileSizeLimit: 1,
+      public: true,
+    });
   });
 
   test('list', async () => {

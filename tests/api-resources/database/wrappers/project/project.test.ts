@@ -6,17 +6,20 @@ import { BaseProject } from '@vaif/client/resources/database/wrappers/project/pr
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseProject],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Wrappers],
 });
 
@@ -45,10 +48,10 @@ const runTests = (client: PartialVaif<{ database: { wrappers: { project: BasePro
 
   test('update: required and optional params', async () => {
     const response = await client.database.wrappers.project.update('wrapperId', {
-    projectId: 'projectId',
-    config: { foo: 'bar' },
-    enabledTables: ['string'],
-  });
+      projectId: 'projectId',
+      config: { foo: 'bar' },
+      enabledTables: ['string'],
+    });
   });
 
   test('delete: only required params', async () => {

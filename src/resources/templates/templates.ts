@@ -11,18 +11,27 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseTemplates extends APIResource {
-  static override readonly _key: readonly ['templates'] = Object.freeze(['templates'] as const)
+  static override readonly _key: readonly ['templates'] = Object.freeze(['templates'] as const);
 
   create(options?: RequestOptions): APIPromise<void> {
-    return this._client.post('/templates/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.post('/templates/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   retrieve(slug: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/templates/${slug}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/templates/${slug}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   list(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/templates/', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get('/templates/', {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Templates extends BaseTemplates {
@@ -36,13 +45,7 @@ Templates.Install = Install;
 Templates.BaseInstall = BaseInstall;
 
 export declare namespace Templates {
-  export {
-    CreateProject as CreateProject,
-    BaseCreateProject as BaseCreateProject
-  };
+  export { CreateProject as CreateProject, BaseCreateProject as BaseCreateProject };
 
-  export {
-    Install as Install,
-    BaseInstall as BaseInstall
-  };
+  export { Install as Install, BaseInstall as BaseInstall };
 }

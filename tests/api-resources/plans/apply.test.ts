@@ -6,23 +6,29 @@ import { Plans } from '@vaif/client/resources/plans/plans';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseApply],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Plans],
 });
 
 const runTests = (client: PartialVaif<{ plans: { apply: BaseApply } }>) => {
   test('create: only required params', async () => {
-    const responsePromise = client.plans.apply.create({ planId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.plans.apply.create({
+      planId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -34,11 +40,11 @@ const runTests = (client: PartialVaif<{ plans: { apply: BaseApply } }>) => {
 
   test('create: required and optional params', async () => {
     const response = await client.plans.apply.create({
-    planId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    allowApply: true,
-    envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  });
+      planId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      projectId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      allowApply: true,
+      envId: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
   });
 };
 describe('resource apply', () => runTests(client));

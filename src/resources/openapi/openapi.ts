@@ -7,8 +7,7 @@ import * as ProjectAPI from './project';
 import { BaseProject, Project } from './project';
 
 export class BaseOpenAPI extends APIResource {
-  static override readonly _key: readonly ['openAPI'] = Object.freeze(['openAPI'] as const)
-
+  static override readonly _key: readonly ['openAPI'] = Object.freeze(['openAPI'] as const);
 }
 export class OpenAPI extends BaseOpenAPI {
   full: FullAPI.Full = new FullAPI.Full(this._client);
@@ -21,13 +20,7 @@ OpenAPI.Project = Project;
 OpenAPI.BaseProject = BaseProject;
 
 export declare namespace OpenAPI {
-  export {
-    Full as Full,
-    BaseFull as BaseFull
-  };
+  export { Full as Full, BaseFull as BaseFull };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 }

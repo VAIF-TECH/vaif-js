@@ -27,8 +27,7 @@ import * as V2API from './v2/v2';
 import { BaseV2, V2 } from './v2/v2';
 
 export class BaseDocs extends APIResource {
-  static override readonly _key: readonly ['docs'] = Object.freeze(['docs'] as const)
-
+  static override readonly _key: readonly ['docs'] = Object.freeze(['docs'] as const);
 }
 export class Docs extends BaseDocs {
   aiAnswer: AIAnswerAPI.AIAnswer = new AIAnswerAPI.AIAnswer(this._client);
@@ -74,61 +73,28 @@ export declare namespace Docs {
   export {
     AIAnswer as AIAnswer,
     BaseAIAnswer as BaseAIAnswer,
-    type AIAnswerCreateParams as AIAnswerCreateParams
+    type AIAnswerCreateParams as AIAnswerCreateParams,
   };
 
-  export {
-    AISearch as AISearch,
-    BaseAISearch as BaseAISearch
-  };
+  export { AISearch as AISearch, BaseAISearch as BaseAISearch };
 
-  export {
-    APIEndpoints as APIEndpoints,
-    BaseAPIEndpoints as BaseAPIEndpoints
-  };
+  export { APIEndpoints as APIEndpoints, BaseAPIEndpoints as BaseAPIEndpoints };
 
-  export {
-    Categories as Categories,
-    BaseCategories as BaseCategories
-  };
+  export { Categories as Categories, BaseCategories as BaseCategories };
 
-  export {
-    Changelog as Changelog,
-    BaseChangelog as BaseChangelog
-  };
+  export { Changelog as Changelog, BaseChangelog as BaseChangelog };
 
-  export {
-    Examples as Examples,
-    BaseExamples as BaseExamples
-  };
+  export { Examples as Examples, BaseExamples as BaseExamples };
 
-  export {
-    Feedback as Feedback,
-    BaseFeedback as BaseFeedback
-  };
+  export { Feedback as Feedback, BaseFeedback as BaseFeedback };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 
-  export {
-    SDKs as SDKs,
-    BaseSDKs as BaseSDKs
-  };
+  export { SDKs as SDKs, BaseSDKs as BaseSDKs };
 
-  export {
-    Search as Search,
-    BaseSearch as BaseSearch
-  };
+  export { Search as Search, BaseSearch as BaseSearch };
 
-  export {
-    SearchClick as SearchClick,
-    BaseSearchClick as BaseSearchClick
-  };
+  export { SearchClick as SearchClick, BaseSearchClick as BaseSearchClick };
 
-  export {
-    V2 as V2,
-    BaseV2 as BaseV2
-  };
+  export { V2 as V2, BaseV2 as BaseV2 };
 }

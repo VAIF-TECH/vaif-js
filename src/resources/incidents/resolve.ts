@@ -6,7 +6,10 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class BaseResolve extends APIResource {
-  static override readonly _key: readonly ['incidents', 'resolve'] = Object.freeze(['incidents', 'resolve'] as const)
+  static override readonly _key: readonly ['incidents', 'resolve'] = Object.freeze([
+    'incidents',
+    'resolve',
+  ] as const);
 
   /**
    * Resolve an incident
@@ -15,16 +18,12 @@ export class BaseResolve extends APIResource {
     return this._client.post(path`/incidents/${incidentID}/resolve`, options);
   }
 }
-export class Resolve extends BaseResolve {
-
-}
+export class Resolve extends BaseResolve {}
 
 export interface ResolveResolveResponse {
   ok: true;
 }
 
 export declare namespace Resolve {
-  export {
-    type ResolveResolveResponse as ResolveResolveResponse
-  };
+  export { type ResolveResolveResponse as ResolveResolveResponse };
 }

@@ -11,7 +11,10 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseSecrets extends APIResource {
-  static override readonly _key: readonly ['functions', 'secrets'] = Object.freeze(['functions', 'secrets'] as const)
+  static override readonly _key: readonly ['functions', 'secrets'] = Object.freeze([
+    'functions',
+    'secrets',
+  ] as const);
 
   create(body: SecretCreateParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post('/functions/secrets', { body, ...options });
@@ -22,7 +25,10 @@ export class BaseSecrets extends APIResource {
   }
 
   delete(secretID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/functions/secrets/${secretID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/functions/secrets/${secretID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Secrets extends BaseSecrets {
@@ -30,9 +36,9 @@ export class Secrets extends BaseSecrets {
   value: ValueAPI.Value = new ValueAPI.Value(this._client);
 }
 
-export type SecretCreateResponse = unknown
+export type SecretCreateResponse = unknown;
 
-export type SecretUpdateResponse = unknown
+export type SecretUpdateResponse = unknown;
 
 export interface SecretCreateParams {
   key: string;
@@ -58,16 +64,10 @@ export declare namespace Secrets {
     type SecretCreateResponse as SecretCreateResponse,
     type SecretUpdateResponse as SecretUpdateResponse,
     type SecretCreateParams as SecretCreateParams,
-    type SecretUpdateParams as SecretUpdateParams
+    type SecretUpdateParams as SecretUpdateParams,
   };
 
-  export {
-    Project as Project,
-    BaseProject as BaseProject
-  };
+  export { Project as Project, BaseProject as BaseProject };
 
-  export {
-    Value as Value,
-    BaseValue as BaseValue
-  };
+  export { Value as Value, BaseValue as BaseValue };
 }

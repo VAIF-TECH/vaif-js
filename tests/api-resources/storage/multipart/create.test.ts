@@ -6,17 +6,20 @@ import { Multipart } from '@vaif/client/resources/storage/multipart/multipart';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseCreate],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Multipart],
 });
 
@@ -34,10 +37,10 @@ const runTests = (client: PartialVaif<{ storage: { multipart: { create: BaseCrea
 
   test('create: required and optional params', async () => {
     const response = await client.storage.multipart.create.create({
-    bucketId: 'x',
-    key: 'x',
-    contentType: 'contentType',
-  });
+      bucketId: 'x',
+      key: 'x',
+      contentType: 'contentType',
+    });
   });
 };
 describe('resource create', () => runTests(client));

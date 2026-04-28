@@ -6,17 +6,20 @@ import { BaseSignup } from '@vaif/client/resources/auth/signup';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseSignup],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Auth],
 });
 
@@ -34,10 +37,10 @@ const runTests = (client: PartialVaif<{ auth: { signup: BaseSignup } }>) => {
 
   test('create: required and optional params', async () => {
     const response = await client.auth.signup.create({
-    email: 'dev@stainless.com',
-    password: 'xxxxxxxx',
-    name: 'name',
-  });
+      email: 'dev@stainless.com',
+      password: 'xxxxxxxx',
+      name: 'name',
+    });
   });
 };
 describe('resource signup', () => runTests(client));

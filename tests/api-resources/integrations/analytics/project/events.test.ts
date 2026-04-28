@@ -6,21 +6,26 @@ import { Project } from '@vaif/client/resources/integrations/analytics/project/p
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseEvents],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Project],
 });
 
-const runTests = (client: PartialVaif<{ integrations: { analytics: { project: { events: BaseEvents } } } }>) => {
+const runTests = (
+  client: PartialVaif<{ integrations: { analytics: { project: { events: BaseEvents } } } }>,
+) => {
   test('getEvents', async () => {
     const responsePromise = client.integrations.analytics.project.events.getEvents('projectId');
     const rawResponse = await responsePromise.asResponse();

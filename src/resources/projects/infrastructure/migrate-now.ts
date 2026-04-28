@@ -7,23 +7,30 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseMigrateNow extends APIResource {
-  static override readonly _key: readonly ['projects', 'infrastructure', 'migrateNow'] = Object.freeze(['projects', 'infrastructure', 'migrateNow'] as const)
+  static override readonly _key: readonly ['projects', 'infrastructure', 'migrateNow'] = Object.freeze([
+    'projects',
+    'infrastructure',
+    'migrateNow',
+  ] as const);
 
-  migrateNow(instanceID: string, params: MigrateNowMigrateNowParams, options?: RequestOptions): APIPromise<void> {
-    const { projectId } = params
-    return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/migrate-now`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  migrateNow(
+    instanceID: string,
+    params: MigrateNowMigrateNowParams,
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { projectId } = params;
+    return this._client.post(path`/projects/${projectId}/infrastructure/${instanceID}/migrate-now`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
-export class MigrateNow extends BaseMigrateNow {
-
-}
+export class MigrateNow extends BaseMigrateNow {}
 
 export interface MigrateNowMigrateNowParams {
   projectId: string;
 }
 
 export declare namespace MigrateNow {
-  export {
-    type MigrateNowMigrateNowParams as MigrateNowMigrateNowParams
-  };
+  export { type MigrateNowMigrateNowParams as MigrateNowMigrateNowParams };
 }

@@ -9,10 +9,17 @@ import { RequestOptions } from '../../../../internal/request-options';
 import { path } from '../../../../internal/utils/path';
 
 export class BaseMetrics extends APIResource {
-  static override readonly _key: readonly ['ai', 'copilot', 'metrics'] = Object.freeze(['ai', 'copilot', 'metrics'] as const)
+  static override readonly _key: readonly ['ai', 'copilot', 'metrics'] = Object.freeze([
+    'ai',
+    'copilot',
+    'metrics',
+  ] as const);
 
   retrieve(projectID: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.get(path`/ai/copilot/metrics/${projectID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.get(path`/ai/copilot/metrics/${projectID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 }
 export class Metrics extends BaseMetrics {
@@ -23,8 +30,5 @@ Metrics.Org = Org;
 Metrics.BaseOrg = BaseOrg;
 
 export declare namespace Metrics {
-  export {
-    Org as Org,
-    BaseOrg as BaseOrg
-  };
+  export { Org as Org, BaseOrg as BaseOrg };
 }

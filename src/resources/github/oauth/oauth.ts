@@ -7,8 +7,7 @@ import * as CallbackAPI from './callback';
 import { BaseCallback, Callback } from './callback';
 
 export class BaseOAuth extends APIResource {
-  static override readonly _key: readonly ['github', 'oauth'] = Object.freeze(['github', 'oauth'] as const)
-
+  static override readonly _key: readonly ['github', 'oauth'] = Object.freeze(['github', 'oauth'] as const);
 }
 export class OAuth extends BaseOAuth {
   authorize: AuthorizeAPI.Authorize = new AuthorizeAPI.Authorize(this._client);
@@ -21,13 +20,7 @@ OAuth.Callback = Callback;
 OAuth.BaseCallback = BaseCallback;
 
 export declare namespace OAuth {
-  export {
-    Authorize as Authorize,
-    BaseAuthorize as BaseAuthorize
-  };
+  export { Authorize as Authorize, BaseAuthorize as BaseAuthorize };
 
-  export {
-    Callback as Callback,
-    BaseCallback as BaseCallback
-  };
+  export { Callback as Callback, BaseCallback as BaseCallback };
 }

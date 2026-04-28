@@ -6,17 +6,20 @@ import { Org } from '@vaif/client/resources/billing/org/org';
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseCredits],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Org],
 });
 
@@ -45,10 +48,10 @@ const runTests = (client: PartialVaif<{ billing: { org: { credits: BaseCredits }
 
   test('purchase: required and optional params', async () => {
     const response = await client.billing.org.credits.purchase('orgId', {
-    packageId: 'credits_10',
-    cancelUrl: 'https://example.com',
-    successUrl: 'https://example.com',
-  });
+      packageId: 'credits_10',
+      cancelUrl: 'https://example.com',
+      successUrl: 'https://example.com',
+    });
   });
 };
 describe('resource credits', () => runTests(client));

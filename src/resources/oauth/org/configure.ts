@@ -6,18 +6,24 @@ import { RequestOptions } from '../../../internal/request-options';
 import { path } from '../../../internal/utils/path';
 
 export class BaseConfigure extends APIResource {
-  static override readonly _key: readonly ['oauth', 'org', 'configure'] = Object.freeze(['oauth', 'org', 'configure'] as const)
+  static override readonly _key: readonly ['oauth', 'org', 'configure'] = Object.freeze([
+    'oauth',
+    'org',
+    'configure',
+  ] as const);
 
   /**
    * Configure OAuth for an organization
    */
-  configure(orgID: string, body: ConfigureConfigureParams, options?: RequestOptions): APIPromise<ConfigureConfigureResponse> {
+  configure(
+    orgID: string,
+    body: ConfigureConfigureParams,
+    options?: RequestOptions,
+  ): APIPromise<ConfigureConfigureResponse> {
     return this._client.post(path`/oauth/org/${orgID}/configure`, { body, ...options });
   }
 }
-export class Configure extends BaseConfigure {
-
-}
+export class Configure extends BaseConfigure {}
 
 export interface ConfigureConfigureResponse {
   message: string;
@@ -38,6 +44,6 @@ export interface ConfigureConfigureParams {
 export declare namespace Configure {
   export {
     type ConfigureConfigureResponse as ConfigureConfigureResponse,
-    type ConfigureConfigureParams as ConfigureConfigureParams
+    type ConfigureConfigureParams as ConfigureConfigureParams,
   };
 }

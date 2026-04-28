@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseConfirm extends APIResource {
-  static override readonly _key: readonly ['auth', 'verifyEmail', 'confirm'] = Object.freeze(['auth', 'verifyEmail', 'confirm'] as const)
+  static override readonly _key: readonly ['auth', 'verifyEmail', 'confirm'] = Object.freeze([
+    'auth',
+    'verifyEmail',
+    'confirm',
+  ] as const);
 
   /**
    * Confirm email address using a verification token
@@ -14,9 +18,7 @@ export class BaseConfirm extends APIResource {
     return this._client.post('/auth/verify-email/confirm', { body, ...options });
   }
 }
-export class Confirm extends BaseConfirm {
-
-}
+export class Confirm extends BaseConfirm {}
 
 export interface ConfirmCreateResponse {
   message: string;
@@ -31,6 +33,6 @@ export interface ConfirmCreateParams {
 export declare namespace Confirm {
   export {
     type ConfirmCreateResponse as ConfirmCreateResponse,
-    type ConfirmCreateParams as ConfirmCreateParams
+    type ConfirmCreateParams as ConfirmCreateParams,
   };
 }

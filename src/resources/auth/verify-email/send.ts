@@ -5,7 +5,11 @@ import { APIPromise } from '../../../core/api-promise';
 import { RequestOptions } from '../../../internal/request-options';
 
 export class BaseSend extends APIResource {
-  static override readonly _key: readonly ['auth', 'verifyEmail', 'send'] = Object.freeze(['auth', 'verifyEmail', 'send'] as const)
+  static override readonly _key: readonly ['auth', 'verifyEmail', 'send'] = Object.freeze([
+    'auth',
+    'verifyEmail',
+    'send',
+  ] as const);
 
   /**
    * Send a verification email to the current user's email address
@@ -14,9 +18,7 @@ export class BaseSend extends APIResource {
     return this._client.post('/auth/verify-email/send', options);
   }
 }
-export class Send extends BaseSend {
-
-}
+export class Send extends BaseSend {}
 
 export interface SendCreateResponse {
   message: string;
@@ -25,7 +27,5 @@ export interface SendCreateResponse {
 }
 
 export declare namespace Send {
-  export {
-    type SendCreateResponse as SendCreateResponse
-  };
+  export { type SendCreateResponse as SendCreateResponse };
 }

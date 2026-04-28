@@ -15,8 +15,7 @@ import * as MigrationsAPI from './migrations/migrations';
 import { BaseMigrations, Migrations } from './migrations/migrations';
 
 export class BaseSchemaEngine extends APIResource {
-  static override readonly _key: readonly ['schemaEngine'] = Object.freeze(['schemaEngine'] as const)
-
+  static override readonly _key: readonly ['schemaEngine'] = Object.freeze(['schemaEngine'] as const);
 }
 export class SchemaEngine extends BaseSchemaEngine {
   apply: ApplyAPI.Apply = new ApplyAPI.Apply(this._client);
@@ -45,37 +44,34 @@ export declare namespace SchemaEngine {
     Apply as Apply,
     BaseApply as BaseApply,
     type ApplyCreateResponse as ApplyCreateResponse,
-    type ApplyCreateParams as ApplyCreateParams
+    type ApplyCreateParams as ApplyCreateParams,
   };
 
   export {
     Changes as Changes,
     BaseChanges as BaseChanges,
-    type ChangeGetChangesResponse as ChangeGetChangesResponse
+    type ChangeGetChangesResponse as ChangeGetChangesResponse,
   };
 
   export {
     Introspect as Introspect,
     BaseIntrospect as BaseIntrospect,
-    type IntrospectRetrieveResponse as IntrospectRetrieveResponse
+    type IntrospectRetrieveResponse as IntrospectRetrieveResponse,
   };
 
-  export {
-    Migrations as Migrations,
-    BaseMigrations as BaseMigrations
-  };
+  export { Migrations as Migrations, BaseMigrations as BaseMigrations };
 
   export {
     Preview as Preview,
     BasePreview as BasePreview,
     type PreviewCreateResponse as PreviewCreateResponse,
-    type PreviewCreateParams as PreviewCreateParams
+    type PreviewCreateParams as PreviewCreateParams,
   };
 
   export {
     Query as Query,
     BaseQuery as BaseQuery,
     type QueryCreateResponse as QueryCreateResponse,
-    type QueryCreateParams as QueryCreateParams
+    type QueryCreateParams as QueryCreateParams,
   };
 }

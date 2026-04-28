@@ -6,23 +6,28 @@ import { BaseReplicas } from '@vaif/client/resources/projects/infrastructure/rep
 import Vaif from '@vaif/client';
 import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
 
-const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new Vaif({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 const partialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [BaseReplicas],
 });
 
 const parentPartialClient = createClient({
   apiKey: 'My API Key',
-  baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
   resources: [Infrastructure],
 });
 
 const runTests = (client: PartialVaif<{ projects: { infrastructure: { replicas: BaseReplicas } } }>) => {
   test('getReplicas: only required params', async () => {
-    const responsePromise = client.projects.infrastructure.replicas.getReplicas('instanceId', { projectId: 'projectId' });
+    const responsePromise = client.projects.infrastructure.replicas.getReplicas('instanceId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -33,11 +38,15 @@ const runTests = (client: PartialVaif<{ projects: { infrastructure: { replicas: 
   });
 
   test('getReplicas: required and optional params', async () => {
-    const response = await client.projects.infrastructure.replicas.getReplicas('instanceId', { projectId: 'projectId' });
+    const response = await client.projects.infrastructure.replicas.getReplicas('instanceId', {
+      projectId: 'projectId',
+    });
   });
 
   test('replica: only required params', async () => {
-    const responsePromise = client.projects.infrastructure.replicas.replica('instanceId', { projectId: 'projectId' });
+    const responsePromise = client.projects.infrastructure.replicas.replica('instanceId', {
+      projectId: 'projectId',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -48,7 +57,9 @@ const runTests = (client: PartialVaif<{ projects: { infrastructure: { replicas: 
   });
 
   test('replica: required and optional params', async () => {
-    const response = await client.projects.infrastructure.replicas.replica('instanceId', { projectId: 'projectId' });
+    const response = await client.projects.infrastructure.replicas.replica('instanceId', {
+      projectId: 'projectId',
+    });
   });
 };
 describe('resource replicas', () => runTests(client));
