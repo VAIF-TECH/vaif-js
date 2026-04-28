@@ -20,15 +20,24 @@ export class BaseToken extends APIResource {
 }
 export class Token extends BaseToken {}
 
+/**
+ * CLI auth token poll: still pending — the user hasn't approved the device yet.
+ */
 export type TokenCreateResponse = TokenCreateResponse.UnionMember0 | TokenCreateResponse.UnionMember1;
 
 export namespace TokenCreateResponse {
+  /**
+   * CLI auth token poll: still pending — the user hasn't approved the device yet.
+   */
   export interface UnionMember0 {
     ok: false;
 
     status: 'pending';
   }
 
+  /**
+   * CLI auth token poll: approved — token issued, login complete.
+   */
   export interface UnionMember1 {
     accessToken: string;
 
