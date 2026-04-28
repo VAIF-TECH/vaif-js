@@ -121,6 +121,11 @@ export class MockServer {
   }
 
   async stop(): Promise<void> {
+    // Force-terminate any lingering clients so wss.close() can return promptly
+    // — `wss.close` waits for in-flight clients to finish their close
+    // handshake, which can stall if the SDK never sends a close frame
+    // (e.g. after refreshAuth's silent swap of the old socket).
+    this.dropAll();
     return new Promise<void>((r) => this.wss.close(() => r()));
   }
 

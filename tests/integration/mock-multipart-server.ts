@@ -69,8 +69,17 @@ export class MockMultipartServer {
 
   static async start(): Promise<MockMultipartServer> {
     const m = new MockMultipartServer(null as unknown as http.Server, 0);
-    m.app.use(express.json({ limit: '50mb' }));
-    m.app.use(express.raw({ type: '*/*', limit: '50mb' }));
+    m.app.use(express.json({ type: 'application/json', limit: '50mb' }));
+    // Raw body for PUT chunk uploads (binary content). Skip JSON.
+    m.app.use(
+      express.raw({
+        type: (req) => {
+          const t = (req.headers['content-type'] ?? '').toString();
+          return !t.startsWith('application/json');
+        },
+        limit: '50mb',
+      }),
+    );
     m.routes();
     const server = http.createServer(m.app);
     await new Promise<void>((r) => server.listen(0, () => r()));
