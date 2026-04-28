@@ -11,12 +11,17 @@
  *   ...
  *   await server.stop();
  */
+import type { IncomingMessage } from 'http';
 import { WebSocketServer, WebSocket as NodeWebSocket } from 'ws';
 
 export type ClientPayload = Record<string, unknown> & { type: string; channel?: string };
 
 export type MockConnection = {
   ws: NodeWebSocket;
+  /** Original HTTP upgrade request — useful for asserting ?token=... */
+  request: IncomingMessage;
+  /** Convenience: parsed token from the upgrade URL's `token` query param. */
+  token: string | null;
   /** Send a JSON-stringified message to this client. */
   send(msg: Record<string, unknown>): void;
   /**
@@ -46,7 +51,7 @@ export class MockServer {
   private constructor(wss: WebSocketServer, port: number) {
     this.wss = wss;
     this.port = port;
-    this.wss.on('connection', (ws) => this.handleConnection(ws));
+    this.wss.on('connection', (ws, req) => this.handleConnection(ws, req));
   }
 
   static async start(): Promise<MockServer> {
@@ -119,12 +124,22 @@ export class MockServer {
     return new Promise<void>((r) => this.wss.close(() => r()));
   }
 
-  private handleConnection(ws: NodeWebSocket): void {
+  private handleConnection(ws: NodeWebSocket, request: IncomingMessage): void {
     const state = { stalled: false, pending: [] as ClientPayload[] };
     this.state.set(ws, state);
 
+    let token: string | null = null;
+    try {
+      const u = new URL(request.url ?? '/', `http://localhost:${this.port}`);
+      token = u.searchParams.get('token');
+    } catch {
+      /* ignore */
+    }
+
     const conn: MockConnection = {
       ws,
+      request,
+      token,
       send: (msg) => {
         try {
           ws.send(JSON.stringify(msg));
