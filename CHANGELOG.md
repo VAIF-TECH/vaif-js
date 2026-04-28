@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 (2026-04-28)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/VAIF-TECH/vaif-js/compare/v0.3.0...v0.3.1)
+
+### Chores
+
+* size-limit budgets + typedoc + preservation smoke test + migration note ([#12](https://github.com/VAIF-TECH/vaif-js/issues/12)) ([b4a62f4](https://github.com/VAIF-TECH/vaif-js/commit/b4a62f49f7099ee2d3f49c7b3eb0795e08984fab))
+
 ## 0.3.0 (2026-04-27)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/VAIF-TECH/vaif-js/compare/v0.2.0...v0.3.0)
