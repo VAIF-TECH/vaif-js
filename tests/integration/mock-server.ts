@@ -19,8 +19,13 @@ export type MockConnection = {
   ws: NodeWebSocket;
   /** Send a JSON-stringified message to this client. */
   send(msg: Record<string, unknown>): void;
-  /** Forcefully close the connection (default code 1006 = abnormal closure). */
+  /**
+   * Close the connection. Default does a graceful close with code 1011
+   * (server error). To simulate an abrupt drop (TCP RST), pass `abrupt: true`.
+   */
   close(code?: number, reason?: string): void;
+  /** Abrupt close — drops the TCP connection without a close frame. */
+  drop(): void;
   /** Stop reading further messages but keep the socket open (used for backpressure tests). */
   stall(): void;
   unstall(): void;
@@ -89,10 +94,21 @@ export class MockServer {
   }
 
   /** Forcefully close all connected clients. */
-  closeAll(code = 1006, reason = 'mock close all'): void {
+  closeAll(code = 1011, reason = 'mock close all'): void {
     for (const ws of this.wss.clients) {
       try {
         ws.close(code, reason);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  /** Abruptly drop all connected clients (TCP-level RST). */
+  dropAll(): void {
+    for (const ws of this.wss.clients) {
+      try {
+        (ws as { terminate?: () => void }).terminate?.();
       } catch {
         /* ignore */
       }
@@ -116,9 +132,20 @@ export class MockServer {
           /* ignore */
         }
       },
-      close: (code = 1006, reason = 'mock close') => {
+      close: (code = 1011, reason = 'mock close') => {
         try {
           ws.close(code, reason);
+        } catch {
+          /* ignore */
+        }
+      },
+      drop: () => {
+        // `ws.close(1006)` is rejected by the `ws` library because 1006 is a
+        // reserved code clients/servers cannot send. Use `terminate()` to
+        // simulate an abrupt TCP-level drop — the client side observes a
+        // close event with code 1006.
+        try {
+          (ws as { terminate?: () => void }).terminate?.();
         } catch {
           /* ignore */
         }
