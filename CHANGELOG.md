@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.1 (2026-05-12)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/VAIF-TECH/vaif-js/compare/v0.3.0...v0.3.1)
+
+### Bug Fixes
+
+* **publish:** update smoke-test to require @vaif/api (was @vaif/client) ([e91f977](https://github.com/VAIF-TECH/vaif-js/commit/e91f9778d21cd5a8fdbe40a5c65577a03d233ce7))
+
+
+### Chores
+
+* **release:** 0.3.1 (renamed to @vaif/api) ([089b4c1](https://github.com/VAIF-TECH/vaif-js/commit/089b4c1b87ca9dc31a569e6961f29da3a7e2e3a1))
+* size-limit budgets + typedoc + preservation smoke test + migration note ([#12](https://github.com/VAIF-TECH/vaif-js/issues/12)) ([b4a62f4](https://github.com/VAIF-TECH/vaif-js/commit/b4a62f49f7099ee2d3f49c7b3eb0795e08984fab))
+
 ## 0.3.0 (2026-04-27)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/VAIF-TECH/vaif-js/compare/v0.2.0...v0.3.0)
