@@ -13,7 +13,7 @@ import {
 
 const INDEX_PATH = join(process.cwd(), 'src/lib/realtime/index.ts');
 
-describe('@vaif/client/realtime public exports', () => {
+describe('@vaif/api/realtime public exports', () => {
   it('exports Realtime as an alias for the client class', () => {
     expect(typeof Realtime).toBe('function');
     expect(Realtime.name).toBe('RealtimeClient');

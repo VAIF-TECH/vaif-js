@@ -1,5 +1,5 @@
 /**
- * ResumeStore adapters bundled with @vaif/client/storage/resume.
+ * ResumeStore adapters bundled with @vaif/api/storage/resume.
  * Pick one based on your runtime + persistence needs.
  */
 export { memoryResumeStore } from './resume/memory';

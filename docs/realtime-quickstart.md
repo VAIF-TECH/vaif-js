@@ -1,12 +1,12 @@
 # Realtime Quickstart
 
-The `@vaif/client/realtime` subpath gives you a tree-shakable WebSocket realtime client with channel-based pub/sub, presence, postgres CDC events, and an SSE fallback for environments where WebSockets are blocked.
+The `@vaif/api/realtime` subpath gives you a tree-shakable WebSocket realtime client with channel-based pub/sub, presence, postgres CDC events, and an SSE fallback for environments where WebSockets are blocked.
 
 ## 5-line hello
 
 ```ts
-import { Vaif } from '@vaif/client';
-import { Realtime } from '@vaif/client/realtime';
+import { Vaif } from '@vaif/api';
+import { Realtime } from '@vaif/api/realtime';
 
 const vaif = new Vaif({ apiKey: process.env.VAIF_API_KEY });
 const realtime = new Realtime({ client: vaif });

@@ -1,9 +1,9 @@
 /**
- * Public API for `@vaif/client/realtime`.
+ * Public API for `@vaif/api/realtime`.
  *
  * Usage:
  * ```ts
- * import { Realtime } from '@vaif/client/realtime';
+ * import { Realtime } from '@vaif/api/realtime';
  *
  * const rt = new Realtime({ client: vaif });
  * await rt.connect();

@@ -1,6 +1,6 @@
-# Migrating from `@vaiftech/client` to `@vaif/client`
+# Migrating from `@vaiftech/client` to `@vaif/api`
 
-This guide helps you migrate from the legacy `@vaiftech/client` SDK (last published as `1.5.7`) to the new `@vaif/client` package (current `0.3.x`).
+This guide helps you migrate from the legacy `@vaiftech/client` SDK (last published as `1.5.7`) to the new `@vaif/api` package (current `0.3.x`).
 
 The new package is a Stainless-generated TypeScript SDK with first-class subpath exports for realtime and storage layers.
 
@@ -13,13 +13,13 @@ For most projects you can:
 ```sh
 # 1. swap the dep
 yarn remove @vaiftech/client
-yarn add @vaif/client
+yarn add @vaif/api
 
 # 2. search/replace imports
 #    macOS / BSD sed:
-grep -rl '@vaiftech/client' src | xargs sed -i '' "s|@vaiftech/client|@vaif/client|g"
+grep -rl '@vaiftech/client' src | xargs sed -i '' "s|@vaiftech/client|@vaif/api|g"
 #    GNU sed:
-grep -rl '@vaiftech/client' src | xargs sed -i  "s|@vaiftech/client|@vaif/client|g"
+grep -rl '@vaiftech/client' src | xargs sed -i  "s|@vaiftech/client|@vaif/api|g"
 ```
 
 That covers ~90% of call sites. The rest are noted under [Method-name mappings](#method-name-mappings) below.
@@ -29,8 +29,8 @@ That covers ~90% of call sites. The rest are noted under [Method-name mappings](
 ## Why the rename?
 
 - `@vaiftech/client` was a hand-written SDK that grew organically alongside the early VAIF Studio API.
-- `@vaif/client` is generated from a single OpenAPI contract via [Stainless](https://www.stainless.com), with hand-written `src/lib/realtime/` and `src/lib/storage/` layers preserved on top.
-- New realtime + storage subpaths (`@vaif/client/realtime`, `@vaif/client/storage`, `@vaif/client/storage/browser`, `@vaif/client/storage/resume`) ship as tree-shakable imports so the REST core stays small.
+- `@vaif/api` is generated from a single OpenAPI contract via [Stainless](https://www.stainless.com), with hand-written `src/lib/realtime/` and `src/lib/storage/` layers preserved on top.
+- New realtime + storage subpaths (`@vaif/api/realtime`, `@vaif/api/storage`, `@vaif/api/storage/browser`, `@vaif/api/storage/resume`) ship as tree-shakable imports so the REST core stays small.
 
 The old package will be deprecated on npm with a redirect to this guide once the controller's migrate codemod (`@vaif/migrate`) ships. Until then this manual path is the supported route.
 
@@ -42,7 +42,7 @@ The old package will be deprecated on npm with a redirect to this guide once the
 
 ```diff
 - "@vaiftech/client": "^1.5.7",
-+ "@vaif/client": "^0.3.0",
++ "@vaif/api": "^0.3.0",
 ```
 
 Then run your install:
@@ -57,10 +57,10 @@ The package name changes; the default export shape (the `Vaif` client class) is 
 
 ```diff
 - import Vaif from '@vaiftech/client';
-+ import Vaif from '@vaif/client';
++ import Vaif from '@vaif/api';
 
 - import { ApiError } from '@vaiftech/client';
-+ import { APIError as ApiError } from '@vaif/client';
++ import { APIError as ApiError } from '@vaif/api';
 ```
 
 Note: `ApiError` was renamed to `APIError` to match Stainless conventions.
@@ -71,19 +71,19 @@ The legacy SDK shipped realtime and storage helpers via the same root entry, whi
 
 ```ts
 // REST only — keeps your bundle small
-import Vaif from '@vaif/client';
+import Vaif from '@vaif/api';
 
 // Realtime channels (WebSocket)
-import { Realtime } from '@vaif/client/realtime';
+import { Realtime } from '@vaif/api/realtime';
 
 // Storage uploads (multipart, signed URLs, retries)
-import { Storage } from '@vaif/client/storage';
+import { Storage } from '@vaif/api/storage';
 
 // Browser-only storage helpers (FileReader, drag-drop)
-import { pickFile } from '@vaif/client/storage/browser';
+import { pickFile } from '@vaif/api/storage/browser';
 
 // IndexedDB-backed resume tokens for interrupted uploads
-import { IndexedDBResumeStore } from '@vaif/client/storage/resume';
+import { IndexedDBResumeStore } from '@vaif/api/storage/resume';
 ```
 
 Bundle budgets enforced in CI (`size-limit`):
@@ -98,12 +98,12 @@ Bundle budgets enforced in CI (`size-limit`):
 
 Most methods carry over 1:1. The notable shifts:
 
-| Legacy `@vaiftech/client@1.5.7` | New `@vaif/client@0.3.x` | Notes |
+| Legacy `@vaiftech/client@1.5.7` | New `@vaif/api@0.3.x` | Notes |
 | --- | --- | --- |
 | `client.auth.login(...)` | `client.auth.login(...)` | unchanged |
 | `client.auth.signup(...)` | `client.auth.signUp(...)` | camelCase'd |
-| `client.realtime.subscribe(...)` | `import { Realtime } from '@vaif/client/realtime'; new Realtime(client).channel(...).subscribe(...)` | now an explicit subpath; mirrors Supabase ergonomics |
-| `client.storage.upload(...)` | `import { Storage } from '@vaif/client/storage'; new Storage(client).upload(...)` | resumable + multipart by default for files > 5 MB |
+| `client.realtime.subscribe(...)` | `import { Realtime } from '@vaif/api/realtime'; new Realtime(client).channel(...).subscribe(...)` | now an explicit subpath; mirrors Supabase ergonomics |
+| `client.storage.upload(...)` | `import { Storage } from '@vaif/api/storage'; new Storage(client).upload(...)` | resumable + multipart by default for files > 5 MB |
 | `client.functions.invoke(...)` | `client.functions.invoke(...)` | unchanged |
 | `ApiError` | `APIError` | also `APIConnectionError`, `APIUserAbortError`, etc. |
 
@@ -126,7 +126,7 @@ yarn test
 A `@vaif/migrate` CLI is planned in the controller monorepo (`packages/migrate/`). It will:
 
 1. Walk a target directory.
-2. Use `ts-morph` to rewrite `import ... from '@vaiftech/client'` to `'@vaif/client'`.
+2. Use `ts-morph` to rewrite `import ... from '@vaiftech/client'` to `'@vaif/api'`.
 3. Apply the method-name mappings from the table above.
 4. Print a diff and prompt for confirmation.
 

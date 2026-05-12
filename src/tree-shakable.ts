@@ -11,13 +11,13 @@ type InferClientStructure<T extends readonly (typeof APIResource)[]> = SimplifyR
 /**
  * Creates a client with a subset of the available resources to reduce
  * bundle size.
- * Import the resource classes you need from `@vaif/client/resources/*`.
+ * Import the resource classes you need from `@vaif/api/resources/*`.
  * Use the BaseResource variants if you do not need to use subresources.
  *
  * @example
  * ```ts
- * import { Activation } from `@vaif/client/resources/activation`;
- * import { createClient } from `@vaif/client/tree-shakable`;
+ * import { Activation } from `@vaif/api/resources/activation`;
+ * import { createClient } from `@vaif/api/tree-shakable`;
  *
  * const client = createClient({
  *   resources: [Activation],

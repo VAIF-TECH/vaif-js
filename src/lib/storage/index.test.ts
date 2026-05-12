@@ -17,7 +17,7 @@ import {
 
 const INDEX_PATH = join(process.cwd(), 'src/lib/storage/index.ts');
 
-describe('@vaif/client/storage public exports', () => {
+describe('@vaif/api/storage public exports', () => {
   it('exports upload + uploadToSignedUrl as functions', () => {
     expect(typeof upload).toBe('function');
     expect(typeof uploadToSignedUrl).toBe('function');

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseRevoke } from '@vaif/client/resources/deployments/tokens/revoke';
-import { Tokens } from '@vaif/client/resources/deployments/tokens/tokens';
+import { BaseRevoke } from '@vaif/api/resources/deployments/tokens/revoke';
+import { Tokens } from '@vaif/api/resources/deployments/tokens/tokens';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 

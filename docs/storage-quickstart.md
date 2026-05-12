@@ -1,12 +1,12 @@
 # Storage Quickstart
 
-The `@vaif/client/storage` subpath is a tree-shakable upload coordinator with one-shot and multipart strategies, byte-accurate progress, cancellation, pause/resume, durable resume across process restarts, pre-signed URL support, and browser drag-and-drop helpers.
+The `@vaif/api/storage` subpath is a tree-shakable upload coordinator with one-shot and multipart strategies, byte-accurate progress, cancellation, pause/resume, durable resume across process restarts, pre-signed URL support, and browser drag-and-drop helpers.
 
 ## 3-line hello upload
 
 ```ts
-import { Vaif } from '@vaif/client';
-import { upload } from '@vaif/client/storage';
+import { Vaif } from '@vaif/api';
+import { upload } from '@vaif/api/storage';
 
 const vaif = new Vaif({ apiKey: process.env.VAIF_API_KEY });
 const { path, etag } = await upload(vaif, { bucket: 'avatars', path: 'me.jpg', file: blob });
@@ -122,8 +122,8 @@ const result = await handle;
 Pass a `resume` config to persist part progress. If the upload is interrupted (crash, browser refresh, lost network), calling `upload()` again with the same key will pick up where it left off — already-uploaded parts are not re-sent.
 
 ```ts
-import { upload } from '@vaif/client/storage';
-import { localStorageResumeStore } from '@vaif/client/storage/resume';
+import { upload } from '@vaif/api/storage';
+import { localStorageResumeStore } from '@vaif/api/storage/resume';
 
 const handle = upload(vaif, {
   bucket: 'videos',
@@ -135,7 +135,7 @@ const handle = upload(vaif, {
 
 ### ResumeStore adapters
 
-Four adapters ship with the SDK at `@vaif/client/storage/resume`:
+Four adapters ship with the SDK at `@vaif/api/storage/resume`:
 
 | Adapter                   | Persistence                | Best for                                              |
 | ------------------------- | -------------------------- | ----------------------------------------------------- |
@@ -161,7 +161,7 @@ If the persisted record's `bucket`, `path`, or `totalBytes` no longer match the 
 For very large files or compliance setups where the API server should not see the bytes, generate a pre-signed PUT URL and stream directly to the storage backend:
 
 ```ts
-import { uploadToSignedUrl } from '@vaif/client/storage';
+import { uploadToSignedUrl } from '@vaif/api/storage';
 
 const { url } = await vaif.storage.createUploadUrl({ bucket: 'archives', path: 'q4.tar.gz' });
 const { etag } = await uploadToSignedUrl(url, blob, {
@@ -174,10 +174,10 @@ const { etag } = await uploadToSignedUrl(url, blob, {
 
 ## Browser convenience helpers
 
-Import from `@vaif/client/storage/browser`:
+Import from `@vaif/api/storage/browser`:
 
 ```ts
-import { uploadFromInput, createDropZone } from '@vaif/client/storage/browser';
+import { uploadFromInput, createDropZone } from '@vaif/api/storage/browser';
 ```
 
 ### File input
@@ -253,7 +253,7 @@ StorageError
 ```
 
 ```ts
-import { upload, UploadCancelledError, ResumeMismatchError } from '@vaif/client/storage';
+import { upload, UploadCancelledError, ResumeMismatchError } from '@vaif/api/storage';
 
 try {
   await upload(vaif, opts);
@@ -277,4 +277,4 @@ try {
 | Modern browsers            | yes      | yes       | `memory`, `localStorage`, `indexedDb` |
 | React Native (with polyfill) | yes    | yes       | `memory`, custom AsyncStorage adapter |
 
-Browser helpers (`uploadFromInput`, `createDropZone`) are exposed at `@vaif/client/storage/browser` and require a DOM. Resume adapters are at `@vaif/client/storage/resume`.
+Browser helpers (`uploadFromInput`, `createDropZone`) are exposed at `@vaif/api/storage/browser` and require a DOM. Resume adapters are at `@vaif/api/storage/resume`.

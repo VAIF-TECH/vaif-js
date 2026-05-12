@@ -7,7 +7,7 @@
     "src/lib/storage/resume.ts"
   ],
   "out": "docs-out",
-  "name": "@vaif/client",
+  "name": "@vaif/api",
   "excludeInternal": true,
   "skipErrorChecking": true,
   "validation": {
@@ -16,6 +16,6 @@
   },
   "navigationLinks": {
     "GitHub": "https://github.com/VAIF-TECH/vaif-js",
-    "npm": "https://www.npmjs.com/package/@vaif/client"
+    "npm": "https://www.npmjs.com/package/@vaif/api"
   }
 }

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseDeleteBatch } from '@vaif/client/resources/storage/files/delete-batch';
-import { Files } from '@vaif/client/resources/storage/files/files';
+import { BaseDeleteBatch } from '@vaif/api/resources/storage/files/delete-batch';
+import { Files } from '@vaif/api/resources/storage/files/files';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 

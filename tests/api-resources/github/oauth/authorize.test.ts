@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseAuthorize } from '@vaif/client/resources/github/oauth/authorize';
-import { OAuth } from '@vaif/client/resources/github/oauth/oauth';
+import { BaseAuthorize } from '@vaif/api/resources/github/oauth/authorize';
+import { OAuth } from '@vaif/api/resources/github/oauth/oauth';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 

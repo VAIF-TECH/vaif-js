@@ -4,7 +4,7 @@ import type { UploadHandle, UploadOptions } from './types';
 // Minimal DOM types — declared inline so this file does not require `lib: dom`
 // in tsconfig (which would pollute Node-only files like internal/headers.ts).
 // At runtime these are the standard browser globals; consumers using Node will
-// not import this module (it's exposed at `@vaif/client/storage/browser`).
+// not import this module (it's exposed at `@vaif/api/storage/browser`).
 
 type DomFile = Blob & { readonly name: string; readonly type: string };
 type DomFileList = { readonly length: number; item(i: number): DomFile | null } & ArrayLike<DomFile>;

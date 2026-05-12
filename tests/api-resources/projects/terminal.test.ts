@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Projects } from '@vaif/client/resources/projects/projects';
-import { BaseTerminal } from '@vaif/client/resources/projects/terminal';
+import { Projects } from '@vaif/api/resources/projects/projects';
+import { BaseTerminal } from '@vaif/api/resources/projects/terminal';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
