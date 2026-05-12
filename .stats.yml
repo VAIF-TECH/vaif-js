@@ -1,4 +1,4 @@
 configured_endpoints: 519
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/vaif-studio/vaif-studio-579b3ff67943536e7ae56f5767315e4b4b08fead1725a9bb0aa10e7c4b7e69ab.yml
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/vaif-studio/vaif-studio-fdf51137280996568b0ad66288c66fc3fde5e3becebe52f42caec99f2a71fe86.yml
 openapi_spec_hash: 9176596283fb77da0e325287e689e254
-config_hash: 098f1990da3db74eebff1ea9e33b274f
+config_hash: dd5caecd0863f3d06bda74a910479cb6

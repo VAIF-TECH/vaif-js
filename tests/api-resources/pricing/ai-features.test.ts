@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseAIFeatures } from '@vaif/client/resources/pricing/ai-features';
-import { Pricing } from '@vaif/client/resources/pricing/pricing';
+import { BaseAIFeatures } from '@vaif/api/resources/pricing/ai-features';
+import { Pricing } from '@vaif/api/resources/pricing/pricing';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

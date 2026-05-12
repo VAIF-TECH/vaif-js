@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseClose } from '@vaif/client/resources/mongodb/cursor/close';
-import { Cursor } from '@vaif/client/resources/mongodb/cursor/cursor';
+import { BaseClose } from '@vaif/api/resources/mongodb/cursor/close';
+import { Cursor } from '@vaif/api/resources/mongodb/cursor/cursor';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

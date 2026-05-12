@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Enterprise } from '@vaif/client/resources/enterprise/enterprise';
-import { BaseSubdomain } from '@vaif/client/resources/enterprise/subdomain';
+import { Enterprise } from '@vaif/api/resources/enterprise/enterprise';
+import { BaseSubdomain } from '@vaif/api/resources/enterprise/subdomain';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

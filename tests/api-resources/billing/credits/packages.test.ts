@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Credits } from '@vaif/client/resources/billing/credits/credits';
-import { BasePackages } from '@vaif/client/resources/billing/credits/packages';
+import { Credits } from '@vaif/api/resources/billing/credits/credits';
+import { BasePackages } from '@vaif/api/resources/billing/credits/packages';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

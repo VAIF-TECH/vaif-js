@@ -17,22 +17,10 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { type Fetch } from './internal/builtin-types';
-import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
-import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { Announcements } from './resources/announcements';
 import { Bootstrap } from './resources/bootstrap';
 import { Contact, ContactCreateParams, ContactCreateResponse } from './resources/contact';
 import { Maintenance } from './resources/maintenance';
-import { readEnv } from './internal/utils/env';
-import {
-  type LogLevel,
-  type Logger,
-  formatRequestDetails,
-  loggerFor,
-  parseLogLevel,
-} from './internal/utils/log';
-import { isEmptyObj } from './internal/utils/values';
 import { Activation } from './resources/activation/activation';
 import { AIUsage } from './resources/ai-usage/ai-usage';
 import { AI } from './resources/ai/ai';
@@ -97,6 +85,18 @@ import { Storage } from './resources/storage/storage';
 import { Templates } from './resources/templates/templates';
 import { Users } from './resources/users/users';
 import { V1 } from './resources/v1/v1';
+import { type Fetch } from './internal/builtin-types';
+import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
+import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import { readEnv } from './internal/utils/env';
+import {
+  type LogLevel,
+  type Logger,
+  formatRequestDetails,
+  loggerFor,
+  parseLogLevel,
+} from './internal/utils/log';
+import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   apiKey?: string | null | undefined;

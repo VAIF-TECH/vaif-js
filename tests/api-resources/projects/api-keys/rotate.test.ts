@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIKeys } from '@vaif/client/resources/projects/api-keys/api-keys';
-import { BaseRotate } from '@vaif/client/resources/projects/api-keys/rotate';
+import { APIKeys } from '@vaif/api/resources/projects/api-keys/api-keys';
+import { BaseRotate } from '@vaif/api/resources/projects/api-keys/rotate';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

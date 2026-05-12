@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseAccept } from '@vaif/client/resources/orgs/invites/accept';
-import { Invites } from '@vaif/client/resources/orgs/invites/invites';
+import { BaseAccept } from '@vaif/api/resources/orgs/invites/accept';
+import { Invites } from '@vaif/api/resources/orgs/invites/invites';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Cms } from '@vaif/client/resources/cms/cms';
-import { BasePartners } from '@vaif/client/resources/cms/partners';
+import { Cms } from '@vaif/api/resources/cms/cms';
+import { BasePartners } from '@vaif/api/resources/cms/partners';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

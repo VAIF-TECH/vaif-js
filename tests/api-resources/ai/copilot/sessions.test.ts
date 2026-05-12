@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Copilot } from '@vaif/client/resources/ai/copilot/copilot';
-import { BaseSessions } from '@vaif/client/resources/ai/copilot/sessions';
+import { Copilot } from '@vaif/api/resources/ai/copilot/copilot';
+import { BaseSessions } from '@vaif/api/resources/ai/copilot/sessions';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

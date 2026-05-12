@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseFindOneAndDelete } from '@vaif/client/resources/mongodb/find-one-and-delete';
-import { MongoDB } from '@vaif/client/resources/mongodb/mongodb';
+import { BaseFindOneAndDelete } from '@vaif/api/resources/mongodb/find-one-and-delete';
+import { MongoDB } from '@vaif/api/resources/mongodb/mongodb';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

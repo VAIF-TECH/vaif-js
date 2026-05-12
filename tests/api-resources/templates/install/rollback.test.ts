@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Install } from '@vaif/client/resources/templates/install/install';
-import { BaseRollback } from '@vaif/client/resources/templates/install/rollback';
+import { Install } from '@vaif/api/resources/templates/install/install';
+import { BaseRollback } from '@vaif/api/resources/templates/install/rollback';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

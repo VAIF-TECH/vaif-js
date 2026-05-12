@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@vaif/client/core/api-promise';
+import { APIPromise } from '@vaif/api/core/api-promise';
 
 import util from 'node:util';
-import Vaif from '@vaif/client';
-import { APIUserAbortError } from '@vaif/client';
+import Vaif from '@vaif/api';
+import { APIUserAbortError } from '@vaif/api';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

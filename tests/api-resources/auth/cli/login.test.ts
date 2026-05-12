@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Cli } from '@vaif/client/resources/auth/cli/cli';
-import { BaseLogin } from '@vaif/client/resources/auth/cli/login';
+import { Cli } from '@vaif/api/resources/auth/cli/cli';
+import { BaseLogin } from '@vaif/api/resources/auth/cli/login';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

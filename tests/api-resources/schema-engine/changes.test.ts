@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseChanges } from '@vaif/client/resources/schema-engine/changes';
-import { SchemaEngine } from '@vaif/client/resources/schema-engine/schema-engine';
+import { BaseChanges } from '@vaif/api/resources/schema-engine/changes';
+import { SchemaEngine } from '@vaif/api/resources/schema-engine/schema-engine';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

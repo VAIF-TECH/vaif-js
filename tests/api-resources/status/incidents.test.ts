@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { BaseIncidents } from '@vaif/client/resources/status/incidents';
-import { Status } from '@vaif/client/resources/status/status';
+import { BaseIncidents } from '@vaif/api/resources/status/incidents';
+import { Status } from '@vaif/api/resources/status/status';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

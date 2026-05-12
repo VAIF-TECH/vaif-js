@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "@vaif/client/*": ["./src/*"],
-      "@vaif/client": ["./src/index.ts"]
+      "@vaif/api/*": ["./src/*"],
+      "@vaif/api": ["./src/index.ts"]
     },
     "noEmit": true,
 

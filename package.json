@@ -1,5 +1,5 @@
 {
-  "name": "@vaif/client",
+  "name": "@vaif/api",
   "version": "0.3.0",
   "description": "The official TypeScript library for the Vaif API",
   "author": "Vaif <support@vaif.studio>",

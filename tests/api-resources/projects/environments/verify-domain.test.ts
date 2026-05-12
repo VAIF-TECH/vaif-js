@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Environments } from '@vaif/client/resources/projects/environments/environments';
-import { BaseVerifyDomain } from '@vaif/client/resources/projects/environments/verify-domain';
+import { Environments } from '@vaif/api/resources/projects/environments/environments';
+import { BaseVerifyDomain } from '@vaif/api/resources/projects/environments/verify-domain';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

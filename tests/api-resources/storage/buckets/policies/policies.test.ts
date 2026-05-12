@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Buckets } from '@vaif/client/resources/storage/buckets/buckets';
-import { BasePolicies } from '@vaif/client/resources/storage/buckets/policies/policies';
+import { Buckets } from '@vaif/api/resources/storage/buckets/buckets';
+import { BasePolicies } from '@vaif/api/resources/storage/buckets/policies/policies';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',

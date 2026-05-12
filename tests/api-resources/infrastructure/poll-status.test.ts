@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Infrastructure } from '@vaif/client/resources/infrastructure/infrastructure';
-import { BasePollStatus } from '@vaif/client/resources/infrastructure/poll-status';
+import { Infrastructure } from '@vaif/api/resources/infrastructure/infrastructure';
+import { BasePollStatus } from '@vaif/api/resources/infrastructure/poll-status';
 
-import Vaif from '@vaif/client';
-import { createClient, type PartialVaif } from '@vaif/client/tree-shakable';
+import Vaif from '@vaif/api';
+import { createClient, type PartialVaif } from '@vaif/api/tree-shakable';
 
 const client = new Vaif({
   apiKey: 'My API Key',
