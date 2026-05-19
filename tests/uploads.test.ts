@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from '@vaif/api/internal/to-file';
 import { toFile } from '@vaif/api/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
